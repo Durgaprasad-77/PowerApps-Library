@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { categories, getComponentsByCategory } from "@/lib/components-data";
+import { getCategories, getComponents } from "@/lib/data";
 import { ArrowLeft } from "lucide-react";
 import { getCategoryIcon } from "@/components/category-icons";
 import { CardPreview } from "@/components/preview/card-preview";
@@ -11,6 +11,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props) {
     const { category: categorySlug } = await params;
+    const categories = await getCategories();
     const category = categories.find(c => c.slug === categorySlug);
 
     if (!category) {
@@ -25,13 +26,14 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function CategoryPage({ params }: Props) {
     const { category: categorySlug } = await params;
+    const categories = await getCategories();
     const category = categories.find(c => c.slug === categorySlug);
 
     if (!category) {
         notFound();
     }
 
-    const categoryComponents = getComponentsByCategory(categorySlug);
+    const categoryComponents = await getComponents(categorySlug);
     const CategoryIcon = getCategoryIcon(categorySlug);
 
     return (
@@ -62,59 +64,31 @@ export default async function CategoryPage({ params }: Props) {
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="flex flex-col lg:flex-row gap-8">
-                    {/* Sidebar */}
-                    <aside className="w-full lg:w-56 flex-shrink-0">
-                        <div className="card p-4 sticky top-24">
-                            <h2 className="font-medium text-white text-sm mb-4">Categories</h2>
-                            <nav className="space-y-1">
-                                <Link
-                                    href="/library"
-                                    className="flex items-center justify-between px-3 py-2 rounded-lg text-[#a1a1a1] hover:text-white hover:bg-[#1a1a1a] transition-colors text-sm"
-                                >
-                                    <span>All Components</span>
-                                </Link>
-                                {categories.map((cat) => {
-                                    const CatIcon = getCategoryIcon(cat.slug);
-                                    return (
-                                        <Link
-                                            key={cat.id}
-                                            href={`/library/${cat.slug}`}
-                                            className={`flex items-center justify-between px-3 py-2 rounded-lg transition-colors text-sm ${cat.slug === categorySlug
-                                                ? "text-white bg-[#1a1a1a] font-medium"
-                                                : "text-[#a1a1a1] hover:text-white hover:bg-[#1a1a1a]"
-                                                }`}
-                                        >
-                                            <span className="flex items-center gap-2">
-                                                <CatIcon className="w-4 h-4" />
-                                                <span>{cat.name}</span>
-                                            </span>
-                                            <span className="text-[#6b6b6b]">{cat.componentsCount}</span>
-                                        </Link>
-                                    );
-                                })}
-                            </nav>
-                        </div>
-                    </aside>
-
                     {/* Main Content */}
                     <main className="flex-1">
-                        {/* Component Grid */}
                         <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
                             {categoryComponents.map((component) => (
                                 <Link
                                     key={component.id}
-                                    href={`/library/${component.category}/${component.slug}`}
-                                    className="card overflow-hidden group"
+                                    href={`/library/${categorySlug}/${component.slug}`}
+                                    className="card overflow-hidden group border border-[#1a1a1a] hover:border-[#333333] transition-colors"
                                 >
                                     {/* Preview */}
-                                    <div className="h-32 bg-[#0a0a0a] flex items-center justify-center border-b border-[#1a1a1a] overflow-hidden">
-                                        <CardPreview componentSlug={component.slug} category={component.category} />
+                                    <div className="h-32 bg-[#0a0a0a] flex items-center justify-center border-b border-[#1a1a1a] overflow-hidden relative">
+                                        <CardPreview componentSlug={component.slug} category={categorySlug} />
+
+                                        {/* Hover overlay hint */}
+                                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                            <span className="text-white text-xs font-medium px-3 py-1 bg-black/50 backdrop-blur rounded-full border border-white/10">
+                                                View Details
+                                            </span>
+                                        </div>
                                     </div>
 
                                     {/* Info */}
                                     <div className="p-4">
                                         <div className="flex items-start justify-between mb-2">
-                                            <h3 className="font-medium text-white group-hover:text-[#a1a1a1] transition-colors text-sm">
+                                            <h3 className="font-medium text-white group-hover:text-blue-400 transition-colors text-sm">
                                                 {component.name}
                                             </h3>
                                             <div className="flex gap-1">

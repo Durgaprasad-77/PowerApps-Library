@@ -4,10 +4,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { Search, Info } from "lucide-react";
 import { Component } from "@/lib/types";
-import { components } from "@/lib/components-data";
 import { CardPreview } from "@/components/preview/card-preview";
 
-export function ComponentSearch() {
+interface Props {
+    components: Component[];
+}
+
+export function ComponentSearch({ components }: Props) {
     const [searchQuery, setSearchQuery] = useState("");
     const [filterType, setFilterType] = useState<"all" | "free">("all");
 
@@ -48,8 +51,8 @@ export function ComponentSearch() {
                     <button
                         onClick={() => setFilterType("all")}
                         className={`px-4 py-2 font-medium rounded-lg text-sm transition-colors ${filterType === "all"
-                                ? "bg-white text-black"
-                                : "bg-[#111111] border border-[#262626] text-[#a1a1a1] hover:bg-[#1a1a1a] hover:text-white"
+                            ? "bg-white text-black"
+                            : "bg-[#111111] border border-[#262626] text-[#a1a1a1] hover:bg-[#1a1a1a] hover:text-white"
                             }`}
                     >
                         All
@@ -57,8 +60,8 @@ export function ComponentSearch() {
                     <button
                         onClick={() => setFilterType("free")}
                         className={`px-4 py-2 font-medium rounded-lg text-sm transition-colors ${filterType === "free"
-                                ? "bg-white text-black"
-                                : "bg-[#111111] border border-[#262626] text-[#a1a1a1] hover:bg-[#1a1a1a] hover:text-white"
+                            ? "bg-white text-black"
+                            : "bg-[#111111] border border-[#262626] text-[#a1a1a1] hover:bg-[#1a1a1a] hover:text-white"
                             }`}
                     >
                         Free Only

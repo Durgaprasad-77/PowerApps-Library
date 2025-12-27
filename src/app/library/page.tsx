@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { categories, components } from "@/lib/components-data";
+import { getCategories, getComponents } from "@/lib/data";
 import { Search } from "lucide-react";
 import { getCategoryIcon } from "@/components/category-icons";
 import { ComponentSearch } from "@/components/library/component-search";
@@ -9,7 +9,10 @@ export const metadata = {
     description: "Browse all Power Apps components with copy-paste ready YAML code.",
 };
 
-export default function LibraryPage() {
+export default async function LibraryPage() {
+    const categories = await getCategories();
+    const components = await getComponents();
+
     const totalComponents = components.length;
     const freeComponents = components.filter(c => !c.isPro).length;
 
@@ -63,7 +66,7 @@ export default function LibraryPage() {
 
                     {/* Main Content */}
                     <main className="flex-1">
-                        <ComponentSearch />
+                        <ComponentSearch components={components} />
                     </main>
                 </div>
             </div>

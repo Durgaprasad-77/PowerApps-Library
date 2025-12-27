@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { Check, Copy, Zap, Shield, Sparkles, ArrowRight } from "lucide-react";
-import { categories, components } from "@/lib/components-data";
+import { getCategories, getComponents } from "@/lib/data";
 import { getCategoryIcon } from "@/components/category-icons";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const components = await getComponents();
+  const categories = await getCategories();
+
   const freeCount = components.filter(c => !c.isPro).length;
   const totalCount = components.length;
 
