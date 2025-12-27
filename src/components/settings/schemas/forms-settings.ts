@@ -1,0 +1,428 @@
+import { ComponentSettingsSchema } from '@/lib/settings-types';
+
+export const textInputSettingsSchema: ComponentSettingsSchema = {
+    componentId: 'text-input',
+    fields: [
+        // Content
+        {
+            id: 'label',
+            type: 'text',
+            label: 'Label',
+            group: 'content',
+            default: 'Email Address',
+            placeholder: 'Enter label...',
+            maxLength: 50,
+        },
+        {
+            id: 'placeholder',
+            type: 'text',
+            label: 'Placeholder',
+            group: 'content',
+            default: 'Enter your email...',
+            maxLength: 100,
+        },
+        {
+            id: 'helperText',
+            type: 'text',
+            label: 'Helper Text',
+            description: 'Optional hint below the input',
+            group: 'content',
+            default: '',
+            maxLength: 100,
+        },
+        {
+            id: 'errorMessage',
+            type: 'text',
+            label: 'Error Message',
+            group: 'content',
+            default: 'This field is required',
+            maxLength: 100,
+        },
+
+        // Style
+        {
+            id: 'backgroundColor',
+            type: 'color',
+            label: 'Background Color',
+            group: 'style',
+            default: '#0a0a0a',
+        },
+        {
+            id: 'textColor',
+            type: 'color',
+            label: 'Text Color',
+            group: 'style',
+            default: '#ffffff',
+        },
+        {
+            id: 'borderColor',
+            type: 'color',
+            label: 'Border Color',
+            group: 'style',
+            default: '#262626',
+        },
+        {
+            id: 'focusBorderColor',
+            type: 'color',
+            label: 'Focus Border Color',
+            group: 'style',
+            default: '#ffffff',
+        },
+        {
+            id: 'borderRadius',
+            type: 'slider',
+            label: 'Border Radius',
+            group: 'style',
+            default: 8,
+            min: 0,
+            max: 24,
+            step: 2,
+            unit: 'px',
+        },
+        {
+            id: 'height',
+            type: 'slider',
+            label: 'Input Height',
+            group: 'style',
+            default: 44,
+            min: 36,
+            max: 56,
+            step: 4,
+            unit: 'px',
+        },
+
+        // Advanced
+        {
+            id: 'required',
+            type: 'toggle',
+            label: 'Required Field',
+            group: 'advanced',
+            default: false,
+        },
+        {
+            id: 'showLabel',
+            type: 'toggle',
+            label: 'Show Label',
+            group: 'advanced',
+            default: true,
+        },
+        {
+            id: 'inputType',
+            type: 'select',
+            label: 'Input Type',
+            group: 'advanced',
+            default: 'text',
+            options: [
+                { value: 'text', label: 'Text' },
+                { value: 'email', label: 'Email' },
+                { value: 'password', label: 'Password' },
+                { value: 'number', label: 'Number' },
+                { value: 'tel', label: 'Phone' },
+            ],
+        },
+    ],
+};
+
+export const searchInputSettingsSchema: ComponentSettingsSchema = {
+    componentId: 'search-input',
+    fields: [
+        {
+            id: 'placeholder',
+            type: 'text',
+            label: 'Placeholder',
+            group: 'content',
+            default: 'Search...',
+            maxLength: 50,
+        },
+        {
+            id: 'backgroundColor',
+            type: 'color',
+            label: 'Background Color',
+            group: 'style',
+            default: '#111111',
+        },
+        {
+            id: 'textColor',
+            type: 'color',
+            label: 'Text Color',
+            group: 'style',
+            default: '#ffffff',
+        },
+        {
+            id: 'iconColor',
+            type: 'color',
+            label: 'Icon Color',
+            group: 'style',
+            default: '#6b6b6b',
+        },
+        {
+            id: 'borderRadius',
+            type: 'slider',
+            label: 'Border Radius',
+            group: 'style',
+            default: 12,
+            min: 0,
+            max: 50,
+            step: 2,
+            unit: 'px',
+        },
+        {
+            id: 'showClearButton',
+            type: 'toggle',
+            label: 'Show Clear Button',
+            group: 'advanced',
+            default: true,
+        },
+    ],
+};
+
+export const dropdownSettingsSchema: ComponentSettingsSchema = {
+    componentId: 'dropdown',
+    fields: [
+        {
+            id: 'label',
+            type: 'text',
+            label: 'Label',
+            group: 'content',
+            default: 'Select Option',
+            maxLength: 50,
+        },
+        {
+            id: 'options',
+            type: 'list',
+            label: 'Options',
+            description: 'Dropdown options',
+            group: 'content',
+            default: ['Option 1', 'Option 2', 'Option 3'],
+            itemLabel: 'Option',
+            minItems: 2,
+            maxItems: 20,
+        },
+        {
+            id: 'placeholder',
+            type: 'text',
+            label: 'Placeholder',
+            group: 'content',
+            default: 'Choose an option...',
+            maxLength: 50,
+        },
+        {
+            id: 'backgroundColor',
+            type: 'color',
+            label: 'Background Color',
+            group: 'style',
+            default: '#0a0a0a',
+        },
+        {
+            id: 'textColor',
+            type: 'color',
+            label: 'Text Color',
+            group: 'style',
+            default: '#ffffff',
+        },
+        {
+            id: 'borderRadius',
+            type: 'slider',
+            label: 'Border Radius',
+            group: 'style',
+            default: 8,
+            min: 0,
+            max: 24,
+            step: 2,
+            unit: 'px',
+        },
+    ],
+};
+
+export const formGroupSettingsSchema: ComponentSettingsSchema = {
+    componentId: 'form-group',
+    fields: [
+        {
+            id: 'title',
+            type: 'text',
+            label: 'Form Title',
+            group: 'content',
+            default: 'Contact Us',
+            maxLength: 50,
+        },
+        {
+            id: 'fields',
+            type: 'list',
+            label: 'Form Fields',
+            group: 'content',
+            default: ['Name', 'Email', 'Message'],
+            itemLabel: 'Field',
+            minItems: 1,
+            maxItems: 10,
+        },
+        {
+            id: 'submitText',
+            type: 'text',
+            label: 'Submit Button Text',
+            group: 'content',
+            default: 'Submit',
+            maxLength: 20,
+        },
+        {
+            id: 'backgroundColor',
+            type: 'color',
+            label: 'Background Color',
+            group: 'style',
+            default: '#111111',
+        },
+        {
+            id: 'borderRadius',
+            type: 'slider',
+            label: 'Border Radius',
+            group: 'style',
+            default: 12,
+            min: 0,
+            max: 24,
+            step: 2,
+            unit: 'px',
+        },
+    ],
+};
+
+export const toggleSwitchSettingsSchema: ComponentSettingsSchema = {
+    componentId: 'toggle-switch',
+    fields: [
+        {
+            id: 'label',
+            type: 'text',
+            label: 'Label',
+            group: 'content',
+            default: 'Enable notifications',
+            maxLength: 50,
+        },
+        {
+            id: 'description',
+            type: 'text',
+            label: 'Description',
+            group: 'content',
+            default: 'Receive email updates',
+            maxLength: 100,
+        },
+        {
+            id: 'activeColor',
+            type: 'color',
+            label: 'Active Color',
+            group: 'style',
+            default: '#22c55e',
+        },
+        {
+            id: 'inactiveColor',
+            type: 'color',
+            label: 'Inactive Color',
+            group: 'style',
+            default: '#404040',
+        },
+        {
+            id: 'thumbColor',
+            type: 'color',
+            label: 'Thumb Color',
+            group: 'style',
+            default: '#ffffff',
+        },
+        {
+            id: 'defaultOn',
+            type: 'toggle',
+            label: 'Default On',
+            group: 'advanced',
+            default: false,
+        },
+    ],
+};
+
+export const sliderSettingsSchema: ComponentSettingsSchema = {
+    componentId: 'slider',
+    fields: [
+        {
+            id: 'value',
+            type: 'number',
+            label: 'Default Value',
+            group: 'content',
+            default: 50,
+        },
+        {
+            id: 'minValue',
+            type: 'number',
+            label: 'Minimum',
+            group: 'content',
+            default: 0,
+        },
+        {
+            id: 'maxValue',
+            type: 'number',
+            label: 'Maximum',
+            group: 'content',
+            default: 100,
+        },
+        {
+            id: 'layout',
+            type: 'select',
+            label: 'Orientation',
+            group: 'style',
+            default: 'horizontal',
+            options: [
+                { value: 'horizontal', label: 'Horizontal' },
+                { value: 'vertical', label: 'Vertical' },
+            ],
+        },
+        {
+            id: 'size',
+            type: 'select',
+            label: 'Size',
+            group: 'style',
+            default: 'medium',
+            options: [
+                { value: 'medium', label: 'Medium' },
+                { value: 'small', label: 'Small' },
+            ],
+        },
+    ],
+};
+
+export const datePickerSettingsSchema: ComponentSettingsSchema = {
+    componentId: 'date-picker',
+    fields: [
+        {
+            id: 'placeholder',
+            type: 'text',
+            label: 'Placeholder',
+            group: 'content',
+            default: 'Select a date',
+        },
+        {
+            id: 'format',
+            type: 'select',
+            label: 'Date Format',
+            group: 'style',
+            default: 'short',
+            options: [
+                { value: 'short', label: 'Short (12/27/24)' },
+                { value: 'long', label: 'Long (December 27, 2024)' },
+                { value: 'yearMonth', label: 'Year-Month (Dec 2024)' },
+            ],
+        },
+        {
+            id: 'appearance',
+            type: 'select',
+            label: 'Appearance',
+            group: 'style',
+            default: 'filledDarker',
+            options: [
+                { value: 'filledDarker', label: 'Filled Dark' },
+                { value: 'filledLighter', label: 'Filled Light' },
+                { value: 'outline', label: 'Outline' },
+            ],
+        },
+        {
+            id: 'isEditable',
+            type: 'toggle',
+            label: 'Allow Typing',
+            group: 'advanced',
+            default: true,
+        },
+    ],
+};

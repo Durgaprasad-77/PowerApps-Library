@@ -13,6 +13,14 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  // Disable inline style warnings for preview components (they require dynamic styling)
+  {
+    files: ["**/preview/previews/**/*.tsx"],
+    rules: {
+      "react/no-inline-styles": "off",
+      "@next/next/no-inline-styles": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

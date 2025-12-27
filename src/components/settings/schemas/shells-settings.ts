@@ -1,0 +1,155 @@
+import { ComponentSettingsSchema } from '@/lib/settings-types';
+
+export const appShellSettingsSchema: ComponentSettingsSchema = {
+    componentId: 'app-shell',
+    fields: [
+        // Content
+        {
+            id: 'appName',
+            type: 'text',
+            label: 'App Name',
+            group: 'content',
+            default: 'My Application',
+            maxLength: 30,
+        },
+        {
+            id: 'sidebarItems',
+            type: 'list',
+            label: 'Sidebar Items',
+            group: 'content',
+            default: ['Dashboard', 'Users', 'Settings', 'Reports'],
+            itemLabel: 'Menu Item',
+            minItems: 2,
+            maxItems: 10,
+        },
+
+        // Style
+        {
+            id: 'headerColor',
+            type: 'color',
+            label: 'Header Color',
+            group: 'style',
+            default: '#0a0a0a',
+        },
+        {
+            id: 'sidebarColor',
+            type: 'color',
+            label: 'Sidebar Color',
+            group: 'style',
+            default: '#111111',
+        },
+        {
+            id: 'contentColor',
+            type: 'color',
+            label: 'Content Area Color',
+            group: 'style',
+            default: '#0a0a0a',
+        },
+        {
+            id: 'accentColor',
+            type: 'color',
+            label: 'Accent Color',
+            group: 'style',
+            default: '#ffffff',
+        },
+        {
+            id: 'sidebarWidth',
+            type: 'slider',
+            label: 'Sidebar Width',
+            group: 'style',
+            default: 256,
+            min: 200,
+            max: 400,
+            step: 24,
+            unit: 'px',
+        },
+        {
+            id: 'headerHeight',
+            type: 'slider',
+            label: 'Header Height',
+            group: 'style',
+            default: 64,
+            min: 48,
+            max: 80,
+            step: 8,
+            unit: 'px',
+        },
+
+        // Advanced
+        {
+            id: 'showHeader',
+            type: 'toggle',
+            label: 'Show Header',
+            group: 'advanced',
+            default: true,
+        },
+        {
+            id: 'showSidebar',
+            type: 'toggle',
+            label: 'Show Sidebar',
+            group: 'advanced',
+            default: true,
+        },
+        {
+            id: 'collapsibleSidebar',
+            type: 'toggle',
+            label: 'Collapsible Sidebar',
+            description: 'Allow sidebar to collapse on mobile',
+            group: 'advanced',
+            default: true,
+            isPro: true,
+        },
+    ],
+};
+
+export const dashboardLayoutSettingsSchema: ComponentSettingsSchema = {
+    componentId: 'dashboard-layout',
+    fields: [
+        {
+            id: 'columns',
+            type: 'slider',
+            label: 'Grid Columns',
+            group: 'content',
+            default: 3,
+            min: 2,
+            max: 4,
+            step: 1,
+        },
+        {
+            id: 'gap',
+            type: 'slider',
+            label: 'Card Gap',
+            group: 'style',
+            default: 16,
+            min: 8,
+            max: 32,
+            step: 4,
+            unit: 'px',
+        },
+        {
+            id: 'backgroundColor',
+            type: 'color',
+            label: 'Background Color',
+            group: 'style',
+            default: '#0a0a0a',
+        },
+        {
+            id: 'cardColor',
+            type: 'color',
+            label: 'Card Color',
+            group: 'style',
+            default: '#111111',
+        },
+        {
+            id: 'padding',
+            type: 'slider',
+            label: 'Container Padding',
+            group: 'style',
+            default: 24,
+            min: 8,
+            max: 48,
+            step: 8,
+            unit: 'px',
+        },
+    ],
+};
