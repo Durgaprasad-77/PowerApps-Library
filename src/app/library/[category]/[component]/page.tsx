@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: Props) {
     if (!component) return { title: "Component Not Found" };
 
     return {
-        title: `${component.name} | PowerAppLibs`,
+        title: `${component.name} | PowerUI`,
         description: component.description,
     };
 }

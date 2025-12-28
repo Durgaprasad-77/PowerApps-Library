@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props) {
     }
 
     return {
-        title: `${category.name} Components | PowerAppLibs`,
+        title: `${category.name} Components | PowerUI`,
         description: category.description,
     };
 }

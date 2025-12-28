@@ -19,7 +19,7 @@ export function Navbar() {
                             <Zap className="w-5 h-5 text-white" />
                         </div>
                         <span className="font-semibold text-lg text-[var(--foreground)] tracking-tight">
-                            PowerAppLibs
+                            PowerUI
                         </span>
                     </Link>
 

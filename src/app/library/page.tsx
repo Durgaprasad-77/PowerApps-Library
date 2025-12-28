@@ -4,7 +4,7 @@ import { getCategoryIcon } from "@/components/category-icons";
 import { ComponentSearch } from "@/components/library/component-search";
 
 export const metadata = {
-    title: "Component Library | PowerAppLibs",
+    title: "Component Library | PowerUI",
     description: "Browse all Power Apps components with copy-paste ready YAML code.",
 };
 

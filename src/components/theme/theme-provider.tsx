@@ -12,7 +12,7 @@ interface ThemeProviderProps {
 export function ThemeProvider({
     children,
     defaultTheme = "dark",
-    storageKey = "powerapplibs-theme",
+    storageKey = "powerui-theme",
 }: ThemeProviderProps) {
     return (
         <NextThemesProvider

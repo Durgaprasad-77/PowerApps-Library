@@ -13,7 +13,7 @@ export function Footer() {
                                 <Zap className="w-5 h-5 text-white" />
                             </div>
                             <span className="font-semibold text-lg text-gray-900 dark:text-white tracking-tight">
-                                PowerAppLibs
+                                PowerUI
                             </span>
                         </Link>
                         <p className="text-gray-500 dark:text-[#6b6b6b] max-w-md text-sm leading-relaxed">
@@ -78,7 +78,7 @@ export function Footer() {
 
                 <div className="mt-12 pt-8 border-t border-gray-200 dark:border-[#262626]">
                     <p className="text-gray-500 dark:text-[#6b6b6b] text-sm text-center">
-                        © {new Date().getFullYear()} PowerAppLibs. All rights reserved.
+                        © {new Date().getFullYear()} PowerUI. All rights reserved.
                     </p>
                 </div>
             </div>

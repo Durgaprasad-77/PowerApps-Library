@@ -85,7 +85,7 @@ export function BentoGrid() {
                 >
                     <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                         Why Choose{" "}
-                        <span className="text-gradient-blue">PowerAppLibs</span>?
+                        <span className="text-gradient-blue">PowerUI</span>?
                     </h2>
                     <p className="text-gray-500 dark:text-[#6b6b6b] max-w-lg mx-auto">
                         Every component is built with best practices and tested in Power Apps Studio.
