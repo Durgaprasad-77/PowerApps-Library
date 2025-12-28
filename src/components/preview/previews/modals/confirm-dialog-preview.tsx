@@ -3,20 +3,28 @@
 import { useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 
 interface ConfirmDialogPreviewProps {
     settings: SettingsValues;
 }
 
 export function ConfirmDialogPreview({ settings }: ConfirmDialogPreviewProps) {
+    const { theme } = usePreviewTheme();
     const [isOpen, setIsOpen] = useState(true);
 
     const title = (settings.title as string) || 'Are you sure?';
     const message = (settings.message as string) || 'This action cannot be undone.';
     const confirmText = (settings.confirmText as string) || 'Delete';
     const cancelText = (settings.cancelText as string) || 'Cancel';
-    const backgroundColor = (settings.backgroundColor as string) || '#ffffff';
+    const backgroundColor = (settings.backgroundColor as string) || (theme === 'dark' ? '#1f2937' : '#ffffff');
     const confirmColor = (settings.confirmColor as string) || '#ef4444';
+    const textColor = theme === 'dark' ? '#ffffff' : '#111827';
+    const mutedColor = theme === 'dark' ? '#9ca3af' : '#6b7280';
+    const backdropBg = theme === 'dark' ? '#111827' : '#f3f4f6';
+    const skeletonBg = theme === 'dark' ? '#374151' : '#e5e7eb';
+    const cancelBg = theme === 'dark' ? '#374151' : '#f3f4f6';
+    const cancelTextCol = theme === 'dark' ? '#ffffff' : '#374151';
     const overlayOpacity = (settings.overlayOpacity as number) || 50;
     const borderRadius = (settings.borderRadius as number) || 12;
 
@@ -28,10 +36,10 @@ export function ConfirmDialogPreview({ settings }: ConfirmDialogPreviewProps) {
     return (
         <div className="relative w-full h-[280px] overflow-hidden rounded-lg">
             {/* Background content (simulated) */}
-            <div className="absolute inset-0 bg-[#f3f4f6] p-4">
-                <div className="h-4 w-32 bg-[#e5e7eb] rounded mb-3" />
-                <div className="h-3 w-48 bg-[#e5e7eb] rounded mb-2" />
-                <div className="h-3 w-40 bg-[#e5e7eb] rounded" />
+            <div className="absolute inset-0 p-4" style={{ backgroundColor: backdropBg }}>
+                <div className="h-4 w-32 rounded mb-3" style={{ backgroundColor: skeletonBg }} />
+                <div className="h-3 w-48 rounded mb-2" style={{ backgroundColor: skeletonBg }} />
+                <div className="h-3 w-40 rounded" style={{ backgroundColor: skeletonBg }} />
             </div>
 
             {/* Modal Overlay */}
@@ -62,14 +70,15 @@ export function ConfirmDialogPreview({ settings }: ConfirmDialogPreviewProps) {
                         </div>
 
                         {/* Content */}
-                        <h3 className="text-[#111827] font-bold text-lg text-center mb-2">{title}</h3>
-                        <p className="text-[#6b7280] text-sm text-center mb-5">{message}</p>
+                        <h3 className="font-bold text-lg text-center mb-2" style={{ color: textColor }}>{title}</h3>
+                        <p className="text-sm text-center mb-5" style={{ color: mutedColor }}>{message}</p>
 
                         {/* Actions */}
                         <div className="flex gap-3">
                             <button
                                 onClick={handleClose}
-                                className="flex-1 px-4 py-2.5 text-sm rounded-lg bg-[#f3f4f6] text-[#374151] font-medium hover:bg-[#e5e7eb] transition-colors"
+                                className="flex-1 px-4 py-2.5 text-sm rounded-lg font-medium hover:opacity-90 transition-colors"
+                                style={{ backgroundColor: cancelBg, color: cancelTextCol }}
                             >
                                 {cancelText}
                             </button>
@@ -86,8 +95,8 @@ export function ConfirmDialogPreview({ settings }: ConfirmDialogPreviewProps) {
             )}
 
             {!isOpen && (
-                <div className="absolute inset-0 flex items-center justify-center bg-[#f3f4f6]/80">
-                    <p className="text-[#6b7280] text-sm">Reopening...</p>
+                <div className="absolute inset-0 flex items-center justify-center bg-black/5 dark:bg-white/5">
+                    <p className="text-sm" style={{ color: mutedColor }}>Reopening...</p>
                 </div>
             )}
         </div>

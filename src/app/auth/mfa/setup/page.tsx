@@ -104,16 +104,16 @@ export default function MfaSetupPage() {
     }
 
     return (
-        <div className="min-h-screen relative flex items-center justify-center overflow-hidden bg-[#000000] selection:bg-blue-500/30">
+        <div className="min-h-screen relative flex items-center justify-center overflow-hidden bg-gray-50 dark:bg-[#000000] selection:bg-blue-500/30">
             {/* Background */}
-            <div className="absolute inset-0 w-full h-full">
+            <div className="absolute inset-0 w-full h-full hidden dark:block">
                 <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-green-600/20 rounded-full blur-[120px] mix-blend-screen" />
                 <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] mix-blend-screen" />
             </div>
 
             {/* Card */}
             <div className="relative z-10 w-full max-w-md p-8 mx-4">
-                <div className="absolute inset-0 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl" />
+                <div className="absolute inset-0 bg-white dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-gray-200 dark:border-white/10 shadow-2xl" />
 
                 <div className="relative z-20 space-y-6">
                     {/* Header */}
@@ -121,10 +121,10 @@ export default function MfaSetupPage() {
                         <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg shadow-green-500/20 mb-4">
                             <Smartphone className="w-6 h-6 text-white" />
                         </div>
-                        <h1 className="text-2xl font-bold tracking-tight text-white">
+                        <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                             Set Up Two-Factor Authentication
                         </h1>
-                        <p className="text-sm text-neutral-400">
+                        <p className="text-sm text-gray-500 dark:text-neutral-400">
                             Secure your account with an authenticator app
                         </p>
                     </div>
@@ -133,7 +133,7 @@ export default function MfaSetupPage() {
                     {step === 'loading' && (
                         <div className="flex flex-col items-center py-8 space-y-4">
                             <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
-                            <p className="text-neutral-400">Setting up MFA...</p>
+                            <p className="text-gray-500 dark:text-neutral-400">Setting up MFA...</p>
                         </div>
                     )}
 
@@ -152,11 +152,11 @@ export default function MfaSetupPage() {
                             </div>
 
                             <div className="text-center space-y-2">
-                                <p className="text-sm text-neutral-400">
+                                <p className="text-sm text-gray-500 dark:text-neutral-400">
                                     Scan this QR code with your authenticator app
                                 </p>
                                 <p className="text-xs text-neutral-500">
-                                    Or enter manually: <code className="bg-white/10 px-2 py-1 rounded text-xs font-mono">{secret}</code>
+                                    Or enter manually: <code className="bg-gray-100 dark:bg-white/10 px-2 py-1 rounded text-xs font-mono text-gray-900 dark:text-white">{secret}</code>
                                 </p>
                             </div>
 
@@ -174,7 +174,7 @@ export default function MfaSetupPage() {
                     {step === 'verify' && (
                         <div className="space-y-6">
                             <div className="space-y-2">
-                                <label className="text-xs font-medium text-neutral-300 uppercase tracking-wider ml-1">
+                                <label className="text-xs font-medium text-gray-700 dark:text-neutral-300 uppercase tracking-wider ml-1">
                                     Enter Verification Code
                                 </label>
                                 <input
@@ -182,7 +182,7 @@ export default function MfaSetupPage() {
                                     value={code}
                                     onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                                     placeholder="000000"
-                                    className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white text-center text-2xl tracking-[0.5em] font-mono placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-green-500/50"
+                                    className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-gray-900 dark:text-white text-center text-2xl tracking-[0.5em] font-mono placeholder-gray-300 dark:placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-green-500/50"
                                     maxLength={6}
                                     autoFocus
                                 />
@@ -211,7 +211,7 @@ export default function MfaSetupPage() {
 
                             <button
                                 onClick={() => setStep('enroll')}
-                                className="w-full text-neutral-400 hover:text-white text-sm transition-colors"
+                                className="w-full text-gray-500 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-white text-sm transition-colors"
                             >
                                 ← Back to QR code
                             </button>
@@ -226,7 +226,7 @@ export default function MfaSetupPage() {
                             </div>
                             <div className="space-y-2">
                                 <h2 className="text-xl font-bold text-white">MFA Enabled!</h2>
-                                <p className="text-neutral-400 text-sm">
+                                <p className="text-gray-500 dark:text-neutral-400 text-sm">
                                     Your account is now protected with two-factor authentication.
                                 </p>
                             </div>
@@ -248,7 +248,7 @@ export default function MfaSetupPage() {
                             </div>
                             <div className="space-y-2">
                                 <h2 className="text-xl font-bold text-white">Setup Failed</h2>
-                                <p className="text-neutral-400 text-sm">{error}</p>
+                                <p className="text-gray-500 dark:text-neutral-400 text-sm">{error}</p>
                             </div>
                             <Link
                                 href="/login"

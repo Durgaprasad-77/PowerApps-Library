@@ -2,17 +2,19 @@
 
 import { useState } from 'react';
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 
 interface SegmentedTabsPreviewProps {
     settings: SettingsValues;
 }
 
 export function SegmentedTabsPreview({ settings }: SegmentedTabsPreviewProps) {
+    const { theme } = usePreviewTheme();
     const tabs = (settings.tabs as string[]) || ['Day', 'Week', 'Month'];
-    const backgroundColor = (settings.backgroundColor as string) || '#e5e7eb';
-    const activeSegmentColor = (settings.activeSegmentColor as string) || '#ffffff';
-    const activeTextColor = (settings.activeTextColor as string) || '#111827';
-    const inactiveTextColor = (settings.inactiveTextColor as string) || '#6b7280';
+    const backgroundColor = (settings.backgroundColor as string) || (theme === 'dark' ? '#262626' : '#e5e7eb');
+    const activeSegmentColor = (settings.activeSegmentColor as string) || (theme === 'dark' ? '#404040' : '#ffffff');
+    const activeTextColor = (settings.activeTextColor as string) || (theme === 'dark' ? '#ffffff' : '#111827');
+    const inactiveTextColor = (settings.inactiveTextColor as string) || (theme === 'dark' ? '#a1a1a1' : '#6b7280');
     const borderRadius = (settings.borderRadius as number) || 8;
 
     const [activeTab, setActiveTab] = useState(0);
@@ -37,7 +39,7 @@ export function SegmentedTabsPreview({ settings }: SegmentedTabsPreviewProps) {
                     style={{
                         backgroundColor: activeTab === index
                             ? activeSegmentColor
-                            : (hoveredTab === index ? 'rgba(255,255,255,0.5)' : 'transparent'),
+                            : (hoveredTab === index ? (theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)') : 'transparent'),
                         color: activeTab === index ? activeTextColor : inactiveTextColor,
                         fontWeight: 600,
                         fontSize: '13px',

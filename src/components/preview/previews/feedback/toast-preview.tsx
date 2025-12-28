@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { X, Check, AlertTriangle, Info } from 'lucide-react';
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 
 interface ToastPreviewProps {
     settings: SettingsValues;
@@ -23,13 +24,16 @@ const typeColors = {
 };
 
 export function ToastPreview({ settings }: ToastPreviewProps) {
+    const { theme } = usePreviewTheme();
     const [isVisible, setIsVisible] = useState(true);
     const [isAnimating, setIsAnimating] = useState(false);
 
     const message = (settings.message as string) || 'Operation completed successfully!';
     const type = (settings.type as keyof typeof typeIcons) || 'success';
-    const backgroundColor = (settings.backgroundColor as string) || '#111111';
-    const textColor = (settings.textColor as string) || '#ffffff';
+    const backgroundColor = (settings.backgroundColor as string) || (theme === 'dark' ? '#111111' : '#ffffff');
+    const textColor = (settings.textColor as string) || (theme === 'dark' ? '#ffffff' : '#111827');
+    const borderColor = theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+    const helperColor = theme === 'dark' ? '#6b6b6b' : '#9ca3af';
     const borderRadius = (settings.borderRadius as number) || 12;
     const showIcon = settings.showIcon !== false;
     const dismissible = settings.dismissible !== false;
@@ -70,7 +74,7 @@ export function ToastPreview({ settings }: ToastPreviewProps) {
                     backgroundColor,
                     borderRadius: `${borderRadius}px`,
                     padding: '16px 20px',
-                    border: '1px solid rgba(255,255,255,0.1)',
+                    border: `1px solid ${borderColor}`,
                 }}
             >
                 {/* Icon */}
@@ -107,7 +111,7 @@ export function ToastPreview({ settings }: ToastPreviewProps) {
             </div>
 
             {/* Helper text */}
-            <p className="text-center text-xs text-[#6b6b6b] mt-4">
+            <p className="text-center text-xs mt-4" style={{ color: helperColor }}>
                 Click ✕ to dismiss • Auto-reappears
             </p>
         </div>

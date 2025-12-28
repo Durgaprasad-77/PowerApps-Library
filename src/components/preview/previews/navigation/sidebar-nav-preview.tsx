@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 import { Home, User, Settings, FileText, HelpCircle } from 'lucide-react';
 
 interface SidebarNavPreviewProps {
@@ -17,14 +18,16 @@ const defaultItems = [
 ];
 
 export function SidebarNavPreview({ settings }: SidebarNavPreviewProps) {
+    const { theme } = usePreviewTheme();
     const [activeIndex, setActiveIndex] = useState(0);
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-    const backgroundColor = (settings.backgroundColor as string) || '#0a0a0a';
-    const activeColor = (settings.activeColor as string) || '#ffffff';
-    const inactiveColor = (settings.inactiveColor as string) || '#6b6b6b';
-    const hoverBackground = (settings.hoverBackground as string) || '#1a1a1a';
-    const activeBackground = (settings.activeBackground as string) || '#1a1a1a';
+    const backgroundColor = (settings.backgroundColor as string) || (theme === 'dark' ? '#0a0a0a' : '#ffffff');
+    const activeColor = (settings.activeColor as string) || (theme === 'dark' ? '#ffffff' : '#111827');
+    const inactiveColor = (settings.inactiveColor as string) || (theme === 'dark' ? '#6b6b6b' : '#6b7280');
+    const hoverBackground = (settings.hoverBackground as string) || (theme === 'dark' ? '#1a1a1a' : '#f3f4f6');
+    const activeBackground = (settings.activeBackground as string) || (theme === 'dark' ? '#1a1a1a' : '#f3f4f6');
+    const borderColor = theme === 'dark' ? '#1a1a1a' : '#e5e7eb';
     const width = (settings.width as number) || 220;
     const borderRadius = (settings.borderRadius as number) || 8;
 
@@ -40,7 +43,7 @@ export function SidebarNavPreview({ settings }: SidebarNavPreviewProps) {
                 backgroundColor,
                 width: `${width}px`,
                 borderRadius: `${borderRadius}px`,
-                border: '1px solid #1a1a1a',
+                border: `1px solid ${borderColor}`,
             }}
         >
             {items.map((item, index) => {

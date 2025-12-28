@@ -18,12 +18,12 @@ export default async function LibraryPage() {
     return (
         <div className="min-h-screen">
             {/* Header */}
-            <div className="border-b border-[#1a1a1a]">
+            <div className="border-b border-gray-200 dark:border-gray-800">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                    <h1 className="text-2xl font-bold text-white mb-1">
+                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
                         Component Library
                     </h1>
-                    <p className="text-[#6b6b6b] text-sm">
+                    <p className="text-gray-500 text-sm">
                         {totalComponents} components • {freeComponents} free
                     </p>
                 </div>
@@ -33,15 +33,15 @@ export default async function LibraryPage() {
                 <div className="flex flex-col lg:flex-row gap-8">
                     {/* Sidebar */}
                     <aside className="w-full lg:w-56 flex-shrink-0">
-                        <div className="card p-4 sticky top-24">
-                            <h2 className="font-medium text-white text-sm mb-4">Categories</h2>
+                        <div className="card p-4 sticky top-24 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl">
+                            <h2 className="font-medium text-gray-900 dark:text-white text-sm mb-4">Categories</h2>
                             <nav className="space-y-1">
                                 <Link
                                     href="/library"
-                                    className="flex items-center justify-between px-3 py-2 rounded-lg text-white bg-[#1a1a1a] text-sm font-medium"
+                                    className="flex items-center justify-between px-3 py-2 rounded-lg text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-800 text-sm font-medium"
                                 >
                                     <span>All Components</span>
-                                    <span className="text-[#6b6b6b]">{totalComponents}</span>
+                                    <span className="text-gray-500">{totalComponents}</span>
                                 </Link>
                                 {categories.map((category) => {
                                     const IconComponent = getCategoryIcon(category.slug);
@@ -49,13 +49,13 @@ export default async function LibraryPage() {
                                         <Link
                                             key={category.id}
                                             href={`/library/${category.slug}`}
-                                            className="flex items-center justify-between px-3 py-2 rounded-lg text-[#a1a1a1] hover:text-white hover:bg-[#1a1a1a] transition-colors text-sm"
+                                            className="flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm"
                                         >
                                             <span className="flex items-center gap-2">
                                                 <IconComponent className="w-4 h-4" />
                                                 <span>{category.name}</span>
                                             </span>
-                                            <span className="text-[#6b6b6b]">{category.componentsCount}</span>
+                                            <span className="text-gray-500">{category.componentsCount}</span>
                                         </Link>
                                     );
                                 })}

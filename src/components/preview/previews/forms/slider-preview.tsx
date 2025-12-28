@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 
 interface SliderPreviewProps {
     settings: SettingsValues;
@@ -13,6 +14,11 @@ export function SliderPreview({ settings }: SliderPreviewProps) {
     const maxValue = (settings.maxValue as number) || 100;
     const layout = (settings.layout as string) || 'horizontal';
     const [currentValue, setCurrentValue] = useState(value);
+    const { theme } = usePreviewTheme();
+
+    const trackColor = theme === 'dark' ? '#333333' : '#e5e7eb';
+    const valueColor = theme === 'dark' ? '#ffffff' : '#111827';
+    const labelColor = theme === 'dark' ? '#6b7280' : '#4b5563';
 
     const percentage = ((currentValue - minValue) / (maxValue - minValue)) * 100;
     const isVertical = layout === 'vertical';
@@ -34,7 +40,7 @@ export function SliderPreview({ settings }: SliderPreviewProps) {
                 }
                 .slider-track {
                     position: relative;
-                    background: #333;
+                    background: ${trackColor};
                     border-radius: 4px;
                     cursor: pointer;
                 }
@@ -80,7 +86,7 @@ export function SliderPreview({ settings }: SliderPreviewProps) {
                 .slider-value {
                     font-size: 14px;
                     font-weight: 600;
-                    color: white;
+                    color: ${valueColor};
                     min-width: 40px;
                     text-align: center;
                 }
@@ -89,7 +95,7 @@ export function SliderPreview({ settings }: SliderPreviewProps) {
                     justify-content: space-between;
                     width: 200px;
                     font-size: 12px;
-                    color: #6b7280;
+                    color: ${labelColor};
                 }
             `}</style>
 

@@ -1,17 +1,27 @@
 "use client";
 
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 
 interface DataTablePreviewProps {
     settings: SettingsValues;
 }
 
 export function DataTablePreview({ }: DataTablePreviewProps) {
+    const { theme } = usePreviewTheme();
     const mockData = [
         { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin' },
         { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User' },
         { id: 3, name: 'Bob Wilson', email: 'bob@example.com', role: 'User' },
     ];
+
+    const tableBg = theme === 'dark' ? '#1a1a1a' : '#ffffff';
+    const thBg = theme === 'dark' ? '#252525' : '#f9fafb';
+    const thText = theme === 'dark' ? '#9ca3af' : '#6b7280';
+    const tdText = theme === 'dark' ? '#e5e7eb' : '#111827';
+    const rowBorder = theme === 'dark' ? '#2a2a2a' : '#e5e7eb';
+    const hoverBg = theme === 'dark' ? '#222' : '#f3f4f6';
+    const borderColor = theme === 'dark' ? 'transparent' : '#e5e7eb';
 
     return (
         <div className="data-table-preview">
@@ -23,13 +33,14 @@ export function DataTablePreview({ }: DataTablePreviewProps) {
                 .data-table {
                     width: 100%;
                     border-collapse: collapse;
-                    background: #1a1a1a;
+                    background: ${tableBg};
                     border-radius: 8px;
                     overflow: hidden;
+                    border: ${theme === 'dark' ? 'none' : `1px solid ${borderColor}`};
                 }
                 .data-table th {
-                    background: #252525;
-                    color: #9ca3af;
+                    background: ${thBg};
+                    color: ${thText};
                     font-size: 12px;
                     font-weight: 600;
                     text-align: left;
@@ -38,13 +49,13 @@ export function DataTablePreview({ }: DataTablePreviewProps) {
                     letter-spacing: 0.05em;
                 }
                 .data-table td {
-                    color: #e5e7eb;
+                    color: ${tdText};
                     font-size: 14px;
                     padding: 12px 16px;
-                    border-top: 1px solid #2a2a2a;
+                    border-top: 1px solid ${rowBorder};
                 }
                 .data-table tr:hover td {
-                    background: #222;
+                    background: ${hoverBg};
                 }
                 .role-badge {
                     display: inline-block;

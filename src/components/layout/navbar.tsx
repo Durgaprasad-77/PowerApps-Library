@@ -3,12 +3,23 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { AuthButtons } from "./auth-buttons";
 import { ThemeToggle } from "@/components/theme";
 
+const products = [
+    { name: "Components", href: "/library" },
+    { name: "Backgrounds", href: "/products/backgrounds" },
+    { name: "Icons", href: "/products/icons" },
+    { name: "YAML Studio", href: "/products/yaml-studio" },
+    { name: "Theme Builder", href: "/products/theme-builder" },
+    { name: "AI Component Generator", href: "/products/ai-generator" },
+    { name: "Template Gallery", href: "/products/templates" },
+];
+
 export function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isProductsOpen, setIsProductsOpen] = useState(false);
 
     return (
         <nav className="sticky top-0 z-50 bg-[var(--background)]/80 backdrop-blur-xl border-b border-[var(--border)]">
@@ -30,12 +41,35 @@ export function Navbar() {
 
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center gap-8">
-                        <Link
-                            href="/library"
-                            className="text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-medium transition-colors"
-                        >
-                            Components
-                        </Link>
+                        {/* Products Dropdown */}
+                        <div className="relative">
+                            <button
+                                onClick={() => setIsProductsOpen(!isProductsOpen)}
+                                onBlur={() => setTimeout(() => setIsProductsOpen(false), 150)}
+                                className="flex items-center gap-1 text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-medium transition-colors"
+                            >
+                                Products
+                                <ChevronDown className={`w-4 h-4 transition-transform ${isProductsOpen ? 'rotate-180' : ''}`} />
+                            </button>
+
+                            {isProductsOpen && (
+                                <div className="absolute top-full left-0 mt-2 w-48 bg-[var(--background)] border border-[var(--border)] rounded-lg shadow-xl overflow-hidden animate-fade-in">
+                                    <div className="py-1">
+                                        {products.map((product) => (
+                                            <Link
+                                                key={product.name}
+                                                href={product.href}
+                                                className="block px-4 py-2 text-sm text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--accent)] transition-colors"
+                                                onClick={() => setIsProductsOpen(false)}
+                                            >
+                                                {product.name}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
                         <Link
                             href="/pricing"
                             className="text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-medium transition-colors"
@@ -76,27 +110,40 @@ export function Navbar() {
                 {isMenuOpen && (
                     <div className="md:hidden py-4 border-t border-[var(--border)] animate-fade-in">
                         <div className="flex flex-col gap-4">
-                            <Link
-                                href="/library"
-                                className="text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-medium"
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                Components
-                            </Link>
-                            <Link
-                                href="/pricing"
-                                className="text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-medium"
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                Pricing
-                            </Link>
-                            <Link
-                                href="/docs"
-                                className="text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-medium"
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                Docs
-                            </Link>
+                            {/* Mobile Products Section */}
+                            <div className="space-y-2">
+                                <div className="text-xs font-semibold text-[var(--foreground-muted)] uppercase tracking-wider px-1">
+                                    Products
+                                </div>
+                                {products.map((product) => (
+                                    <Link
+                                        key={product.name}
+                                        href={product.href}
+                                        className="block p-2 text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-medium text-sm"
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        {product.name}
+                                    </Link>
+                                ))}
+                            </div>
+
+                            <div className="border-t border-[var(--border)] pt-4 space-y-4">
+                                <Link
+                                    href="/pricing"
+                                    className="block text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-medium"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    Pricing
+                                </Link>
+                                <Link
+                                    href="/docs"
+                                    className="block text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-medium"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    Docs
+                                </Link>
+                            </div>
+
                             <div className="pt-4 border-t border-[var(--border)]">
                                 <AuthButtons />
                             </div>
@@ -107,3 +154,4 @@ export function Navbar() {
         </nav>
     );
 }
+

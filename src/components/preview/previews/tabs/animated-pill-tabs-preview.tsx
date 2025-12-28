@@ -2,17 +2,19 @@
 
 import { useState } from 'react';
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 
 interface AnimatedPillTabsPreviewProps {
     settings: SettingsValues;
 }
 
 export function AnimatedPillTabsPreview({ settings }: AnimatedPillTabsPreviewProps) {
+    const { theme } = usePreviewTheme();
     const tabs = (settings.tabs as string[]) || ['Photos', 'Music', 'Videos'];
-    const backgroundColor = (settings.backgroundColor as string) || '#f3f4f6';
+    const backgroundColor = (settings.backgroundColor as string) || (theme === 'dark' ? '#1f2937' : '#f3f4f6');
     const pillColor = (settings.pillColor as string) || '#3b82f6';
     const activeTextColor = (settings.activeTextColor as string) || '#ffffff';
-    const inactiveTextColor = (settings.inactiveTextColor as string) || '#6b7280';
+    const inactiveTextColor = (settings.inactiveTextColor as string) || (theme === 'dark' ? '#9ca3af' : '#6b7280');
     const borderRadius = (settings.borderRadius as number) || 22;
 
     const [activeTab, setActiveTab] = useState(0);

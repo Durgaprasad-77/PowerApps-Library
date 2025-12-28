@@ -2,19 +2,24 @@
 
 import { useState } from 'react';
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 
 interface ProfileCardPreviewProps {
     settings: SettingsValues;
 }
 
 export function ProfileCardPreview({ settings }: ProfileCardPreviewProps) {
+    const { theme } = usePreviewTheme();
     const [isFollowing, setIsFollowing] = useState(false);
 
     const name = (settings.name as string) || 'John Doe';
     const role = (settings.role as string) || 'Software Engineer';
     const initials = (settings.initials as string) || 'JD';
     const avatarColor = (settings.avatarColor as string) || '#3b82f6';
-    const backgroundColor = (settings.backgroundColor as string) || '#ffffff';
+    const backgroundColor = (settings.backgroundColor as string) || (theme === 'dark' ? '#111111' : '#ffffff');
+    const borderColor = theme === 'dark' ? '#262626' : '#e5e7eb';
+    const textColor = theme === 'dark' ? '#ffffff' : '#111827';
+    const mutedColor = theme === 'dark' ? '#a1a1a1' : '#6b7280';
     const buttonColor = (settings.buttonColor as string) || '#3b82f6';
     const borderRadius = (settings.borderRadius as number) || 16;
 
@@ -24,7 +29,7 @@ export function ProfileCardPreview({ settings }: ProfileCardPreviewProps) {
             style={{
                 backgroundColor,
                 borderRadius: `${borderRadius}px`,
-                border: '1px solid #e5e7eb',
+                border: `1px solid ${borderColor}`,
             }}
         >
             {/* Avatar */}
@@ -36,8 +41,8 @@ export function ProfileCardPreview({ settings }: ProfileCardPreviewProps) {
             </div>
 
             {/* Name & Role */}
-            <h3 className="text-[#111827] font-bold text-lg mb-1">{name}</h3>
-            <p className="text-[#6b7280] text-sm mb-5">{role}</p>
+            <h3 className="font-bold text-lg mb-1" style={{ color: textColor }}>{name}</h3>
+            <p className="text-sm mb-5" style={{ color: mutedColor }}>{role}</p>
 
             {/* Follow Button */}
             <button

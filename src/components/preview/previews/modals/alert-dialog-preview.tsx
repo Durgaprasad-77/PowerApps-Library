@@ -3,19 +3,25 @@
 import { useState } from 'react';
 import { CheckCircle } from 'lucide-react';
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 
 interface AlertDialogPreviewProps {
     settings: SettingsValues;
 }
 
 export function AlertDialogPreview({ settings }: AlertDialogPreviewProps) {
+    const { theme } = usePreviewTheme();
     const [isOpen, setIsOpen] = useState(true);
 
     const title = (settings.title as string) || 'Success!';
     const message = (settings.message as string) || 'Your changes have been saved.';
     const buttonText = (settings.buttonText as string) || 'OK';
-    const backgroundColor = (settings.backgroundColor as string) || '#ffffff';
+    const backgroundColor = (settings.backgroundColor as string) || (theme === 'dark' ? '#1f2937' : '#ffffff');
     const iconColor = (settings.iconColor as string) || '#22c55e';
+    const textColor = theme === 'dark' ? '#ffffff' : '#111827';
+    const mutedColor = theme === 'dark' ? '#9ca3af' : '#6b7280';
+    const backdropBg = theme === 'dark' ? '#111827' : '#f3f4f6';
+    const skeletonBg = theme === 'dark' ? '#374151' : '#e5e7eb';
     const buttonColor = (settings.buttonColor as string) || '#3b82f6';
     const overlayOpacity = (settings.overlayOpacity as number) || 50;
     const borderRadius = (settings.borderRadius as number) || 12;
@@ -28,9 +34,9 @@ export function AlertDialogPreview({ settings }: AlertDialogPreviewProps) {
     return (
         <div className="relative w-full h-[260px] overflow-hidden rounded-lg">
             {/* Background content (simulated) */}
-            <div className="absolute inset-0 bg-[#f3f4f6] p-4">
-                <div className="h-4 w-32 bg-[#e5e7eb] rounded mb-3" />
-                <div className="h-3 w-48 bg-[#e5e7eb] rounded mb-2" />
+            <div className="absolute inset-0 p-4" style={{ backgroundColor: backdropBg }}>
+                <div className="h-4 w-32 rounded mb-3" style={{ backgroundColor: skeletonBg }} />
+                <div className="h-3 w-48 rounded mb-2" style={{ backgroundColor: skeletonBg }} />
             </div>
 
             {/* Modal Overlay */}
@@ -56,8 +62,8 @@ export function AlertDialogPreview({ settings }: AlertDialogPreviewProps) {
                         </div>
 
                         {/* Content */}
-                        <h3 className="text-[#111827] font-bold text-lg text-center mb-2">{title}</h3>
-                        <p className="text-[#6b7280] text-sm text-center mb-5">{message}</p>
+                        <h3 className="font-bold text-lg text-center mb-2" style={{ color: textColor }}>{title}</h3>
+                        <p className="text-sm text-center mb-5" style={{ color: mutedColor }}>{message}</p>
 
                         {/* Action */}
                         <button
@@ -72,8 +78,8 @@ export function AlertDialogPreview({ settings }: AlertDialogPreviewProps) {
             )}
 
             {!isOpen && (
-                <div className="absolute inset-0 flex items-center justify-center bg-[#f3f4f6]/80">
-                    <p className="text-[#6b7280] text-sm">Reopening...</p>
+                <div className="absolute inset-0 flex items-center justify-center bg-black/5 dark:bg-white/5">
+                    <p className="text-sm" style={{ color: mutedColor }}>Reopening...</p>
                 </div>
             )}
         </div>

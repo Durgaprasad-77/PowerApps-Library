@@ -1,15 +1,17 @@
 "use client";
 
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 
 interface SpinnerPreviewProps {
     settings: SettingsValues;
 }
 
 export function SpinnerPreview({ settings }: SpinnerPreviewProps) {
+    const { theme } = usePreviewTheme();
     const size = (settings.size as number) || 40;
-    const color = (settings.color as string) || '#ffffff';
-    const trackColor = (settings.trackColor as string) || '#262626';
+    const color = (settings.color as string) || (theme === 'dark' ? '#ffffff' : '#3b82f6');
+    const trackColor = (settings.trackColor as string) || (theme === 'dark' ? '#262626' : '#e5e7eb');
     const strokeWidth = (settings.strokeWidth as number) || 4;
     const speed = (settings.speed as number) || 1000;
 
@@ -55,7 +57,7 @@ export function SpinnerPreview({ settings }: SpinnerPreviewProps) {
         }
       `}</style>
 
-            <p className="text-xs text-[#6b6b6b]">Loading...</p>
+            <p className="text-xs" style={{ color: theme === 'dark' ? '#6b6b6b' : '#9ca3af' }}>Loading...</p>
         </div>
     );
 }

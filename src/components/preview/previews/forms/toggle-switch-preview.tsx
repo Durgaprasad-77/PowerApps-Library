@@ -2,17 +2,20 @@
 
 import { useState } from 'react';
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 
 interface ToggleSwitchPreviewProps {
     settings: SettingsValues;
 }
 
 export function ToggleSwitchPreview({ settings }: ToggleSwitchPreviewProps) {
+    const { theme } = usePreviewTheme();
     const [isOn, setIsOn] = useState(false);
 
     const activeColor = (settings.activeColor as string) || '#3b82f6';
-    const inactiveColor = (settings.inactiveColor as string) || '#d1d5db';
+    const inactiveColor = (settings.inactiveColor as string) || (theme === 'dark' ? '#4b5563' : '#d1d5db');
     const knobColor = (settings.knobColor as string) || '#ffffff';
+    const labelColor = theme === 'dark' ? '#d1d5db' : '#374151';
     const label = (settings.label as string) || 'Enable notifications';
 
     return (
@@ -31,7 +34,7 @@ export function ToggleSwitchPreview({ settings }: ToggleSwitchPreviewProps) {
                     }}
                 />
             </button>
-            <span className="text-sm text-[#374151] font-medium">{label}</span>
+            <span className="text-sm font-medium" style={{ color: labelColor }}>{label}</span>
         </div>
     );
 }

@@ -3,23 +3,29 @@
 import { useState } from 'react';
 import { SettingsValues } from '@/lib/settings-types';
 import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 
 interface DatePickerPreviewProps {
     settings: SettingsValues;
 }
 
 export function DatePickerPreview({ settings }: DatePickerPreviewProps) {
+    const { theme } = usePreviewTheme();
     const placeholder = (settings.placeholder as string) || 'Select a date';
-    const appearance = (settings.appearance as string) || 'filledDarker';
+    const appearance = (settings.appearance as string) || (theme === 'dark' ? 'filledDarker' : 'outline');
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [currentMonth, setCurrentMonth] = useState(new Date());
 
-    const bgColor = appearance === 'filledLighter' ? '#2a2a2a'
+    const bgColor = appearance === 'filledLighter' ? (theme === 'dark' ? '#2a2a2a' : '#f3f4f6')
         : appearance === 'outline' ? 'transparent'
-            : '#1a1a1a';
-    const borderColor = appearance === 'outline' ? '#444' : 'transparent';
+            : (theme === 'dark' ? '#1a1a1a' : '#ffffff');
+    const borderColor = appearance === 'outline' ? (theme === 'dark' ? '#444' : '#e5e7eb') : 'transparent';
+    const dropdownBg = theme === 'dark' ? '#1a1a1a' : '#ffffff';
+    const textColor = theme === 'dark' ? '#ffffff' : '#111827';
+    const mutedColor = theme === 'dark' ? '#9ca3af' : '#6b7280';
+    const hoverBg = theme === 'dark' ? '#333' : '#f3f4f6';
 
     const formatDate = (date: Date) => {
         return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -63,7 +69,7 @@ export function DatePickerPreview({ settings }: DatePickerPreviewProps) {
                     position: absolute;
                     top: 100%;
                     left: 20px;
-                    background: #1a1a1a;
+                    background: ${dropdownBg};
                     border-radius: 12px;
                     padding: 16px;
                     box-shadow: 0 10px 40px rgba(0,0,0,0.5);
@@ -79,14 +85,14 @@ export function DatePickerPreview({ settings }: DatePickerPreviewProps) {
                 .calendar-nav {
                     background: transparent;
                     border: none;
-                    color: #9ca3af;
+                    color: ${mutedColor};
                     cursor: pointer;
                     padding: 4px;
                     border-radius: 4px;
                 }
                 .calendar-nav:hover {
-                    color: white;
-                    background: #333;
+                    color: ${textColor};
+                    background: ${hoverBg};
                 }
                 .calendar-grid {
                     display: grid;
@@ -103,15 +109,15 @@ export function DatePickerPreview({ settings }: DatePickerPreviewProps) {
                     text-align: center;
                     padding: 8px;
                     font-size: 14px;
-                    color: #9ca3af;
+                    color: ${mutedColor};
                     border-radius: 6px;
                     cursor: pointer;
                     background: transparent;
                     border: none;
                 }
                 .calendar-day:hover {
-                    background: #333;
-                    color: white;
+                    background: ${hoverBg};
+                    color: ${textColor};
                 }
                 .calendar-day.selected {
                     background: #6366f1;
@@ -130,8 +136,8 @@ export function DatePickerPreview({ settings }: DatePickerPreviewProps) {
                 }}
                 onClick={() => setIsOpen(!isOpen)}
             >
-                <Calendar className="w-4 h-4 text-gray-400" />
-                <span className={`datepicker-text ${selectedDate ? 'text-white' : 'text-gray-500'}`}>
+                <Calendar className={`w-4 h-4 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`} />
+                <span className={`datepicker-text ${selectedDate ? (theme === 'dark' ? 'text-white' : 'text-gray-900') : 'text-gray-500'}`} style={{ color: selectedDate ? textColor : mutedColor }}>
                     {selectedDate ? formatDate(selectedDate) : placeholder}
                 </span>
             </div>
@@ -145,7 +151,7 @@ export function DatePickerPreview({ settings }: DatePickerPreviewProps) {
                         >
                             <ChevronLeft className="w-4 h-4" />
                         </button>
-                        <span className="text-white font-medium">
+                        <span className="font-medium" style={{ color: textColor }}>
                             {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                         </span>
                         <button

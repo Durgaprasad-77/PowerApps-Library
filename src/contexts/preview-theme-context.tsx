@@ -1,6 +1,7 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { useTheme } from 'next-themes';
 
 export type PreviewTheme = 'dark' | 'light';
 
@@ -63,6 +64,7 @@ interface PreviewThemeContextValue {
     colors: ThemeColors;
     toggleTheme: () => void;
     setTheme: (theme: PreviewTheme) => void;
+    mounted: boolean;
 }
 
 const PreviewThemeContext = createContext<PreviewThemeContextValue | undefined>(undefined);
@@ -70,10 +72,33 @@ const PreviewThemeContext = createContext<PreviewThemeContextValue | undefined>(
 interface PreviewThemeProviderProps {
     children: ReactNode;
     defaultTheme?: PreviewTheme;
+    syncWithSystem?: boolean;
 }
 
-export function PreviewThemeProvider({ children, defaultTheme = 'dark' }: PreviewThemeProviderProps) {
-    const [theme, setTheme] = useState<PreviewTheme>(defaultTheme);
+export function PreviewThemeProvider({ children, defaultTheme, syncWithSystem = true }: PreviewThemeProviderProps) {
+    // Get system theme from next-themes
+    const { resolvedTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    // Determine effective theme based on sync setting and resolved theme
+    const effectiveTheme: PreviewTheme = syncWithSystem && mounted && resolvedTheme
+        ? (resolvedTheme === 'light' ? 'light' : 'dark')
+        : (defaultTheme || 'dark');
+
+    const [theme, setTheme] = useState<PreviewTheme>(effectiveTheme);
+
+    // Mark as mounted after first render to handle SSR/hydration
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    // Sync with system theme when it changes (after mount)
+    useEffect(() => {
+        if (mounted && syncWithSystem && resolvedTheme) {
+            const newTheme = resolvedTheme === 'light' ? 'light' : 'dark';
+            setTheme(newTheme);
+        }
+    }, [resolvedTheme, syncWithSystem, mounted]);
 
     const colors = theme === 'dark' ? darkTheme : lightTheme;
 
@@ -82,7 +107,7 @@ export function PreviewThemeProvider({ children, defaultTheme = 'dark' }: Previe
     };
 
     return (
-        <PreviewThemeContext.Provider value={{ theme, colors, toggleTheme, setTheme }}>
+        <PreviewThemeContext.Provider value={{ theme, colors, toggleTheme, setTheme, mounted }}>
             {children}
         </PreviewThemeContext.Provider>
     );
@@ -90,13 +115,24 @@ export function PreviewThemeProvider({ children, defaultTheme = 'dark' }: Previe
 
 export function usePreviewTheme() {
     const context = useContext(PreviewThemeContext);
+
+    // Get system theme directly for components outside provider
+    const { resolvedTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     if (!context) {
-        // Return default dark theme if not in provider
+        // Return theme matching system if available and mounted, otherwise dark
+        const fallbackTheme = (mounted && resolvedTheme === 'light') ? 'light' : (mounted && resolvedTheme === 'dark') ? 'dark' : 'dark';
         return {
-            theme: 'dark' as PreviewTheme,
-            colors: darkTheme,
+            theme: fallbackTheme,
+            colors: fallbackTheme === 'dark' ? darkTheme : lightTheme,
             toggleTheme: () => { },
             setTheme: () => { },
+            mounted,
         };
     }
     return context;

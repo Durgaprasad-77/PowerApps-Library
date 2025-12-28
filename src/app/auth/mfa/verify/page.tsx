@@ -98,23 +98,23 @@ export default function MfaVerifyPage() {
 
     if (isInitializing) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-[#000000]">
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#000000]">
                 <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen relative flex items-center justify-center overflow-hidden bg-[#000000] selection:bg-blue-500/30">
+        <div className="min-h-screen relative flex items-center justify-center overflow-hidden bg-gray-50 dark:bg-[#000000] selection:bg-blue-500/30">
             {/* Background */}
-            <div className="absolute inset-0 w-full h-full">
+            <div className="absolute inset-0 w-full h-full hidden dark:block">
                 <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] mix-blend-screen" />
                 <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px] mix-blend-screen" />
             </div>
 
             {/* Card */}
             <div className="relative z-10 w-full max-w-md p-8 mx-4">
-                <div className="absolute inset-0 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl" />
+                <div className="absolute inset-0 bg-white dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-gray-200 dark:border-white/10 shadow-2xl" />
 
                 <div className="relative z-20 space-y-6">
                     {/* Header */}
@@ -122,10 +122,10 @@ export default function MfaVerifyPage() {
                         <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg shadow-blue-500/20 mb-4">
                             <Key className="w-6 h-6 text-white" />
                         </div>
-                        <h1 className="text-2xl font-bold tracking-tight text-white">
+                        <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                             Two-Factor Authentication
                         </h1>
-                        <p className="text-sm text-neutral-400">
+                        <p className="text-sm text-gray-500 dark:text-neutral-400">
                             Enter the code from your authenticator app
                         </p>
                     </div>
@@ -137,7 +137,7 @@ export default function MfaVerifyPage() {
                             value={code}
                             onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                             placeholder="000000"
-                            className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-4 text-white text-center text-3xl tracking-[0.5em] font-mono placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                            className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-4 text-gray-900 dark:text-white text-center text-3xl tracking-[0.5em] font-mono placeholder-gray-300 dark:placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
                             maxLength={6}
                             autoFocus
                             disabled={isLoading}
@@ -148,7 +148,7 @@ export default function MfaVerifyPage() {
                             {[...Array(6)].map((_, i) => (
                                 <div
                                     key={i}
-                                    className={`w-2 h-2 rounded-full transition-colors ${i < code.length ? 'bg-blue-500' : 'bg-white/20'
+                                    className={`w-2 h-2 rounded-full transition-colors ${i < code.length ? 'bg-blue-500' : 'bg-gray-200 dark:bg-white/20'
                                         }`}
                                 />
                             ))}
@@ -165,7 +165,7 @@ export default function MfaVerifyPage() {
 
                     {/* Loading */}
                     {isLoading && (
-                        <div className="flex items-center justify-center gap-2 text-neutral-400">
+                        <div className="flex items-center justify-center gap-2 text-gray-500 dark:text-neutral-400">
                             <Loader2 className="w-5 h-5 animate-spin" />
                             Verifying...
                         </div>
@@ -173,12 +173,12 @@ export default function MfaVerifyPage() {
 
                     {/* Help text */}
                     <div className="text-center space-y-2">
-                        <p className="text-xs text-neutral-500">
+                        <p className="text-xs text-gray-500 dark:text-neutral-500">
                             Open your authenticator app and enter the 6-digit code
                         </p>
                         <Link
                             href="/login"
-                            className="text-xs text-neutral-400 hover:text-white transition-colors"
+                            className="text-xs text-gray-400 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                         >
                             ← Sign in with different account
                         </Link>

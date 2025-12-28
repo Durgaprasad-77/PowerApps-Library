@@ -58,16 +58,16 @@ export default function ResetPasswordPage() {
     }
 
     return (
-        <div className="min-h-screen relative flex items-center justify-center overflow-hidden bg-[#000000] selection:bg-blue-500/30">
+        <div className="min-h-screen relative flex items-center justify-center overflow-hidden bg-gray-50 dark:bg-[#000000] selection:bg-blue-500/30">
             {/* Background */}
-            <div className="absolute inset-0 w-full h-full">
+            <div className="absolute inset-0 w-full h-full hidden dark:block">
                 <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px] mix-blend-screen" />
                 <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-pink-600/20 rounded-full blur-[120px] mix-blend-screen" />
             </div>
 
             {/* Card */}
             <div className="relative z-10 w-full max-w-md p-8 mx-4">
-                <div className="absolute inset-0 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl" />
+                <div className="absolute inset-0 bg-white dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-gray-200 dark:border-white/10 shadow-2xl" />
 
                 <div className="relative z-20 space-y-6">
                     {/* Header */}
@@ -78,7 +78,7 @@ export default function ResetPasswordPage() {
                         <h1 className="text-2xl font-bold tracking-tight text-white">
                             {isSuccess ? 'Password Updated!' : 'Create New Password'}
                         </h1>
-                        <p className="text-sm text-neutral-400">
+                        <p className="text-sm text-gray-500 dark:text-neutral-400">
                             {isSuccess
                                 ? 'Your password has been successfully changed'
                                 : 'Enter your new password below'
@@ -92,7 +92,7 @@ export default function ResetPasswordPage() {
                             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500/20 mx-auto">
                                 <CheckCircle className="w-8 h-8 text-green-500" />
                             </div>
-                            <p className="text-neutral-400 text-sm">
+                            <p className="text-gray-500 dark:text-neutral-400 text-sm">
                                 Redirecting you to the dashboard...
                             </p>
                             <Loader2 className="w-5 h-5 animate-spin mx-auto text-neutral-400" />
@@ -101,7 +101,7 @@ export default function ResetPasswordPage() {
                         /* Form */
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div className="space-y-2">
-                                <label className="text-xs font-medium text-neutral-300 uppercase tracking-wider ml-1">
+                                <label className="text-xs font-medium text-gray-700 dark:text-neutral-300 uppercase tracking-wider ml-1">
                                     New Password
                                 </label>
                                 <div className="relative group">
@@ -115,13 +115,13 @@ export default function ResetPasswordPage() {
                                         placeholder="••••••••"
                                         required
                                         minLength={8}
-                                        className="w-full bg-black/20 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all hover:bg-black/30 backdrop-blur-sm"
+                                        className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg pl-10 pr-4 py-3 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all hover:bg-gray-50 dark:hover:bg-black/30 backdrop-blur-sm"
                                     />
                                 </div>
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-xs font-medium text-neutral-300 uppercase tracking-wider ml-1">
+                                <label className="text-xs font-medium text-gray-700 dark:text-neutral-300 uppercase tracking-wider ml-1">
                                     Confirm Password
                                 </label>
                                 <div className="relative group">
@@ -135,13 +135,13 @@ export default function ResetPasswordPage() {
                                         placeholder="••••••••"
                                         required
                                         minLength={8}
-                                        className="w-full bg-black/20 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all hover:bg-black/30 backdrop-blur-sm"
+                                        className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg pl-10 pr-4 py-3 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all hover:bg-gray-50 dark:hover:bg-black/30 backdrop-blur-sm"
                                     />
                                 </div>
                             </div>
 
                             {error && (
-                                <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center flex items-center justify-center gap-2">
+                                <div className="p-3 rounded-lg bg-red-50 border border-red-200 dark:bg-red-500/10 dark:border-red-500/20 text-red-600 dark:text-red-400 text-sm text-center flex items-center justify-center gap-2">
                                     <AlertCircle className="w-4 h-4" />
                                     {error}
                                 </div>

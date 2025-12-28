@@ -2,22 +2,25 @@
 
 import { useState } from 'react';
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 
 interface TextInputPreviewProps {
     settings: SettingsValues;
 }
 
 export function TextInputPreview({ settings }: TextInputPreviewProps) {
+    const { theme } = usePreviewTheme();
     const [value, setValue] = useState('');
     const [isFocused, setIsFocused] = useState(false);
 
     const label = (settings.label as string) || 'Email Address';
     const placeholder = (settings.placeholder as string) || 'Enter your email';
-    const backgroundColor = (settings.backgroundColor as string) || '#0a0a0a';
-    const borderColor = (settings.borderColor as string) || '#262626';
-    const focusBorderColor = (settings.focusBorderColor as string) || '#ffffff';
-    const textColor = (settings.textColor as string) || '#ffffff';
-    const labelColor = (settings.labelColor as string) || '#a1a1a1';
+    const backgroundColor = (settings.backgroundColor as string) || (theme === 'dark' ? '#0a0a0a' : '#ffffff');
+    const borderColor = (settings.borderColor as string) || (theme === 'dark' ? '#262626' : '#e5e5e5');
+    const focusBorderColor = (settings.focusBorderColor as string) || '#3b82f6';
+    const textColor = (settings.textColor as string) || (theme === 'dark' ? '#ffffff' : '#0a0a0a');
+    const labelColor = (settings.labelColor as string) || (theme === 'dark' ? '#a1a1a1' : '#374151');
+    const helperColor = theme === 'dark' ? '#737373' : '#6b6b6b';
     const borderRadius = (settings.borderRadius as number) || 8;
 
     return (
@@ -44,7 +47,7 @@ export function TextInputPreview({ settings }: TextInputPreviewProps) {
                     boxShadow: isFocused ? `0 0 0 2px ${focusBorderColor}20` : 'none',
                 }}
             />
-            <p className="text-xs text-[#6b6b6b] mt-2">Click to focus and type</p>
+            <p className="text-xs mt-2" style={{ color: helperColor }}>Click to focus and type</p>
         </div>
     );
 }

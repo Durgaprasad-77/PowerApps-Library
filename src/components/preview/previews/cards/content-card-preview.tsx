@@ -2,19 +2,25 @@
 
 import { useState } from 'react';
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 
 interface ContentCardPreviewProps {
     settings: SettingsValues;
 }
 
 export function ContentCardPreview({ settings }: ContentCardPreviewProps) {
+    const { theme } = usePreviewTheme();
     const [isHovered, setIsHovered] = useState(false);
 
     const title = (settings.title as string) || 'Card Title';
     const description = (settings.description as string) || 'This is a description of the card content. Click the button to learn more.';
     const buttonText = (settings.buttonText as string) || 'Learn More';
-    const backgroundColor = (settings.backgroundColor as string) || '#111111';
-    const borderColor = (settings.borderColor as string) || '#1a1a1a';
+    const backgroundColor = (settings.backgroundColor as string) || (theme === 'dark' ? '#111111' : '#ffffff');
+    const borderColor = (settings.borderColor as string) || (theme === 'dark' ? '#1a1a1a' : '#e5e7eb');
+    const textColor = theme === 'dark' ? '#ffffff' : '#111827';
+    const mutedColor = theme === 'dark' ? '#a1a1a1' : '#6b7280';
+    const buttonBg = theme === 'dark' ? '#ffffff' : '#111827';
+    const buttonTextColor = theme === 'dark' ? '#000000' : '#ffffff';
     const borderRadius = (settings.borderRadius as number) || 12;
 
     return (
@@ -31,10 +37,11 @@ export function ContentCardPreview({ settings }: ContentCardPreviewProps) {
             }}
         >
             <div className="p-5">
-                <h3 className="text-white font-semibold text-lg mb-2">{title}</h3>
-                <p className="text-[#a1a1a1] text-sm mb-4 leading-relaxed">{description}</p>
+                <h3 className="font-semibold text-lg mb-2" style={{ color: textColor }}>{title}</h3>
+                <p className="text-sm mb-4 leading-relaxed" style={{ color: mutedColor }}>{description}</p>
                 <button
-                    className="px-4 py-2 text-sm font-medium rounded-lg bg-white text-black hover:bg-white/90 transition-colors"
+                    className="px-4 py-2 text-sm font-medium rounded-lg transition-colors"
+                    style={{ backgroundColor: buttonBg, color: buttonTextColor }}
                 >
                     {buttonText}
                 </button>

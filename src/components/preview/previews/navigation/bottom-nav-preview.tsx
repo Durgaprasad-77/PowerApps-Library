@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 import { Home, Search, Bell, User } from 'lucide-react';
 
 interface BottomNavPreviewProps {
@@ -16,11 +17,13 @@ const defaultItems = [
 ];
 
 export function BottomNavPreview({ settings }: BottomNavPreviewProps) {
+    const { theme } = usePreviewTheme();
     const [activeIndex, setActiveIndex] = useState(0);
 
-    const backgroundColor = (settings.backgroundColor as string) || '#0a0a0a';
-    const activeColor = (settings.activeColor as string) || '#ffffff';
-    const inactiveColor = (settings.inactiveColor as string) || '#6b6b6b';
+    const backgroundColor = (settings.backgroundColor as string) || (theme === 'dark' ? '#0a0a0a' : '#ffffff');
+    const activeColor = (settings.activeColor as string) || (theme === 'dark' ? '#ffffff' : '#111827');
+    const inactiveColor = (settings.inactiveColor as string) || (theme === 'dark' ? '#6b6b6b' : '#9ca3af');
+    const borderColor = theme === 'dark' ? '#1a1a1a' : '#e5e7eb';
     const showLabels = settings.showLabels !== false;
     const height = (settings.height as number) || 64;
 
@@ -35,7 +38,7 @@ export function BottomNavPreview({ settings }: BottomNavPreviewProps) {
             style={{
                 backgroundColor,
                 height: `${height}px`,
-                borderTop: '1px solid #1a1a1a',
+                borderTop: `1px solid ${borderColor}`,
             }}
         >
             {items.map((item, index) => {

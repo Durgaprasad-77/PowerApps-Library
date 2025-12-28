@@ -11,16 +11,16 @@ export default async function ForgotPasswordPage({
     const isSuccess = params?.success === 'true';
 
     return (
-        <div className="min-h-screen relative flex items-center justify-center overflow-hidden bg-[#000000] selection:bg-blue-500/30">
+        <div className="min-h-screen relative flex items-center justify-center overflow-hidden bg-gray-50 dark:bg-[#000000] selection:bg-blue-500/30">
             {/* Background */}
-            <div className="absolute inset-0 w-full h-full">
+            <div className="absolute inset-0 w-full h-full hidden dark:block">
                 <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-orange-600/20 rounded-full blur-[120px] mix-blend-screen" />
                 <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-red-600/20 rounded-full blur-[120px] mix-blend-screen" />
             </div>
 
             {/* Card */}
             <div className="relative z-10 w-full max-w-md p-8 mx-4">
-                <div className="absolute inset-0 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl" />
+                <div className="absolute inset-0 bg-white dark:bg-white/5 backdrop-blur-xl rounded-2xl border border-gray-200 dark:border-white/10 shadow-2xl" />
 
                 <div className="relative z-20 space-y-6">
                     {/* Header */}
@@ -28,10 +28,10 @@ export default async function ForgotPasswordPage({
                         <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 shadow-lg shadow-orange-500/20 mb-4">
                             <Mail className="w-6 h-6 text-white" />
                         </div>
-                        <h1 className="text-2xl font-bold tracking-tight text-white">
+                        <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                             {isSuccess ? 'Check Your Email' : 'Reset Password'}
                         </h1>
-                        <p className="text-sm text-neutral-400">
+                        <p className="text-sm text-gray-500 dark:text-neutral-400">
                             {isSuccess
                                 ? 'We sent you a password reset link'
                                 : 'Enter your email to receive a reset link'
@@ -45,7 +45,7 @@ export default async function ForgotPasswordPage({
                             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500/20 mx-auto">
                                 <CheckCircle className="w-8 h-8 text-green-500" />
                             </div>
-                            <p className="text-neutral-400 text-sm">
+                            <p className="text-gray-500 dark:text-neutral-400 text-sm">
                                 If an account exists for that email, you&apos;ll receive a password reset link shortly.
                             </p>
                             <Link
@@ -67,7 +67,7 @@ export default async function ForgotPasswordPage({
 
                             <form action={forgotPassword} className="space-y-4">
                                 <div className="space-y-2">
-                                    <label className="text-xs font-medium text-neutral-300 uppercase tracking-wider ml-1">
+                                    <label className="text-xs font-medium text-gray-700 dark:text-neutral-300 uppercase tracking-wider ml-1">
                                         Email Address
                                     </label>
                                     <div className="relative group">
@@ -79,7 +79,7 @@ export default async function ForgotPasswordPage({
                                             type="email"
                                             placeholder="your@email.com"
                                             required
-                                            className="w-full bg-black/20 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-transparent transition-all hover:bg-black/30 backdrop-blur-sm"
+                                            className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg pl-10 pr-4 py-3 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-transparent transition-all hover:bg-gray-50 dark:hover:bg-black/30 backdrop-blur-sm"
                                         />
                                     </div>
                                 </div>

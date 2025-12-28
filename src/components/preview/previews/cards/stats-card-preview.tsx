@@ -3,19 +3,24 @@
 import { useEffect, useState } from 'react';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 
 interface StatsCardPreviewProps {
     settings: SettingsValues;
 }
 
 export function StatsCardPreview({ settings }: StatsCardPreviewProps) {
+    const { theme } = usePreviewTheme();
     const [animatedValue, setAnimatedValue] = useState(0);
 
     const title = (settings.title as string) || 'Total Revenue';
     const value = (settings.value as number) || 12485;
     const change = (settings.change as number) || 12.5;
     const prefix = (settings.prefix as string) || '$';
-    const backgroundColor = (settings.backgroundColor as string) || '#111111';
+    const backgroundColor = (settings.backgroundColor as string) || (theme === 'dark' ? '#111111' : '#ffffff');
+    const borderColor = theme === 'dark' ? '#1a1a1a' : '#e5e7eb';
+    const textColor = theme === 'dark' ? '#ffffff' : '#111827';
+    const mutedColor = theme === 'dark' ? '#6b6b6b' : '#6b7280';
     const borderRadius = (settings.borderRadius as number) || 12;
 
     const isPositive = change >= 0;
@@ -46,11 +51,11 @@ export function StatsCardPreview({ settings }: StatsCardPreviewProps) {
             style={{
                 backgroundColor,
                 borderRadius: `${borderRadius}px`,
-                border: '1px solid #1a1a1a',
+                border: `1px solid ${borderColor}`,
             }}
         >
-            <p className="text-[#6b6b6b] text-sm mb-1">{title}</p>
-            <p className="text-white text-2xl font-bold mb-2">
+            <p className="text-sm mb-1" style={{ color: mutedColor }}>{title}</p>
+            <p className="text-2xl font-bold mb-2" style={{ color: textColor }}>
                 {prefix}{animatedValue.toLocaleString()}
             </p>
             <div
@@ -63,7 +68,7 @@ export function StatsCardPreview({ settings }: StatsCardPreviewProps) {
                     <TrendingDown className="w-4 h-4" />
                 )}
                 <span>{isPositive ? '+' : ''}{change}%</span>
-                <span className="text-[#6b6b6b] ml-1">vs last month</span>
+                <span className="ml-1" style={{ color: mutedColor }}>vs last month</span>
             </div>
         </div>
     );

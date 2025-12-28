@@ -1,23 +1,28 @@
 "use client";
 
 import { useState } from 'react';
+
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 
 interface LoadingButtonPreviewProps {
     settings: SettingsValues;
 }
 
 export function LoadingButtonPreview({ settings }: LoadingButtonPreviewProps) {
+    const { theme } = usePreviewTheme();
     const [isLoading, setIsLoading] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
 
     // Extract settings with defaults
     const text = (settings.text as string) || 'Submit';
+
     const loadingText = (settings.loadingText as string) || 'Loading...';
-    const backgroundColor = (settings.backgroundColor as string) || '#ffffff';
-    const textColor = (settings.textColor as string) || '#0a0a0a';
-    const spinnerColor = (settings.spinnerColor as string) || '#0a0a0a';
+    const backgroundColor = (settings.backgroundColor as string) || (theme === 'dark' ? '#ffffff' : '#111827');
+    const textColor = (settings.textColor as string) || (theme === 'dark' ? '#0a0a0a' : '#ffffff');
+    const spinnerColor = (settings.spinnerColor as string) || (theme === 'dark' ? '#0a0a0a' : '#ffffff');
     const borderRadius = (settings.borderRadius as number) || 8;
+
 
     const handleClick = () => {
         if (isLoading) return;

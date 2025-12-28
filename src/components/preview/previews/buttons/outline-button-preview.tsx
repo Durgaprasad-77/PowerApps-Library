@@ -2,20 +2,22 @@
 
 import { useState } from 'react';
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 
 interface OutlineButtonPreviewProps {
     settings: SettingsValues;
 }
 
 export function OutlineButtonPreview({ settings }: OutlineButtonPreviewProps) {
+    const { theme } = usePreviewTheme();
     const [isPressed, setIsPressed] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
 
     // Extract settings with defaults
     const text = (settings.text as string) || 'Learn More';
-    const borderColor = (settings.borderColor as string) || '#404040';
-    const textColor = (settings.textColor as string) || '#ffffff';
-    const hoverBackgroundColor = (settings.hoverBackgroundColor as string) || '#1a1a1a';
+    const borderColor = (settings.borderColor as string) || (theme === 'dark' ? '#404040' : '#d1d5db');
+    const textColor = (settings.textColor as string) || (theme === 'dark' ? '#ffffff' : '#111827');
+    const hoverBackgroundColor = (settings.hoverBackgroundColor as string) || (theme === 'dark' ? '#1a1a1a' : '#f3f4f6');
     const borderRadius = (settings.borderRadius as number) || 8;
     const borderWidth = (settings.borderWidth as number) || 1;
 

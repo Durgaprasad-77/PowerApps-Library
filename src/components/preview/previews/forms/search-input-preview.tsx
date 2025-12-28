@@ -3,21 +3,23 @@
 import { useState } from 'react';
 import { Search, X } from 'lucide-react';
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 
 interface SearchInputPreviewProps {
     settings: SettingsValues;
 }
 
 export function SearchInputPreview({ settings }: SearchInputPreviewProps) {
+    const { theme } = usePreviewTheme();
     const [value, setValue] = useState('');
     const [isFocused, setIsFocused] = useState(false);
 
     const placeholder = (settings.placeholder as string) || 'Search...';
-    const backgroundColor = (settings.backgroundColor as string) || '#111111';
-    const borderColor = (settings.borderColor as string) || '#262626';
-    const focusBorderColor = (settings.focusBorderColor as string) || '#404040';
-    const textColor = (settings.textColor as string) || '#ffffff';
-    const iconColor = (settings.iconColor as string) || '#6b6b6b';
+    const backgroundColor = (settings.backgroundColor as string) || (theme === 'dark' ? '#111111' : '#ffffff');
+    const borderColor = (settings.borderColor as string) || (theme === 'dark' ? '#262626' : '#e5e7eb');
+    const focusBorderColor = (settings.focusBorderColor as string) || (theme === 'dark' ? '#404040' : '#9ca3af');
+    const textColor = (settings.textColor as string) || (theme === 'dark' ? '#ffffff' : '#111827');
+    const iconColor = (settings.iconColor as string) || (theme === 'dark' ? '#6b6b6b' : '#9ca3af');
     const borderRadius = (settings.borderRadius as number) || 24;
 
     const handleClear = () => {
@@ -51,7 +53,7 @@ export function SearchInputPreview({ settings }: SearchInputPreviewProps) {
                 {value && (
                     <button
                         onClick={handleClear}
-                        className="absolute right-3 p-1 rounded-full hover:bg-white/10 transition-colors"
+                        className="absolute right-3 p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
                         style={{ color: iconColor }}
                     >
                         <X className="w-4 h-4" />

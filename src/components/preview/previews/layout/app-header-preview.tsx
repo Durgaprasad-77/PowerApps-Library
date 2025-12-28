@@ -1,6 +1,7 @@
 "use client";
 
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 import { Menu, Bell, User } from 'lucide-react';
 
 interface AppHeaderPreviewProps {
@@ -8,8 +9,17 @@ interface AppHeaderPreviewProps {
 }
 
 export function AppHeaderPreview({ settings }: AppHeaderPreviewProps) {
+    const { theme } = usePreviewTheme();
     const title = (settings.title as string) || 'My Application';
     const showLogo = settings.showLogo !== false;
+
+    const headerBg = theme === 'dark' ? '#1a1a1a' : '#ffffff';
+    const textColor = theme === 'dark' ? '#ffffff' : '#111827';
+    const iconColor = theme === 'dark' ? '#9ca3af' : '#6b7280';
+    const hoverBg = theme === 'dark' ? '#252525' : '#f3f4f6';
+    const avatarBg = theme === 'dark' ? '#374151' : '#e5e7eb';
+    const borderColor = theme === 'dark' ? 'transparent' : '#e5e7eb';
+    const borderStyle = theme === 'dark' ? 'none' : `1px solid ${borderColor}`;
 
     return (
         <div className="app-header-preview">
@@ -22,9 +32,11 @@ export function AppHeaderPreview({ settings }: AppHeaderPreviewProps) {
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    background: #1a1a1a;
+                    background: ${headerBg};
                     padding: 12px 20px;
                     border-radius: 8px;
+                    border: ${borderStyle};
+                    box-shadow: ${theme === 'dark' ? 'none' : '0 1px 3px rgba(0,0,0,0.1)'};
                 }
                 .header-left {
                     display: flex;
@@ -43,8 +55,8 @@ export function AppHeaderPreview({ settings }: AppHeaderPreviewProps) {
                     justify-content: center;
                 }
                 .menu-btn:hover {
-                    background: #252525;
-                    color: white;
+                    background: ${hoverBg};
+                    color: ${textColor};
                 }
                 .logo {
                     width: 32px;
@@ -60,7 +72,7 @@ export function AppHeaderPreview({ settings }: AppHeaderPreviewProps) {
                 }
                 .title {
                     font-weight: 600;
-                    color: white;
+                    color: ${textColor};
                     font-size: 16px;
                 }
                 .header-right {
@@ -71,7 +83,7 @@ export function AppHeaderPreview({ settings }: AppHeaderPreviewProps) {
                 .icon-btn {
                     background: transparent;
                     border: none;
-                    color: #9ca3af;
+                    color: ${iconColor};
                     cursor: pointer;
                     padding: 8px;
                     border-radius: 6px;
@@ -81,8 +93,8 @@ export function AppHeaderPreview({ settings }: AppHeaderPreviewProps) {
                     position: relative;
                 }
                 .icon-btn:hover {
-                    background: #252525;
-                    color: white;
+                    background: ${hoverBg};
+                    color: ${textColor};
                 }
                 .notification-dot {
                     position: absolute;
@@ -96,7 +108,7 @@ export function AppHeaderPreview({ settings }: AppHeaderPreviewProps) {
                 .avatar {
                     width: 32px;
                     height: 32px;
-                    background: #374151;
+                    background: ${avatarBg};
                     border-radius: 50%;
                     display: flex;
                     align-items: center;

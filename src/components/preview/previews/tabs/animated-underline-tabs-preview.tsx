@@ -2,16 +2,18 @@
 
 import { useState } from 'react';
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 
 interface AnimatedUnderlineTabsPreviewProps {
     settings: SettingsValues;
 }
 
 export function AnimatedUnderlineTabsPreview({ settings }: AnimatedUnderlineTabsPreviewProps) {
+    const { theme } = usePreviewTheme();
     const tabs = (settings.tabs as string[]) || ['Home', 'Profile', 'Settings', 'About'];
-    const backgroundColor = (settings.backgroundColor as string) || '#ffffff';
+    const backgroundColor = (settings.backgroundColor as string) || (theme === 'dark' ? '#111111' : '#ffffff');
     const activeTabColor = (settings.activeTabColor as string) || '#3b82f6';
-    const inactiveTabColor = (settings.inactiveTabColor as string) || '#6b7280';
+    const inactiveTabColor = (settings.inactiveTabColor as string) || (theme === 'dark' ? '#a1a1a1' : '#6b7280');
     const indicatorColor = (settings.indicatorColor as string) || '#3b82f6';
     const tabHeight = (settings.tabHeight as number) || 50;
     const borderRadius = (settings.borderRadius as number) || 0;
@@ -44,7 +46,7 @@ export function AnimatedUnderlineTabsPreview({ settings }: AnimatedUnderlineTabs
                             fontWeight: activeTab === index ? 600 : 400,
                             fontSize: '14px',
                             backgroundColor: hoveredTab === index && activeTab !== index
-                                ? 'rgba(0,0,0,0.03)'
+                                ? (theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)')
                                 : 'transparent',
                         }}
                     >

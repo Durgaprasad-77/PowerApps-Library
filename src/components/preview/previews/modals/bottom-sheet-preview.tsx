@@ -3,18 +3,27 @@
 import { useState } from 'react';
 import { X } from 'lucide-react';
 import { SettingsValues } from '@/lib/settings-types';
+import { usePreviewTheme } from '@/contexts/preview-theme-context';
 
 interface BottomSheetPreviewProps {
     settings: SettingsValues;
 }
 
 export function BottomSheetPreview({ settings }: BottomSheetPreviewProps) {
+    const { theme } = usePreviewTheme();
     const [isOpen, setIsOpen] = useState(true);
 
     const title = (settings.title as string) || 'Options';
-    const backgroundColor = (settings.backgroundColor as string) || '#111111';
-    const handleColor = (settings.handleColor as string) || '#404040';
+    const backgroundColor = (settings.backgroundColor as string) || (theme === 'dark' ? '#111111' : '#ffffff');
+    const handleColor = (settings.handleColor as string) || (theme === 'dark' ? '#404040' : '#e5e7eb');
     const borderRadius = (settings.borderRadius as number) || 20;
+
+    const textColor = theme === 'dark' ? '#ffffff' : '#111827';
+    const optionColor = theme === 'dark' ? '#a1a1a1' : '#6b7280';
+    const optionHoverBg = theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+    const backdropBg = theme === 'dark' ? '#0a0a0a' : '#f3f4f6';
+    const skeletonBg = theme === 'dark' ? '#1a1a1a' : '#e5e7eb';
+    const closeIconColor = theme === 'dark' ? '#6b6b6b' : '#9ca3af';
 
     const handleClose = () => {
         setIsOpen(false);
@@ -24,10 +33,10 @@ export function BottomSheetPreview({ settings }: BottomSheetPreviewProps) {
     return (
         <div className="relative w-full h-[300px] overflow-hidden rounded-lg">
             {/* Background content (simulated) */}
-            <div className="absolute inset-0 bg-[#0a0a0a] p-4">
-                <div className="h-4 w-32 bg-[#1a1a1a] rounded mb-3" />
-                <div className="h-3 w-48 bg-[#1a1a1a] rounded mb-2" />
-                <div className="h-3 w-40 bg-[#1a1a1a] rounded" />
+            <div className="absolute inset-0 p-4" style={{ backgroundColor: backdropBg }}>
+                <div className="h-4 w-32 rounded mb-3" style={{ backgroundColor: skeletonBg }} />
+                <div className="h-3 w-48 rounded mb-2" style={{ backgroundColor: skeletonBg }} />
+                <div className="h-3 w-40 rounded" style={{ backgroundColor: skeletonBg }} />
             </div>
 
             {/* Sheet Overlay */}
@@ -58,10 +67,11 @@ export function BottomSheetPreview({ settings }: BottomSheetPreviewProps) {
 
                         {/* Header */}
                         <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-white font-semibold">{title}</h3>
+                            <h3 className="font-semibold" style={{ color: textColor }}>{title}</h3>
                             <button
                                 onClick={handleClose}
-                                className="p-1 rounded-full hover:bg-white/10 transition-colors text-[#6b6b6b]"
+                                className="p-1 rounded-full hover:bg-white/10 dark:hover:bg-black/5 transition-colors"
+                                style={{ color: closeIconColor }}
                                 title="Close sheet"
                             >
                                 <X className="w-4 h-4" />
@@ -74,7 +84,11 @@ export function BottomSheetPreview({ settings }: BottomSheetPreviewProps) {
                                 <button
                                     key={i}
                                     onClick={handleClose}
-                                    className="w-full text-left px-4 py-3 rounded-lg text-[#a1a1a1] hover:bg-white/5 transition-colors text-sm"
+                                    className="w-full text-left px-4 py-3 rounded-lg transition-colors text-sm hover:bg-[--hover-bg]"
+                                    style={{
+                                        color: optionColor,
+                                        '--hover-bg': optionHoverBg
+                                    } as React.CSSProperties}
                                 >
                                     {option}
                                 </button>
@@ -87,7 +101,7 @@ export function BottomSheetPreview({ settings }: BottomSheetPreviewProps) {
             {/* Re-open hint */}
             {!isOpen && (
                 <div className="absolute inset-0 flex items-center justify-center">
-                    <p className="text-[#6b6b6b] text-sm">Reopening...</p>
+                    <p className="text-sm" style={{ color: closeIconColor }}>Reopening...</p>
                 </div>
             )}
         </div>

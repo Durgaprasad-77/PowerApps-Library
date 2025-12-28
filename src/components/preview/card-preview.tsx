@@ -2,6 +2,7 @@
 
 import { ComponentPreview, hasPreview } from './component-mapper';
 import { getCategoryIcon } from '@/components/category-icons';
+import { PreviewThemeProvider } from '@/contexts/preview-theme-context';
 import { useMemo, createElement } from 'react';
 
 interface CardPreviewProps {
@@ -50,7 +51,7 @@ export function CardPreview({ componentSlug, category }: CardPreviewProps) {
         return (
             <div className="h-full flex items-center justify-center">
                 {createElement(Icon, {
-                    className: "w-12 h-12 text-[#333333] group-hover:text-[#4a4a4a] transition-colors"
+                    className: "w-12 h-12 text-gray-400 dark:text-gray-600 group-hover:text-gray-500 dark:group-hover:text-gray-500 transition-colors"
                 })}
             </div>
         );
@@ -59,20 +60,22 @@ export function CardPreview({ componentSlug, category }: CardPreviewProps) {
     const scaling = previewScaling[componentSlug] || defaultScaling;
 
     return (
-        <div className="h-full flex items-center justify-center p-3 pointer-events-none">
-            <div
-                className="origin-center flex items-center justify-center"
-                style={{
-                    transform: `scale(${scaling.scale})`,
-                    width: scaling.width,
-                }}
-            >
-                <ComponentPreview
-                    componentSlug={componentSlug}
-                    settings={{}}
-                    variant="card"
-                />
+        <PreviewThemeProvider syncWithSystem={true}>
+            <div className="h-full flex items-center justify-center p-3 pointer-events-none">
+                <div
+                    className="origin-center flex items-center justify-center"
+                    style={{
+                        transform: `scale(${scaling.scale})`,
+                        width: scaling.width,
+                    }}
+                >
+                    <ComponentPreview
+                        componentSlug={componentSlug}
+                        settings={{}}
+                        variant="card"
+                    />
+                </div>
             </div>
-        </div>
+        </PreviewThemeProvider>
     );
 }
