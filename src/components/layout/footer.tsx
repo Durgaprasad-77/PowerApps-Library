@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Zap } from "lucide-react";
+import Image from "next/image";
 
 export function Footer() {
     return (
@@ -9,9 +9,13 @@ export function Footer() {
                     {/* Brand */}
                     <div className="col-span-1 md:col-span-2">
                         <Link href="/" className="flex items-center gap-2 mb-4">
-                            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                                <Zap className="w-5 h-5 text-white" />
-                            </div>
+                            <Image
+                                src="/logo.png"
+                                alt="PowerUI Logo"
+                                width={32}
+                                height={32}
+                                className="rounded-lg"
+                            />
                             <span className="font-semibold text-lg text-gray-900 dark:text-white tracking-tight">
                                 PowerUI
                             </span>

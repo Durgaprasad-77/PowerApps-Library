@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
-import { Menu, X, Zap } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { AuthButtons } from "./auth-buttons";
 import { ThemeToggle } from "@/components/theme";
 
@@ -15,9 +16,13 @@ export function Navbar() {
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                            <Zap className="w-5 h-5 text-white" />
-                        </div>
+                        <Image
+                            src="/logo.png"
+                            alt="PowerUI Logo"
+                            width={32}
+                            height={32}
+                            className="rounded-lg"
+                        />
                         <span className="font-semibold text-lg text-[var(--foreground)] tracking-tight">
                             PowerUI
                         </span>

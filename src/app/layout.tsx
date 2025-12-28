@@ -15,6 +15,15 @@ export const metadata: Metadata = {
   title: "PowerUI | Copy-Paste Ready YAML for Power Apps",
   description: "The largest library of Power Apps components with copy-paste ready YAML code. Build beautiful canvas apps faster with 70+ tested components.",
   keywords: ["Power Apps", "Canvas App", "YAML", "Components", "Microsoft", "Low-Code", "PowerUI"],
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
+  openGraph: {
+    title: "PowerUI | Copy-Paste Ready YAML for Power Apps",
+    description: "The largest library of Power Apps components with copy-paste ready YAML code.",
+    images: ["/logo.png"],
+  },
 };
 
 export default function RootLayout({
