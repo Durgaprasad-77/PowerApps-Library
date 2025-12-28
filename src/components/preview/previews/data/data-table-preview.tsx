@@ -6,7 +6,7 @@ interface DataTablePreviewProps {
     settings: SettingsValues;
 }
 
-export function DataTablePreview({ settings }: DataTablePreviewProps) {
+export function DataTablePreview({ }: DataTablePreviewProps) {
     const mockData = [
         { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin' },
         { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User' },

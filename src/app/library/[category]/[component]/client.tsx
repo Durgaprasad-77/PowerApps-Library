@@ -3,15 +3,15 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { ArrowLeft, Copy, Check, Lock, Settings, Eye, BookOpen, Lightbulb, Code2 } from "lucide-react";
-import { getCategoryIcon } from "@/components/category-icons";
+
 import { SettingsPanel } from "@/components/settings/settings-panel";
-import { getComponentSettingsSchema, hasComponentSettings } from "@/components/settings/schemas";
 import { useComponentSettings } from "@/hooks/use-component-settings";
 import { generateComponentYAML } from "@/lib/yaml-generator";
 import { PreviewFrame } from "@/components/preview/preview-frame";
 import { ComponentPreview } from "@/components/preview/component-mapper";
 import { getComponentInstructions, hasInstructions } from "@/lib/component-instructions";
 import { Component, Category } from "@/lib/types";
+import { CodeHighlighter } from "@/components/ui/code-highlighter";
 
 interface Props {
     component: Component;
@@ -26,8 +26,8 @@ export function ComponentDetailClient({ component, category }: Props) {
     const categorySlug = category.slug;
 
     // Get settings schema and instructions for this component
-    const settingsSchema = getComponentSettingsSchema(componentSlug);
-    const hasSettings = hasComponentSettings(componentSlug);
+    const settingsSchema = component.settingsSchema;
+    const hasSettings = !!settingsSchema && settingsSchema.fields && settingsSchema.fields.length > 0;
     const instructions = getComponentInstructions(componentSlug);
     const hasSetupInstructions = hasInstructions(componentSlug);
 
@@ -54,8 +54,6 @@ export function ComponentDetailClient({ component, category }: Props) {
             .replace(/# Set\(.*\)/g, '')
             .trim();
     }, [component, componentSlug, settings, hasSettings, settingsSchema]);
-
-    const CategoryIcon = getCategoryIcon(categorySlug);
 
     const handleCopy = async () => {
         try {
@@ -337,9 +335,13 @@ export function ComponentDetailClient({ component, category }: Props) {
                                     </div>
                                 </div>
                             )}
-                            <pre className="p-4 overflow-x-auto text-xs max-h-[450px] overflow-y-auto bg-[#0a0a0a] text-[#a1a1a1] leading-relaxed">
-                                <code>{generatedYAML}</code>
-                            </pre>
+                            <CodeHighlighter
+                                code={generatedYAML}
+                                language="yaml"
+                                showLineNumbers={true}
+                                showCopyButton={false}
+                                maxHeight="450px"
+                            />
                         </div>
                     </div>
                 </div>

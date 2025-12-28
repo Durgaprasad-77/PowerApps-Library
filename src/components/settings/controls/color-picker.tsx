@@ -17,7 +17,6 @@ export function ColorPicker({
     label,
     description,
     value,
-    presets,
     onChange,
 }: ColorPickerProps) {
     const [isOpen, setIsOpen] = useState(false);
@@ -56,7 +55,7 @@ export function ColorPicker({
         setHexInput(color);
     };
 
-    const allPresets = presets || [...MONOCHROME_PRESETS, ...ACCENT_PRESETS];
+
 
     return (
         <div className="space-y-1.5 relative" ref={panelRef}>

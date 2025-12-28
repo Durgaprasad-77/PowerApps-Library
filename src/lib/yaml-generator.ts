@@ -1986,7 +1986,8 @@ ${formFields}
             OnSelect: =// Submit form`;
 }
 
-export function generateToggleSwitchYAML(settings: SettingsValues): string {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function generateToggleSwitchYAML(_settings: SettingsValues): string {
   return `- Toggle1:
     Control: Toggle@1.1.5
     Properties:

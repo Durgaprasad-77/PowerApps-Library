@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { ComponentSettingsSchema, SettingsValues, getDefaultSettings } from '@/lib/settings-types';
 
 interface UseComponentSettingsReturn {
@@ -33,7 +33,18 @@ export function useComponentSettings(
         return defaults;
     });
 
-    const [hasChanges, setHasChanges] = useState(false);
+    const hasChanges = useMemo(() => {
+        return Object.keys(settings).some(key => {
+            const current = settings[key];
+            const defaultVal = defaults[key];
+
+            if (Array.isArray(current) && Array.isArray(defaultVal)) {
+                return current.length !== defaultVal.length ||
+                    current.some((v, i) => v !== defaultVal[i]);
+            }
+            return current !== defaultVal;
+        });
+    }, [settings, defaults]);
 
     // Persist settings to localStorage
     useEffect(() => {
@@ -46,20 +57,7 @@ export function useComponentSettings(
         }
     }, [settings, storageKey]);
 
-    // Check if settings differ from defaults
-    useEffect(() => {
-        const changed = Object.keys(settings).some(key => {
-            const current = settings[key];
-            const defaultVal = defaults[key];
 
-            if (Array.isArray(current) && Array.isArray(defaultVal)) {
-                return current.length !== defaultVal.length ||
-                    current.some((v, i) => v !== defaultVal[i]);
-            }
-            return current !== defaultVal;
-        });
-        setHasChanges(changed);
-    }, [settings, defaults]);
 
     const updateSetting = useCallback((
         id: string,

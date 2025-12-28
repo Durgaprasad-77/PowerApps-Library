@@ -1,4 +1,4 @@
-// Component and Category types for the component library
+import { ComponentSettingsSchema } from './settings-types';
 
 export interface Component {
     id: string;
@@ -10,7 +10,7 @@ export interface Component {
     previewImage?: string;
     isPro: boolean;
     isNew?: boolean;
-    settingsSchema?: SettingsSchema;
+    settingsSchema?: ComponentSettingsSchema;
     defaultSettings?: Record<string, unknown>;
     createdAt: string;
     updatedAt: string;
@@ -25,19 +25,6 @@ export interface Category {
     orderIndex: number;
     componentsCount: number;
     freeCount: number;
-}
-
-export interface SettingsSchema {
-    type: 'object';
-    properties: Record<string, SettingsProperty>;
-}
-
-export interface SettingsProperty {
-    type: 'string' | 'number' | 'boolean' | 'array' | 'color';
-    title: string;
-    default?: unknown;
-    items?: { type: string };
-    enum?: string[];
 }
 
 export interface User {

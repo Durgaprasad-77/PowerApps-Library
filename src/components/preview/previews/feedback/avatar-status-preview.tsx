@@ -23,7 +23,7 @@ export function AvatarStatusPreview({ settings }: AvatarStatusPreviewProps) {
         large: { avatar: 64, dot: 18, offset: 46, dotBorder: 3 },
     };
 
-    const currentSize = sizeMap[size] || sizeMap.medium;
+
     const dotColor = statusColors[status] || statusColors.online;
 
     return (

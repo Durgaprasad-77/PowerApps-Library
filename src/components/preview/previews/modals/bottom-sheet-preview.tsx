@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { X, Minus } from 'lucide-react';
+import { X } from 'lucide-react';
 import { SettingsValues } from '@/lib/settings-types';
 
 interface BottomSheetPreviewProps {

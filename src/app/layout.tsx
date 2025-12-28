@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { Toaster } from "@/components/ui/toaster";
+import { ThemeProvider } from "@/components/theme";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,12 +24,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans antialiased bg-white`} suppressHydrationWarning>
-        <Navbar />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
+      <body className={`${inter.variable} font-sans antialiased`} suppressHydrationWarning>
+        <ThemeProvider defaultTheme="dark">
+          <Navbar />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Footer />
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { X, Check, AlertTriangle, Info, AlertCircle } from 'lucide-react';
+import { X, Check, AlertTriangle, Info } from 'lucide-react';
 import { SettingsValues } from '@/lib/settings-types';
 
 interface ToastPreviewProps {
@@ -33,7 +33,7 @@ export function ToastPreview({ settings }: ToastPreviewProps) {
     const borderRadius = (settings.borderRadius as number) || 12;
     const showIcon = settings.showIcon !== false;
     const dismissible = settings.dismissible !== false;
-    const duration = (settings.duration as number) || 3000;
+
 
     const Icon = typeIcons[type] || Check;
     const iconColor = typeColors[type] || '#22c55e';

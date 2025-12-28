@@ -8,7 +8,7 @@ interface ModernIconPreviewProps {
 }
 
 export function ModernIconPreview({ settings }: ModernIconPreviewProps) {
-    const iconName = (settings.iconName as string) || 'Home';
+
     const size = (settings.size as number) || 24;
     const color = (settings.color as string) || '#6366f1';
 

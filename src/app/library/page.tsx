@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { getCategories, getComponents } from "@/lib/data";
-import { Search } from "lucide-react";
 import { getCategoryIcon } from "@/components/category-icons";
 import { ComponentSearch } from "@/components/library/component-search";
 

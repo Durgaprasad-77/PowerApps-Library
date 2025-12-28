@@ -16,8 +16,7 @@ const statusColors: Record<string, string> = {
 export function StatusDotPreview({ settings }: StatusDotPreviewProps) {
     const status = (settings?.status as string) || 'online';
     const showLabel = (settings?.showLabel as boolean) ?? true;
-    const dotColor = statusColors[status] || statusColors.online;
-    const labelText = status.charAt(0).toUpperCase() + status.slice(1);
+
 
     return (
         <div className="status-dot-preview">

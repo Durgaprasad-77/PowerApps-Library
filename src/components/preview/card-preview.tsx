@@ -2,6 +2,7 @@
 
 import { ComponentPreview, hasPreview } from './component-mapper';
 import { getCategoryIcon } from '@/components/category-icons';
+import { useMemo, createElement } from 'react';
 
 interface CardPreviewProps {
     componentSlug: string;
@@ -42,13 +43,15 @@ const previewScaling: Record<string, { scale: number; width: string }> = {
 const defaultScaling = { scale: 0.6, width: '180%' };
 
 export function CardPreview({ componentSlug, category }: CardPreviewProps) {
-    const IconComponent = getCategoryIcon(category);
+    const Icon = useMemo(() => getCategoryIcon(category), [category]);
 
     // Check if we have a live preview for this component
     if (!hasPreview(componentSlug)) {
         return (
             <div className="h-full flex items-center justify-center">
-                <IconComponent className="w-12 h-12 text-[#333333] group-hover:text-[#4a4a4a] transition-colors" />
+                {createElement(Icon, {
+                    className: "w-12 h-12 text-[#333333] group-hover:text-[#4a4a4a] transition-colors"
+                })}
             </div>
         );
     }
