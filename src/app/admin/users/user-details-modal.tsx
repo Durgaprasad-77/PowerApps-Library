@@ -121,6 +121,7 @@ export function UserDetailsModal({ user, open, onClose, currentUserId }: UserDet
                                     </div>
                                 </div>
                                 <button
+                                    aria-label="Close modal"
                                     onClick={onClose}
                                     className="p-1 rounded-md text-[#6b6b6b] hover:text-white hover:bg-white/10 transition-colors"
                                 >

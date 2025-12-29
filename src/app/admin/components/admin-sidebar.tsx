@@ -97,6 +97,7 @@ export function AdminSidebar() {
         <>
             {/* Mobile menu button */}
             <button
+                aria-label="Open menu"
                 onClick={() => setMobileOpen(true)}
                 className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-[#111] border border-[#262626] rounded-lg text-white"
             >
@@ -131,6 +132,7 @@ export function AdminSidebar() {
                         >
                             {/* Close button */}
                             <button
+                                aria-label="Close menu"
                                 onClick={() => setMobileOpen(false)}
                                 className="absolute top-4 right-4 p-2 text-[#6b6b6b] hover:text-white"
                             >

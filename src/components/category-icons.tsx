@@ -80,3 +80,9 @@ export const CategoryIcons: Record<string, React.FC<{ className?: string }>> = {
 export function getCategoryIcon(slug: string): React.FC<{ className?: string }> {
     return CategoryIcons[slug] || CategoryIcons.cards;
 }
+
+// Stable CategoryIcon component that avoids creating components during render
+export function CategoryIcon({ slug, className }: { slug: string; className?: string }) {
+    const Icon = CategoryIcons[slug] || CategoryIcons.cards;
+    return <Icon className={className} />;
+}

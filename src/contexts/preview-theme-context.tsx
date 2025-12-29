@@ -89,6 +89,7 @@ export function PreviewThemeProvider({ children, defaultTheme, syncWithSystem = 
 
     // Mark as mounted after first render to handle SSR/hydration
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- Intentional: hydration safety pattern
         setMounted(true);
     }, []);
 
@@ -96,6 +97,7 @@ export function PreviewThemeProvider({ children, defaultTheme, syncWithSystem = 
     useEffect(() => {
         if (mounted && syncWithSystem && resolvedTheme) {
             const newTheme = resolvedTheme === 'light' ? 'light' : 'dark';
+            // eslint-disable-next-line react-hooks/set-state-in-effect -- Intentional: syncing with external system theme
             setTheme(newTheme);
         }
     }, [resolvedTheme, syncWithSystem, mounted]);
@@ -121,6 +123,7 @@ export function usePreviewTheme() {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- Intentional: hydration safety pattern
         setMounted(true);
     }, []);
 

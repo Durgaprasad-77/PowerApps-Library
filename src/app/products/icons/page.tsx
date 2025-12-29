@@ -44,7 +44,7 @@ export default async function IconsPage() {
                         </h1>
 
                         <p className="text-lg text-gray-500 dark:text-gray-400 mb-8">
-                            Microsoft's official icon library plus animated icons. Customize colors, preview instantly,
+                            Microsoft&apos;s official icon library plus animated icons. Customize colors, preview instantly,
                             and paste directly into your Power Apps canvas.
                         </p>
 

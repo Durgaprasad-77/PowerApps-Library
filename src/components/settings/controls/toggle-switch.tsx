@@ -30,7 +30,7 @@ export function ToggleSwitch({
                 type="button"
                 id={id}
                 role="switch"
-                aria-checked={value}
+                aria-checked={value ? "true" : "false"}
                 onClick={() => onChange(!value)}
                 className={`
           relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer 

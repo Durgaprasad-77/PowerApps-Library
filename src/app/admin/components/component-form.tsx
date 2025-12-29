@@ -111,8 +111,9 @@ export function ComponentForm({ initialData, categories }: ComponentFormProps) {
 
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <label className="text-sm font-medium text-[#a1a1a1]">Name</label>
+                                <label htmlFor="component-name" className="text-sm font-medium text-[#a1a1a1]">Name</label>
                                 <input
+                                    id="component-name"
                                     name="name"
                                     value={name}
                                     onChange={handleNameChange}
@@ -146,8 +147,9 @@ export function ComponentForm({ initialData, categories }: ComponentFormProps) {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-[#a1a1a1]">Description</label>
+                            <label htmlFor="component-description" className="text-sm font-medium text-[#a1a1a1]">Description</label>
                             <textarea
+                                id="component-description"
                                 name="description"
                                 defaultValue={initialData?.description}
                                 rows={2}
@@ -156,8 +158,9 @@ export function ComponentForm({ initialData, categories }: ComponentFormProps) {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-[#a1a1a1]">Category</label>
+                            <label htmlFor="component-category" className="text-sm font-medium text-[#a1a1a1]">Category</label>
                             <select
+                                id="component-category"
                                 name="category_slug"
                                 defaultValue={initialData?.category || categories[0]?.slug}
                                 className="w-full bg-[#111] border border-[#262626] rounded-md px-3 py-2 text-white focus:outline-none focus:border-blue-500"
@@ -172,7 +175,9 @@ export function ComponentForm({ initialData, categories }: ComponentFormProps) {
                     <div className="card p-6 space-y-4">
                         <h2 className="text-lg font-medium text-white mb-4">YAML Code</h2>
                         <div className="space-y-2">
+                            <label htmlFor="component-yaml" className="sr-only">YAML Code</label>
                             <textarea
+                                id="component-yaml"
                                 name="yaml_code"
                                 value={yamlCode}
                                 onChange={(e) => setYamlCode(e.target.value)}
@@ -199,8 +204,9 @@ export function ComponentForm({ initialData, categories }: ComponentFormProps) {
                         <h2 className="text-lg font-medium text-white mb-4">Status & Visibility</h2>
 
                         <div className="flex items-center justify-between">
-                            <label className="text-sm font-medium text-[#a1a1a1]">Pro Component</label>
+                            <label htmlFor="component-pro" className="text-sm font-medium text-[#a1a1a1]">Pro Component</label>
                             <input
+                                id="component-pro"
                                 type="checkbox"
                                 name="is_pro"
                                 defaultChecked={initialData?.isPro}
@@ -209,8 +215,9 @@ export function ComponentForm({ initialData, categories }: ComponentFormProps) {
                         </div>
 
                         <div className="flex items-center justify-between">
-                            <label className="text-sm font-medium text-[#a1a1a1]">New Label</label>
+                            <label htmlFor="component-new" className="text-sm font-medium text-[#a1a1a1]">New Label</label>
                             <input
+                                id="component-new"
                                 type="checkbox"
                                 name="is_new"
                                 defaultChecked={initialData?.isNew}
@@ -223,8 +230,9 @@ export function ComponentForm({ initialData, categories }: ComponentFormProps) {
                         <h2 className="text-lg font-medium text-white mb-4">Settings Schema</h2>
 
                         <div className="space-y-2">
-                            <label className="text-xs font-medium text-[#a1a1a1] uppercase">Schema (JSON)</label>
+                            <label htmlFor="component-schema" className="text-xs font-medium text-[#a1a1a1] uppercase">Schema (JSON)</label>
                             <textarea
+                                id="component-schema"
                                 name="settings_schema"
                                 defaultValue={formatJSON(initialData?.settingsSchema)}
                                 rows={8}
@@ -233,8 +241,9 @@ export function ComponentForm({ initialData, categories }: ComponentFormProps) {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-xs font-medium text-[#a1a1a1] uppercase">Defaults (JSON)</label>
+                            <label htmlFor="component-defaults" className="text-xs font-medium text-[#a1a1a1] uppercase">Defaults (JSON)</label>
                             <textarea
+                                id="component-defaults"
                                 name="default_settings"
                                 defaultValue={formatJSON(initialData?.defaultSettings)}
                                 rows={6}

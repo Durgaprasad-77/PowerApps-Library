@@ -37,6 +37,7 @@ export function BackgroundCard({
 
     // Track mounting for hydration safety
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- Intentional: hydration safety pattern
         setMounted(true);
     }, []);
 

@@ -217,6 +217,7 @@ export function AdminHeader() {
                                 />
                                 {searchQuery && (
                                     <button
+                                        aria-label="Clear search"
                                         onClick={() => {
                                             setSearchQuery("");
                                             setSearchResults([]);

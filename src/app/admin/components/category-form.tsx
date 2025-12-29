@@ -53,8 +53,9 @@ export function CategoryForm({ initialData }: CategoryFormProps) {
 
             <div className="card p-6 space-y-4 bg-[#0a0a0a] border border-[#262626] rounded-xl">
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-[#a1a1a1]">Name</label>
+                    <label htmlFor="category-name" className="text-sm font-medium text-[#a1a1a1]">Name</label>
                     <input
+                        id="category-name"
                         name="name"
                         defaultValue={initialData?.name}
                         required
@@ -63,8 +64,9 @@ export function CategoryForm({ initialData }: CategoryFormProps) {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-[#a1a1a1]">Slug</label>
+                    <label htmlFor="category-slug" className="text-sm font-medium text-[#a1a1a1]">Slug</label>
                     <input
+                        id="category-slug"
                         name="slug"
                         defaultValue={initialData?.slug}
                         required
@@ -73,8 +75,9 @@ export function CategoryForm({ initialData }: CategoryFormProps) {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-[#a1a1a1]">Description</label>
+                    <label htmlFor="category-description" className="text-sm font-medium text-[#a1a1a1]">Description</label>
                     <textarea
+                        id="category-description"
                         name="description"
                         defaultValue={initialData?.description}
                         rows={3}
@@ -84,8 +87,9 @@ export function CategoryForm({ initialData }: CategoryFormProps) {
 
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-[#a1a1a1]">Order Index</label>
+                        <label htmlFor="category-order" className="text-sm font-medium text-[#a1a1a1]">Order Index</label>
                         <input
+                            id="category-order"
                             type="number"
                             name="order_index"
                             defaultValue={initialData?.orderIndex}
@@ -93,8 +97,9 @@ export function CategoryForm({ initialData }: CategoryFormProps) {
                         />
                     </div>
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-[#a1a1a1]">Icon Name (Lucide)</label>
+                        <label htmlFor="category-icon" className="text-sm font-medium text-[#a1a1a1]">Icon Name (Lucide)</label>
                         <input
+                            id="category-icon"
                             name="icon"
                             defaultValue={initialData?.icon}
                             className="w-full bg-[#111] border border-[#262626] rounded-md px-3 py-2 text-white focus:outline-none focus:border-blue-500"

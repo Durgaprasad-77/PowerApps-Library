@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCategories, getComponents } from "@/lib/data";
 import { ArrowLeft } from "lucide-react";
-import { getCategoryIcon } from "@/components/category-icons";
+import { CategoryIcon } from "@/components/category-icons";
 import { CardPreview } from "@/components/preview/card-preview";
 
 interface Props {
@@ -34,7 +34,6 @@ export default async function CategoryPage({ params }: Props) {
     }
 
     const categoryComponents = await getComponents(categorySlug);
-    const CategoryIcon = getCategoryIcon(categorySlug);
 
     return (
         <div className="min-h-screen">
@@ -49,7 +48,7 @@ export default async function CategoryPage({ params }: Props) {
                         Back to Library
                     </Link>
                     <div className="flex items-center gap-3">
-                        <CategoryIcon className="w-8 h-8 text-[#6b6b6b]" />
+                        <CategoryIcon slug={categorySlug} className="w-8 h-8 text-[#6b6b6b]" />
                         <div>
                             <h1 className="text-2xl font-bold text-white">
                                 {category.name}

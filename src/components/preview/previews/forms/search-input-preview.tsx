@@ -52,6 +52,7 @@ export function SearchInputPreview({ settings }: SearchInputPreviewProps) {
                 />
                 {value && (
                     <button
+                        aria-label="Clear search"
                         onClick={handleClear}
                         className="absolute right-3 p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
                         style={{ color: iconColor }}

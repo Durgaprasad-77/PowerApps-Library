@@ -38,9 +38,13 @@ export function AnimatedIconCustomizer({ icon, isOpen, onClose }: AnimatedIconCu
 
     // Reset state when icon changes
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- Intentional: reset state when icon prop changes
         setToggleVariable(icon.toggleVariable);
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- Intentional: reset state when icon prop changes
         setTimestampVariable(icon.timestampVariable);
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- Intentional: reset state when icon prop changes
         setIsToggled(false);
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- Intentional: reset state when icon prop changes
         setTimestamp(Date.now().toString());
     }, [icon]);
 
@@ -102,6 +106,7 @@ export function AnimatedIconCustomizer({ icon, isOpen, onClose }: AnimatedIconCu
     }, [onClose]);
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- Intentional: reset UI state on tab change
         setCopied(false);
     }, [activeTab]);
 
@@ -134,6 +139,7 @@ export function AnimatedIconCustomizer({ icon, isOpen, onClose }: AnimatedIconCu
                         </p>
                     </div>
                     <button
+                        aria-label="Close customizer"
                         onClick={onClose}
                         className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                     >
@@ -182,6 +188,7 @@ export function AnimatedIconCustomizer({ icon, isOpen, onClose }: AnimatedIconCu
                                 {PRESET_COLORS.map((c) => (
                                     <button
                                         key={c}
+                                        aria-label={`Select color ${c}`}
                                         onClick={() => setColor(c)}
                                         className={`w-8 h-8 rounded-lg transition-all ${color === c
                                             ? 'ring-2 ring-purple-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-950 scale-110'
@@ -194,12 +201,14 @@ export function AnimatedIconCustomizer({ icon, isOpen, onClose }: AnimatedIconCu
                             <div className="flex items-center gap-2 pl-4 border-l border-gray-200 dark:border-gray-700">
                                 <input
                                     type="color"
+                                    aria-label="Color picker"
                                     value={color}
                                     onChange={(e) => setColor(e.target.value)}
                                     className="w-8 h-8 rounded-lg cursor-pointer bg-transparent"
                                 />
                                 <input
                                     type="text"
+                                    aria-label="Color hex value"
                                     value={color}
                                     onChange={(e) => setColor(e.target.value)}
                                     className="w-24 px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm font-mono text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
@@ -261,7 +270,7 @@ export function AnimatedIconCustomizer({ icon, isOpen, onClose }: AnimatedIconCu
                     <div className="flex items-start gap-3 p-4 rounded-lg bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20">
                         <Info className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
                         <div className="text-sm text-blue-700 dark:text-blue-400">
-                            <strong>Setup:</strong> Add the Init formula to your Screen's <code className="px-1 py-0.5 rounded bg-blue-100 dark:bg-blue-500/20">OnVisible</code> property to initialize the variables.
+                            <strong>Setup:</strong> Add the Init formula to your Screen&apos;s <code className="px-1 py-0.5 rounded bg-blue-100 dark:bg-blue-500/20">OnVisible</code> property to initialize the variables.
                         </div>
                     </div>
 

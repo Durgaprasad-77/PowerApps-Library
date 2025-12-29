@@ -101,6 +101,7 @@ export function ToastPreview({ settings }: ToastPreviewProps) {
                 {/* Dismiss button */}
                 {dismissible && (
                     <button
+                        aria-label="Dismiss toast"
                         onClick={handleDismiss}
                         className="flex-shrink-0 p-1 rounded-full hover:bg-white/10 transition-colors"
                         style={{ color: textColor }}

@@ -2,24 +2,77 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Menu, X, ChevronDown, Layers, Palette, Wand2, PaintBucket, Sparkles, LayoutTemplate, FileCode, Zap, ArrowRight } from "lucide-react";
 import { AuthButtons } from "./auth-buttons";
 import { ThemeToggle } from "@/components/theme";
+import { motion, AnimatePresence } from "framer-motion";
 
-const products = [
-    { name: "Components", href: "/library" },
-    { name: "Backgrounds", href: "/products/backgrounds" },
-    { name: "Icons", href: "/products/icons" },
-    { name: "YAML Studio", href: "/products/yaml-studio" },
-    { name: "Theme Builder", href: "/products/theme-builder" },
-    { name: "AI Component Generator", href: "/products/ai-generator" },
-    { name: "Template Gallery", href: "/products/templates" },
+// Core Features - Main products
+const coreFeatures = [
+    {
+        name: "Components",
+        description: "Copy-paste ready UI components",
+        href: "/library",
+        icon: Layers,
+    },
+    {
+        name: "YAML Studio",
+        description: "Build and preview components live",
+        href: "/products/yaml-studio",
+        icon: FileCode,
+    },
+];
+
+// More products
+const moreProducts = [
+    {
+        name: "Backgrounds",
+        description: "Dynamic animated backgrounds",
+        href: "/products/backgrounds",
+        icon: PaintBucket,
+    },
+    {
+        name: "Icons",
+        description: "Fluent 2 icon library",
+        href: "/products/icons",
+        icon: Sparkles,
+    },
+    {
+        name: "Theme Builder",
+        description: "Create custom themes",
+        href: "/products/theme-builder",
+        icon: Palette,
+    },
+    {
+        name: "AI Generator",
+        description: "AI-powered components",
+        href: "/products/ai-generator",
+        icon: Wand2,
+    },
+    {
+        name: "Templates",
+        description: "Ready-to-use app templates",
+        href: "/products/templates",
+        icon: LayoutTemplate,
+    },
 ];
 
 export function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isProductsOpen, setIsProductsOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsProductsOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     return (
         <nav className="sticky top-0 z-50 bg-[var(--background)]/80 backdrop-blur-xl border-b border-[var(--border)]">
@@ -42,32 +95,118 @@ export function Navbar() {
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center gap-8">
                         {/* Products Dropdown */}
-                        <div className="relative">
+                        <div className="relative" ref={dropdownRef}>
                             <button
                                 onClick={() => setIsProductsOpen(!isProductsOpen)}
-                                onBlur={() => setTimeout(() => setIsProductsOpen(false), 150)}
-                                className="flex items-center gap-1 text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-medium transition-colors"
+                                className={`flex items-center gap-1 px-3 py-1.5 rounded-full font-medium transition-all ${isProductsOpen
+                                        ? 'bg-[var(--accent)] text-[var(--foreground)]'
+                                        : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)]'
+                                    }`}
                             >
                                 Products
                                 <ChevronDown className={`w-4 h-4 transition-transform ${isProductsOpen ? 'rotate-180' : ''}`} />
                             </button>
 
-                            {isProductsOpen && (
-                                <div className="absolute top-full left-0 mt-2 w-48 bg-[var(--background)] border border-[var(--border)] rounded-lg shadow-xl overflow-hidden animate-fade-in">
-                                    <div className="py-1">
-                                        {products.map((product) => (
+                            <AnimatePresence>
+                                {isProductsOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                        transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+                                        className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[640px] bg-[var(--background)] border border-[var(--border)] rounded-xl shadow-2xl overflow-hidden"
+                                    >
+                                        {/* Arrow indicator */}
+                                        <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-[var(--background)] border-l border-t border-[var(--border)] rotate-45" />
+
+                                        <div className="relative bg-[var(--background)] p-6">
+                                            <div className="flex gap-8">
+                                                {/* Core Features Column */}
+                                                <div className="flex-1">
+                                                    <h3 className="text-xs font-semibold text-[var(--foreground-muted)] uppercase tracking-wider mb-4">
+                                                        Core Features
+                                                    </h3>
+                                                    <div className="space-y-1">
+                                                        {coreFeatures.map((item) => (
+                                                            <Link
+                                                                key={item.name}
+                                                                href={item.href}
+                                                                onClick={() => setIsProductsOpen(false)}
+                                                                className="group flex items-start gap-3 p-3 rounded-lg hover:bg-[var(--accent)] transition-colors"
+                                                            >
+                                                                <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center group-hover:from-purple-500/30 group-hover:to-blue-500/30 transition-colors">
+                                                                    <item.icon className="w-5 h-5 text-purple-400" />
+                                                                </div>
+                                                                <div>
+                                                                    <div className="font-medium text-[var(--foreground)] group-hover:text-purple-400 transition-colors">
+                                                                        {item.name}
+                                                                    </div>
+                                                                    <div className="text-sm text-[var(--foreground-muted)]">
+                                                                        {item.description}
+                                                                    </div>
+                                                                </div>
+                                                            </Link>
+                                                        ))}
+                                                    </div>
+                                                </div>
+
+                                                {/* Divider */}
+                                                <div className="w-px bg-[var(--border)]" />
+
+                                                {/* More Column */}
+                                                <div className="flex-[1.5]">
+                                                    <h3 className="text-xs font-semibold text-[var(--foreground-muted)] uppercase tracking-wider mb-4">
+                                                        More
+                                                    </h3>
+                                                    <div className="grid grid-cols-2 gap-1">
+                                                        {moreProducts.map((item) => (
+                                                            <Link
+                                                                key={item.name}
+                                                                href={item.href}
+                                                                onClick={() => setIsProductsOpen(false)}
+                                                                className="group flex items-center gap-3 p-3 rounded-lg hover:bg-[var(--accent)] transition-colors"
+                                                            >
+                                                                <item.icon className="w-4 h-4 text-[var(--foreground-muted)] group-hover:text-[var(--foreground)] transition-colors" />
+                                                                <div>
+                                                                    <div className="font-medium text-[var(--foreground)] text-sm">
+                                                                        {item.name}
+                                                                    </div>
+                                                                    <div className="text-xs text-[var(--foreground-muted)]">
+                                                                        {item.description}
+                                                                    </div>
+                                                                </div>
+                                                            </Link>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Footer */}
+                                        <div className="flex items-center justify-between px-6 py-4 bg-[var(--accent)]/50 border-t border-[var(--border)]">
+                                            <div className="flex items-center gap-3">
+                                                <div className="flex items-center gap-2">
+                                                    <Zap className="w-4 h-4 text-purple-400" />
+                                                    <span className="text-sm font-medium text-[var(--foreground)]">
+                                                        New: Animated Icons
+                                                    </span>
+                                                </div>
+                                                <span className="text-sm text-[var(--foreground-muted)]">
+                                                    SVG animations for Power Apps
+                                                </span>
+                                            </div>
                                             <Link
-                                                key={product.name}
-                                                href={product.href}
-                                                className="block px-4 py-2 text-sm text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--accent)] transition-colors"
+                                                href="/changelog"
                                                 onClick={() => setIsProductsOpen(false)}
+                                                className="flex items-center gap-1 text-sm font-medium text-purple-400 hover:text-purple-300 transition-colors"
                                             >
-                                                {product.name}
+                                                Changelog
+                                                <ArrowRight className="w-3 h-3" />
                                             </Link>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                         </div>
 
                         <Link
@@ -94,6 +233,7 @@ export function Navbar() {
                     <div className="md:hidden flex items-center gap-3">
                         <ThemeToggle />
                         <button
+                            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                             className="p-2"
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                         >
@@ -113,15 +253,33 @@ export function Navbar() {
                             {/* Mobile Products Section */}
                             <div className="space-y-2">
                                 <div className="text-xs font-semibold text-[var(--foreground-muted)] uppercase tracking-wider px-1">
-                                    Products
+                                    Core Features
                                 </div>
-                                {products.map((product) => (
+                                {coreFeatures.map((product) => (
                                     <Link
                                         key={product.name}
                                         href={product.href}
-                                        className="block p-2 text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-medium text-sm"
+                                        className="flex items-center gap-3 p-2 text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-medium text-sm"
                                         onClick={() => setIsMenuOpen(false)}
                                     >
+                                        <product.icon className="w-4 h-4" />
+                                        {product.name}
+                                    </Link>
+                                ))}
+                            </div>
+
+                            <div className="space-y-2">
+                                <div className="text-xs font-semibold text-[var(--foreground-muted)] uppercase tracking-wider px-1">
+                                    More
+                                </div>
+                                {moreProducts.map((product) => (
+                                    <Link
+                                        key={product.name}
+                                        href={product.href}
+                                        className="flex items-center gap-3 p-2 text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-medium text-sm"
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        <product.icon className="w-4 h-4" />
                                         {product.name}
                                     </Link>
                                 ))}
@@ -154,4 +312,3 @@ export function Navbar() {
         </nav>
     );
 }
-

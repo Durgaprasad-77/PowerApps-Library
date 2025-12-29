@@ -5,3 +5,4 @@ export { ComponentShowcase } from "./component-showcase";
 export { StatsSection } from "./stats-section";
 export { CategoryGrid } from "./category-grid";
 export { CTASection } from "./cta-section";
+export { ProductsShowcase } from "./products-showcase";

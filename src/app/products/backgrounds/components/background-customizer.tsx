@@ -33,6 +33,7 @@ export function BackgroundCustomizer({
 
     // Track mounting for hydration safety
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- Intentional: hydration safety pattern
         setMounted(true);
     }, []);
 
@@ -49,6 +50,7 @@ export function BackgroundCustomizer({
     // Update config when theme changes after mount
     useEffect(() => {
         if (mounted) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect -- Intentional: syncing with external system theme
             setConfig(prev => ({
                 ...prev,
                 backgroundColor: resolvedTheme === 'light' ? '#f5f5f5' : '#0A0A0A',
@@ -58,9 +60,11 @@ export function BackgroundCustomizer({
 
     useEffect(() => {
         if (isOpen) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect -- Intentional: resetting config when modal opens
             setConfig(getThemeAwareConfig());
             setCopied(false);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- getThemeAwareConfig is stable
     }, [isOpen, pattern]);
 
     useEffect(() => {
@@ -115,6 +119,7 @@ export function BackgroundCustomizer({
                         </p>
                     </div>
                     <button
+                        aria-label="Close customizer"
                         onClick={onClose}
                         className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
                     >

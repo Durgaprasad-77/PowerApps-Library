@@ -268,6 +268,7 @@ export function ComponentsTable({ components, categories }: ComponentsTableProps
                             Delete Selected
                         </button>
                         <button
+                            aria-label="Clear selection"
                             onClick={() => setSelectedIds(new Set())}
                             className="p-1.5 text-[#6b6b6b] hover:text-white rounded-md transition-colors"
                         >
@@ -309,6 +310,7 @@ export function ComponentsTable({ components, categories }: ComponentsTableProps
                                 <th className="px-4 py-3">
                                     <input
                                         type="checkbox"
+                                        aria-label="Select all components"
                                         checked={selectedIds.size === filteredComponents.length && filteredComponents.length > 0}
                                         onChange={toggleSelectAll}
                                         className="w-4 h-4 rounded border-[#404040] bg-[#111] text-blue-600 focus:ring-blue-500 focus:ring-offset-0"
@@ -362,6 +364,7 @@ export function ComponentsTable({ components, categories }: ComponentsTableProps
                                         <td className="px-4 py-4">
                                             <input
                                                 type="checkbox"
+                                                aria-label={`Select ${item.name}`}
                                                 checked={selectedIds.has(item.id)}
                                                 onChange={() => toggleSelect(item.id)}
                                                 className="w-4 h-4 rounded border-[#404040] bg-[#111] text-blue-600 focus:ring-blue-500 focus:ring-offset-0"

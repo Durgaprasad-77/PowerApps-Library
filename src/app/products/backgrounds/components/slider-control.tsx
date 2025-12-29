@@ -24,7 +24,7 @@ export function SliderControl({
     return (
         <div>
             <div className="flex items-center justify-between mb-2">
-                <label className="text-sm font-medium text-[var(--foreground-muted)]">
+                <label htmlFor={`slider-${label}`} className="text-sm font-medium text-[var(--foreground-muted)]">
                     {label}
                 </label>
                 <span className="text-sm font-mono text-[var(--foreground)]">
@@ -34,6 +34,7 @@ export function SliderControl({
 
             <div className="relative">
                 <input
+                    id={`slider-${label}`}
                     type="range"
                     min={min}
                     max={max}

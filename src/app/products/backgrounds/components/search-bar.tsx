@@ -50,6 +50,7 @@ export function SearchBar({ onSearch, placeholder = "Search backgrounds..." }: S
 
             {query && (
                 <button
+                    aria-label="Clear search"
                     onClick={handleClear}
                     className="absolute right-3 p-1 rounded-md hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
                 >

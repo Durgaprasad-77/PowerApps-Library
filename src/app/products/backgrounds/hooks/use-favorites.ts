@@ -13,11 +13,13 @@ export function useFavorites() {
         try {
             const stored = localStorage.getItem(FAVORITES_KEY);
             if (stored) {
+                // eslint-disable-next-line react-hooks/set-state-in-effect -- Intentional: syncing with localStorage on mount
                 setFavorites(JSON.parse(stored));
             }
         } catch (error) {
             console.error("Failed to load favorites:", error);
         }
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- Intentional: syncing with localStorage on mount
         setIsLoaded(true);
     }, []);
 

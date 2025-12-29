@@ -1,16 +1,29 @@
 import { createClient } from '@/lib/supabase/server';
 import { BackgroundPattern } from '@/app/products/backgrounds/data';
 
+// Database row type (snake_case from Supabase)
+interface BackgroundRow {
+    id: string;
+    name: string;
+    category: string;
+    subcategory: string;
+    description: string;
+    svg_template: string;
+    image_position: string;
+    tags: string[];
+    created_at?: string;
+}
+
 // Map DB snake_case to camelCase
-function mapBackground(bg: any): BackgroundPattern {
+function mapBackground(bg: BackgroundRow): BackgroundPattern {
     return {
         id: bg.id,
         name: bg.name,
-        category: bg.category,
+        category: bg.category as BackgroundPattern['category'],
         subcategory: bg.subcategory,
         description: bg.description,
         svgTemplate: bg.svg_template,
-        imagePosition: bg.image_position,
+        imagePosition: bg.image_position as BackgroundPattern['imagePosition'],
         tags: bg.tags,
     };
 }

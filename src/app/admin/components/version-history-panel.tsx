@@ -137,6 +137,7 @@ export function VersionHistoryPanel({ componentId }: VersionHistoryPanelProps) {
                                     <div className="flex items-center justify-between">
                                         <span className="text-sm font-medium text-white">Save Version</span>
                                         <button
+                                            aria-label="Close save dialog"
                                             onClick={() => setShowSaveDialog(false)}
                                             className="text-[#6b6b6b] hover:text-white"
                                         >

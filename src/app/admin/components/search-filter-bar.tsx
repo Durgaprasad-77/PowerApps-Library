@@ -68,6 +68,7 @@ export function SearchFilterBar({
                     />
                     {query && (
                         <button
+                            aria-label="Clear search"
                             onClick={() => setQuery("")}
                             className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6b6b6b] hover:text-white"
                         >
@@ -80,8 +81,8 @@ export function SearchFilterBar({
                 <button
                     onClick={() => setShowFilters(!showFilters)}
                     className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border transition-colors ${hasActiveFilters
-                            ? "bg-blue-600 border-blue-500 text-white"
-                            : "bg-[#111] border-[#262626] text-[#a1a1a1] hover:text-white hover:border-[#333]"
+                        ? "bg-blue-600 border-blue-500 text-white"
+                        : "bg-[#111] border-[#262626] text-[#a1a1a1] hover:text-white hover:border-[#333]"
                         }`}
                 >
                     <Filter className="w-4 h-4" />
@@ -108,8 +109,9 @@ export function SearchFilterBar({
                         <div className="flex flex-wrap items-center gap-3 p-4 bg-[#0a0a0a] border border-[#262626] rounded-lg">
                             {/* Category Filter */}
                             <div className="flex items-center gap-2">
-                                <label className="text-sm text-[#6b6b6b]">Category:</label>
+                                <label htmlFor="filter-category" className="text-sm text-[#6b6b6b]">Category:</label>
                                 <select
+                                    id="filter-category"
                                     value={filters.category || ""}
                                     onChange={(e) => handleFilterChange({ category: e.target.value || null })}
                                     className="px-3 py-1.5 bg-[#111] border border-[#262626] rounded-md text-white text-sm focus:outline-none focus:border-blue-500"
@@ -125,8 +127,9 @@ export function SearchFilterBar({
 
                             {/* Status Filter */}
                             <div className="flex items-center gap-2">
-                                <label className="text-sm text-[#6b6b6b]">Status:</label>
+                                <label htmlFor="filter-status" className="text-sm text-[#6b6b6b]">Status:</label>
                                 <select
+                                    id="filter-status"
                                     value={filters.status}
                                     onChange={(e) => handleFilterChange({ status: e.target.value as FilterState["status"] })}
                                     className="px-3 py-1.5 bg-[#111] border border-[#262626] rounded-md text-white text-sm focus:outline-none focus:border-blue-500"

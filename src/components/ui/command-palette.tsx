@@ -62,6 +62,7 @@ export function CommandPalette({
                                     className="flex h-14 w-full bg-transparent text-base text-white placeholder:text-[#6b6b6b] focus:outline-none"
                                 />
                                 <button
+                                    aria-label="Close command palette"
                                     onClick={onClose}
                                     className="ml-2 rounded-md p-1.5 text-[#6b6b6b] hover:bg-[#262626] hover:text-white transition-colors"
                                 >

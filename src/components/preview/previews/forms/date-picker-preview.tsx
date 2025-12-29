@@ -146,6 +146,7 @@ export function DatePickerPreview({ settings }: DatePickerPreviewProps) {
                 <div className="datepicker-dropdown">
                     <div className="calendar-header">
                         <button
+                            aria-label="Previous month"
                             className="calendar-nav"
                             onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
                         >
@@ -155,6 +156,7 @@ export function DatePickerPreview({ settings }: DatePickerPreviewProps) {
                             {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                         </span>
                         <button
+                            aria-label="Next month"
                             className="calendar-nav"
                             onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
                         >
