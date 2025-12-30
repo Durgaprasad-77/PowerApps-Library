@@ -1,6 +1,7 @@
 import { signIn, signInWithGoogle, signInWithGitHub } from "./actions";
 import Link from "next/link";
 import { ShieldCheck, Mail, Lock, ArrowRight } from "lucide-react";
+import { ShineBorder } from "@/components/ui/shine-border";
 
 export default async function LoginPage({
     searchParams,
@@ -17,9 +18,10 @@ export default async function LoginPage({
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)]" />
             </div>
 
-            {/* Card */}
-            <div className="relative z-10 w-full max-w-md p-8 mx-4">
-                <div className="absolute inset-0 bg-neutral-950 backdrop-blur-xl rounded-2xl border border-neutral-800" />
+            {/* Card with Shine Border */}
+            <div className="relative z-10 w-full max-w-md p-8 mx-4 overflow-hidden rounded-2xl">
+                <ShineBorder shineColor={["#A07CFE", "#FE8FB5", "#FFBE7B"]} borderWidth={2} duration={10} />
+                <div className="absolute inset-0 bg-neutral-950 backdrop-blur-xl rounded-2xl" />
 
                 <div className="relative z-20 space-y-6">
                     {/* Header */}
