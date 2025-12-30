@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { GradientOrb } from "@/components/ui/motion";
+import { Button } from "@/components/ui/button";
 
 export function CTASection() {
     return (
@@ -25,38 +26,36 @@ export function CTASection() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
                 >
-                    {/* Icon */}
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 mb-8">
-                        <Sparkles className="w-8 h-8 text-white" />
+                    // Icon
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-8 ring-1 ring-border">
+                        <Sparkles className="w-8 h-8 text-primary" />
                     </div>
 
                     {/* Headline */}
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6">
                         Ready to Build{" "}
                         <span className="text-gradient-blue">Beautiful Apps</span>?
                     </h2>
 
                     {/* Subheadline */}
-                    <p className="text-gray-500 dark:text-[#6b6b6b] text-lg mb-10 max-w-xl mx-auto">
+                    <p className="text-muted-foreground text-lg mb-10 max-w-xl mx-auto">
                         Start with our free components and experience the difference.
                         No signup required.
                     </p>
 
                     {/* CTAs */}
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link
-                            href="/library"
-                            className="btn-gradient text-lg px-8 py-4 inline-flex items-center justify-center gap-2 group"
-                        >
-                            Browse Free Components
-                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                        </Link>
-                        <Link
-                            href="/pricing"
-                            className="px-8 py-4 inline-flex items-center justify-center gap-2 rounded-xl bg-gray-100 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#333] text-gray-900 dark:text-white font-medium hover:bg-gray-200 dark:hover:bg-[#262626] transition-colors text-lg"
-                        >
-                            View Pricing
-                        </Link>
+                        <Button asChild size="lg" className="text-lg h-14 px-8">
+                            <Link href="/library" className="group">
+                                Browse Free Components
+                                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                        </Button>
+                        <Button asChild variant="outline" size="lg" className="text-lg h-14 px-8 bg-background border-border hover:bg-muted">
+                            <Link href="/pricing">
+                                View Pricing
+                            </Link>
+                        </Button>
                     </div>
                 </motion.div>
             </div>

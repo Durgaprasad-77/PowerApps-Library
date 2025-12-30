@@ -2,11 +2,28 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useRef, useEffect } from "react";
-import { Menu, X, ChevronDown, Layers, Palette, Wand2, PaintBucket, Sparkles, LayoutTemplate, FileCode, Zap, ArrowRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Menu, Layers, Palette, Wand2, PaintBucket, Sparkles, LayoutTemplate, FileCode, Zap } from "lucide-react";
 import { AuthButtons } from "./auth-buttons";
 import { ThemeToggle } from "@/components/theme";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+    NavigationMenu,
+    NavigationMenuContent,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    NavigationMenuTrigger,
+    navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import {
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 // Core Features - Main products
 const coreFeatures = [
@@ -59,256 +76,238 @@ const moreProducts = [
 ];
 
 export function Navbar() {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isProductsOpen, setIsProductsOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
+    const [scrolled, setScrolled] = useState(false);
+    const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-    // Close dropdown when clicking outside
     useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setIsProductsOpen(false);
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 20);
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
     return (
-        <nav className="sticky top-0 z-50 bg-[var(--background)]/80 backdrop-blur-xl border-b border-[var(--border)]">
+        <header
+            className={cn(
+                "fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out border-b border-white/[0.08]",
+                scrolled
+                    ? "bg-[#0B0C0E]/80 backdrop-blur-xl supports-[backdrop-filter]:bg-[#0B0C0E]/60"
+                    : "bg-transparent border-transparent"
+            )}
+        >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-16">
+                <div className="flex h-16 items-center justify-between">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center gap-2">
-                        <Image
-                            src="/logo.png"
-                            alt="PowerUI Logo"
-                            width={32}
-                            height={32}
-                            className="rounded-lg"
-                        />
-                        <span className="font-semibold text-lg text-[var(--foreground)] tracking-tight">
+                    <Link href="/" className="flex items-center gap-2 group">
+                        <div className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-purple-500/20 transition-transform group-hover:scale-110">
+                            <Zap className="h-5 w-5 text-white" />
+                        </div>
+                        <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70">
                             PowerUI
                         </span>
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center gap-8">
-                        {/* Products Dropdown */}
-                        <div className="relative" ref={dropdownRef}>
-                            <button
-                                onClick={() => setIsProductsOpen(!isProductsOpen)}
-                                className={`flex items-center gap-1 px-3 py-1.5 rounded-full font-medium transition-all ${isProductsOpen
-                                        ? 'bg-[var(--accent)] text-[var(--foreground)]'
-                                        : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)]'
-                                    }`}
-                            >
-                                Products
-                                <ChevronDown className={`w-4 h-4 transition-transform ${isProductsOpen ? 'rotate-180' : ''}`} />
-                            </button>
-
-                            <AnimatePresence>
-                                {isProductsOpen && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                        transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-                                        className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[640px] bg-[var(--background)] border border-[var(--border)] rounded-xl shadow-2xl overflow-hidden"
-                                    >
-                                        {/* Arrow indicator */}
-                                        <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-[var(--background)] border-l border-t border-[var(--border)] rotate-45" />
-
-                                        <div className="relative bg-[var(--background)] p-6">
+                    <nav className="hidden md:flex items-center gap-1">
+                        <NavigationMenu>
+                            <NavigationMenuList className="gap-1">
+                                <NavigationMenuItem>
+                                    <NavigationMenuTrigger className="bg-transparent hover:bg-white/5 text-muted-foreground hover:text-foreground transition-colors data-[state=open]:bg-white/5">
+                                        Features
+                                    </NavigationMenuTrigger>
+                                    <NavigationMenuContent>
+                                        <div className="w-[600px] p-6 bg-[#0B0C0E] border border-white/10 rounded-xl shadow-2xl">
                                             <div className="flex gap-8">
                                                 {/* Core Features Column */}
                                                 <div className="flex-1">
-                                                    <h3 className="text-xs font-semibold text-[var(--foreground-muted)] uppercase tracking-wider mb-4">
+                                                    <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-4">
                                                         Core Features
                                                     </h3>
                                                     <div className="space-y-1">
                                                         {coreFeatures.map((item) => (
-                                                            <Link
-                                                                key={item.name}
-                                                                href={item.href}
-                                                                onClick={() => setIsProductsOpen(false)}
-                                                                className="group flex items-start gap-3 p-3 rounded-lg hover:bg-[var(--accent)] transition-colors"
-                                                            >
-                                                                <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center group-hover:from-purple-500/30 group-hover:to-blue-500/30 transition-colors">
-                                                                    <item.icon className="w-5 h-5 text-purple-400" />
-                                                                </div>
-                                                                <div>
-                                                                    <div className="font-medium text-[var(--foreground)] group-hover:text-purple-400 transition-colors">
-                                                                        {item.name}
+                                                            <NavigationMenuLink key={item.name} asChild>
+                                                                <Link
+                                                                    href={item.href}
+                                                                    className="group flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors block select-none space-y-1 leading-none no-underline outline-none"
+                                                                >
+                                                                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center group-hover:bg-indigo-500/20 transition-colors">
+                                                                        <item.icon className="w-5 h-5 text-indigo-400" />
                                                                     </div>
-                                                                    <div className="text-sm text-[var(--foreground-muted)]">
-                                                                        {item.description}
+                                                                    <div>
+                                                                        <div className="font-medium text-foreground group-hover:text-indigo-400 transition-colors">
+                                                                            {item.name}
+                                                                        </div>
+                                                                        <div className="text-sm text-muted-foreground line-clamp-2 mt-1">
+                                                                            {item.description}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </Link>
+                                                                </Link>
+                                                            </NavigationMenuLink>
                                                         ))}
                                                     </div>
                                                 </div>
 
                                                 {/* Divider */}
-                                                <div className="w-px bg-[var(--border)]" />
+                                                <div className="w-px bg-white/10 my-2" />
 
                                                 {/* More Column */}
                                                 <div className="flex-[1.5]">
-                                                    <h3 className="text-xs font-semibold text-[var(--foreground-muted)] uppercase tracking-wider mb-4">
+                                                    <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-4">
                                                         More
                                                     </h3>
                                                     <div className="grid grid-cols-2 gap-1">
                                                         {moreProducts.map((item) => (
-                                                            <Link
-                                                                key={item.name}
-                                                                href={item.href}
-                                                                onClick={() => setIsProductsOpen(false)}
-                                                                className="group flex items-center gap-3 p-3 rounded-lg hover:bg-[var(--accent)] transition-colors"
-                                                            >
-                                                                <item.icon className="w-4 h-4 text-[var(--foreground-muted)] group-hover:text-[var(--foreground)] transition-colors" />
-                                                                <div>
-                                                                    <div className="font-medium text-[var(--foreground)] text-sm">
+                                                            <NavigationMenuLink key={item.name} asChild>
+                                                                <Link
+                                                                    href={item.href}
+                                                                    className="group flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors block select-none space-y-1 leading-none no-underline outline-none"
+                                                                >
+                                                                    <item.icon className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                                                                    <div className="font-medium text-foreground text-sm">
                                                                         {item.name}
                                                                     </div>
-                                                                    <div className="text-xs text-[var(--foreground-muted)]">
-                                                                        {item.description}
-                                                                    </div>
-                                                                </div>
-                                                            </Link>
+                                                                </Link>
+                                                            </NavigationMenuLink>
                                                         ))}
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        {/* Footer */}
-                                        <div className="flex items-center justify-between px-6 py-4 bg-[var(--accent)]/50 border-t border-[var(--border)]">
-                                            <div className="flex items-center gap-3">
-                                                <div className="flex items-center gap-2">
-                                                    <Zap className="w-4 h-4 text-purple-400" />
-                                                    <span className="text-sm font-medium text-[var(--foreground)]">
-                                                        New: Animated Icons
-                                                    </span>
+                                            {/* Footer */}
+                                            <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+                                                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                                    <Sparkles className="w-4 h-4 text-indigo-400" />
+                                                    <span>New: Animated backgrounds available</span>
                                                 </div>
-                                                <span className="text-sm text-[var(--foreground-muted)]">
-                                                    SVG animations for Power Apps
-                                                </span>
                                             </div>
+                                        </div>
+                                    </NavigationMenuContent>
+                                </NavigationMenuItem>
+                                <NavigationMenuItem>
+                                    <NavigationMenuLink asChild>
+                                        <Link href="/pricing" className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-white/5 text-muted-foreground hover:text-foreground")}>
+                                            Pricing
+                                        </Link>
+                                    </NavigationMenuLink>
+                                </NavigationMenuItem>
+                                <NavigationMenuItem>
+                                    <NavigationMenuLink asChild>
+                                        <Link href="/docs" className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-white/5 text-muted-foreground hover:text-foreground")}>
+                                            Docs
+                                        </Link>
+                                    </NavigationMenuLink>
+                                </NavigationMenuItem>
+                            </NavigationMenuList>
+                        </NavigationMenu>
+                    </nav>
+
+                    {/* Auth Buttons */}
+                    <div className="hidden md:flex items-center gap-4">
+                        <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                            Log in
+                        </Link>
+                        <Link href="/signup">
+                            <Button size="sm" className="bg-[#5E6AD2] hover:bg-[#4e5ac0] text-white shadow-lg shadow-indigo-500/20 rounded-full px-6 transition-all hover:shadow-indigo-500/30 font-medium tracking-wide">
+                                Get Started
+                            </Button>
+                        </Link>
+                    </div>
+
+                    {/* Mobile Menu */}
+                    <div className="md:hidden flex items-center gap-4">
+                        <ThemeToggle />
+                        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+                            <SheetTrigger asChild>
+                                <Button variant="ghost" size="icon" className="md:hidden hover:bg-white/5">
+                                    <Menu className="h-6 w-6" />
+                                    <span className="sr-only">Toggle menu</span>
+                                </Button>
+                            </SheetTrigger>
+                            <SheetContent side="right" className="w-[300px] sm:w-[400px] border-l border-white/10 bg-[#0B0C0E]/95 backdrop-blur-xl p-0">
+                                <div className="flex flex-col h-full bg-[#0B0C0E]">
+                                    <SheetHeader className="p-6 border-b border-white/10">
+                                        <SheetTitle className="text-left flex items-center gap-2">
+                                            <div className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600">
+                                                <Zap className="h-5 w-5 text-white" />
+                                            </div>
+                                            <span className="font-bold">PowerUI</span>
+                                        </SheetTitle>
+                                    </SheetHeader>
+
+                                    <div className="flex-1 overflow-y-auto py-6 px-4">
+                                        <div className="flex flex-col gap-1">
+                                            <div className="px-2 pb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                                                Features
+                                            </div>
+                                            {coreFeatures.map((item) => (
+                                                <Link
+                                                    key={item.name}
+                                                    href={item.href}
+                                                    onClick={() => setIsSheetOpen(false)}
+                                                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors"
+                                                >
+                                                    <item.icon className="w-5 h-5 text-indigo-400" />
+                                                    <div className="font-medium">{item.name}</div>
+                                                </Link>
+                                            ))}
+
+                                            <div className="h-px bg-white/10 my-4 mx-2" />
+
+                                            <div className="px-2 pb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                                                Products
+                                            </div>
+                                            {moreProducts.map((item) => (
+                                                <Link
+                                                    key={item.name}
+                                                    href={item.href}
+                                                    onClick={() => setIsSheetOpen(false)}
+                                                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors"
+                                                >
+                                                    <item.icon className="w-5 h-5 text-muted-foreground" />
+                                                    <div className="font-medium text-foreground">{item.name}</div>
+                                                </Link>
+                                            ))}
+
+                                            <div className="h-px bg-white/10 my-4 mx-2" />
+
                                             <Link
-                                                href="/changelog"
-                                                onClick={() => setIsProductsOpen(false)}
-                                                className="flex items-center gap-1 text-sm font-medium text-purple-400 hover:text-purple-300 transition-colors"
+                                                href="/pricing"
+                                                onClick={() => setIsSheetOpen(false)}
+                                                className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors font-medium"
                                             >
-                                                Changelog
-                                                <ArrowRight className="w-3 h-3" />
+                                                Pricing
+                                            </Link>
+                                            <Link
+                                                href="/docs"
+                                                onClick={() => setIsSheetOpen(false)}
+                                                className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors font-medium"
+                                            >
+                                                Documentation
                                             </Link>
                                         </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
+                                    </div>
 
-                        <Link
-                            href="/pricing"
-                            className="text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-medium transition-colors"
-                        >
-                            Pricing
-                        </Link>
-                        <Link
-                            href="/docs"
-                            className="text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-medium transition-colors"
-                        >
-                            Docs
-                        </Link>
-                    </div>
-
-                    {/* Actions */}
-                    <div className="hidden md:flex items-center gap-3">
-                        <ThemeToggle />
-                        <AuthButtons />
-                    </div>
-
-                    {/* Mobile Menu Button */}
-                    <div className="md:hidden flex items-center gap-3">
-                        <ThemeToggle />
-                        <button
-                            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                            className="p-2"
-                            onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        >
-                            {isMenuOpen ? (
-                                <X className="w-6 h-6 text-[var(--foreground)]" />
-                            ) : (
-                                <Menu className="w-6 h-6 text-[var(--foreground)]" />
-                            )}
-                        </button>
+                                    <div className="p-6 border-t border-white/10 bg-white/[0.02]">
+                                        <div className="flex flex-col gap-3">
+                                            <Link href="/login" onClick={() => setIsSheetOpen(false)}>
+                                                <Button variant="outline" className="w-full justify-center border-white/10 hover:bg-white/5">
+                                                    Log in
+                                                </Button>
+                                            </Link>
+                                            <Link href="/signup" onClick={() => setIsSheetOpen(false)}>
+                                                <Button className="w-full justify-center bg-[#5E6AD2] hover:bg-[#4e5ac0] text-white">
+                                                    Get Started
+                                                </Button>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </SheetContent>
+                        </Sheet>
                     </div>
                 </div>
-
-                {/* Mobile Menu */}
-                {isMenuOpen && (
-                    <div className="md:hidden py-4 border-t border-[var(--border)] animate-fade-in">
-                        <div className="flex flex-col gap-4">
-                            {/* Mobile Products Section */}
-                            <div className="space-y-2">
-                                <div className="text-xs font-semibold text-[var(--foreground-muted)] uppercase tracking-wider px-1">
-                                    Core Features
-                                </div>
-                                {coreFeatures.map((product) => (
-                                    <Link
-                                        key={product.name}
-                                        href={product.href}
-                                        className="flex items-center gap-3 p-2 text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-medium text-sm"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        <product.icon className="w-4 h-4" />
-                                        {product.name}
-                                    </Link>
-                                ))}
-                            </div>
-
-                            <div className="space-y-2">
-                                <div className="text-xs font-semibold text-[var(--foreground-muted)] uppercase tracking-wider px-1">
-                                    More
-                                </div>
-                                {moreProducts.map((product) => (
-                                    <Link
-                                        key={product.name}
-                                        href={product.href}
-                                        className="flex items-center gap-3 p-2 text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-medium text-sm"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        <product.icon className="w-4 h-4" />
-                                        {product.name}
-                                    </Link>
-                                ))}
-                            </div>
-
-                            <div className="border-t border-[var(--border)] pt-4 space-y-4">
-                                <Link
-                                    href="/pricing"
-                                    className="block text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-medium"
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    Pricing
-                                </Link>
-                                <Link
-                                    href="/docs"
-                                    className="block text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-medium"
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    Docs
-                                </Link>
-                            </div>
-
-                            <div className="pt-4 border-t border-[var(--border)]">
-                                <AuthButtons />
-                            </div>
-                        </div>
-                    </div>
-                )}
             </div>
-        </nav>
+        </header>
     );
 }

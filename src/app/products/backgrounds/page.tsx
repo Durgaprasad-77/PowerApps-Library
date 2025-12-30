@@ -15,7 +15,7 @@ export default async function BackgroundsPage() {
     const backgrounds = await getBackgrounds();
 
     return (
-        <div className="min-h-screen bg-white dark:bg-black">
+        <div className="min-h-screen pt-20 bg-white dark:bg-black">
             {/* Hero Section */}
             <section className="relative py-16 px-4 overflow-hidden">
                 {/* Background Pattern */}

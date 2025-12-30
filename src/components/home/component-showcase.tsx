@@ -36,10 +36,10 @@ const componentPreviews: ComponentPreview[] = [
         description: "Card with lift effect on hover",
         preview: (
             <div className="flex items-center justify-center h-full p-4">
-                <div className="w-48 p-4 rounded-xl bg-gray-100 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#333] hover:border-gray-300 dark:hover:border-[#444] hover:-translate-y-1 transition-all">
+                <div className="w-48 p-4 rounded-xl bg-card border border-border hover:border-border/80 hover:-translate-y-1 transition-all shadow-sm">
                     <div className="w-full h-20 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 mb-3" />
-                    <div className="h-3 w-3/4 rounded bg-gray-300 dark:bg-[#333] mb-2" />
-                    <div className="h-2 w-1/2 rounded bg-gray-200 dark:bg-[#262626]" />
+                    <div className="h-3 w-3/4 rounded bg-muted mb-2" />
+                    <div className="h-2 w-1/2 rounded bg-muted/50" />
                 </div>
             </div>
         ),
@@ -51,10 +51,10 @@ const componentPreviews: ComponentPreview[] = [
         description: "Animated toggle switch component",
         preview: (
             <div className="flex items-center justify-center h-full gap-4">
-                <div className="w-12 h-6 rounded-full bg-gray-300 dark:bg-[#333] relative cursor-pointer">
-                    <div className="absolute top-1 left-1 w-4 h-4 rounded-full bg-white" />
+                <div className="w-12 h-6 rounded-full bg-muted relative cursor-pointer">
+                    <div className="absolute top-1 left-1 w-4 h-4 rounded-full bg-background" />
                 </div>
-                <div className="w-12 h-6 rounded-full bg-blue-500 relative cursor-pointer">
+                <div className="w-12 h-6 rounded-full bg-primary relative cursor-pointer">
                     <div className="absolute top-1 right-1 w-4 h-4 rounded-full bg-white" />
                 </div>
             </div>
@@ -67,14 +67,14 @@ const componentPreviews: ComponentPreview[] = [
         description: "Pill-style navigation tabs",
         preview: (
             <div className="flex items-center justify-center h-full">
-                <div className="flex gap-1 p-1 rounded-lg bg-gray-100 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#262626]">
-                    <button className="px-4 py-2 rounded-md bg-blue-600 dark:bg-white text-white dark:text-black text-sm font-medium">
+                <div className="flex gap-1 p-1 rounded-lg bg-muted border border-border">
+                    <button className="px-4 py-2 rounded-md bg-background text-foreground text-sm font-medium shadow-sm">
                         Tab 1
                     </button>
-                    <button className="px-4 py-2 rounded-md text-gray-500 dark:text-[#a1a1a1] text-sm font-medium hover:text-gray-900 dark:hover:text-white transition-colors">
+                    <button className="px-4 py-2 rounded-md text-muted-foreground text-sm font-medium hover:text-foreground transition-colors">
                         Tab 2
                     </button>
-                    <button className="px-4 py-2 rounded-md text-gray-500 dark:text-[#a1a1a1] text-sm font-medium hover:text-gray-900 dark:hover:text-white transition-colors">
+                    <button className="px-4 py-2 rounded-md text-muted-foreground text-sm font-medium hover:text-foreground transition-colors">
                         Tab 3
                     </button>
                 </div>
@@ -104,7 +104,7 @@ export function ComponentShowcase() {
     };
 
     return (
-        <section className="py-24 border-t border-gray-200 dark:border-[#1a1a1a]">
+        <section className="py-24 border-t border-border">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Section Header */}
                 <motion.div
@@ -115,16 +115,16 @@ export function ComponentShowcase() {
                     className="flex flex-col md:flex-row md:items-end md:justify-between mb-12"
                 >
                     <div>
-                        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                        <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
                             Beautiful Components
                         </h2>
-                        <p className="text-gray-500 dark:text-[#6b6b6b] max-w-lg">
+                        <p className="text-muted-foreground max-w-lg">
                             Preview our components and copy the code with one click.
                         </p>
                     </div>
                     <Link
                         href="/library"
-                        className="hidden md:inline-flex items-center gap-2 text-gray-900 dark:text-white text-sm font-medium hover:text-gray-600 dark:hover:text-[#a1a1a1] transition-colors mt-4 md:mt-0"
+                        className="hidden md:inline-flex items-center gap-2 text-foreground text-sm font-medium hover:text-primary transition-colors mt-4 md:mt-0"
                     >
                         View All Components
                         <ArrowRight className="w-4 h-4" />
@@ -140,22 +140,22 @@ export function ComponentShowcase() {
                     className="grid lg:grid-cols-2 gap-8"
                 >
                     {/* Preview Panel */}
-                    <div className="relative rounded-2xl bg-white dark:bg-[#111] border border-gray-200 dark:border-[#262626] overflow-hidden">
+                    <div className="relative rounded-2xl bg-card border border-border overflow-hidden">
                         {/* Header Bar */}
-                        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-[#262626]">
+                        <div className="flex items-center justify-between px-4 py-3 border-b border-border">
                             <div className="flex items-center gap-2">
                                 <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
                                 <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
                                 <div className="w-3 h-3 rounded-full bg-[#28c840]" />
                             </div>
                             <div className="flex items-center gap-2">
-                                <Eye className="w-4 h-4 text-gray-400 dark:text-[#6b6b6b]" />
-                                <span className="text-xs text-gray-400 dark:text-[#6b6b6b]">Preview</span>
+                                <Eye className="w-4 h-4 text-muted-foreground" />
+                                <span className="text-xs text-muted-foreground">Preview</span>
                             </div>
                         </div>
 
                         {/* Preview Content */}
-                        <div className="h-64 relative bg-gray-50 dark:bg-[#0a0a0a]">
+                        <div className="h-64 relative bg-muted/30">
                             <AnimatePresence mode="wait">
                                 <motion.div
                                     key={activeIndex}
@@ -171,14 +171,14 @@ export function ComponentShowcase() {
                         </div>
 
                         {/* Footer */}
-                        <div className="px-4 py-3 border-t border-gray-200 dark:border-[#262626] flex items-center justify-between">
+                        <div className="px-4 py-3 border-t border-border flex items-center justify-between">
                             <div>
-                                <span className="text-xs text-gray-400 dark:text-[#6b6b6b]">{activeComponent.category}</span>
-                                <h3 className="text-sm font-medium text-gray-900 dark:text-white">{activeComponent.name}</h3>
+                                <span className="text-xs text-muted-foreground">{activeComponent.category}</span>
+                                <h3 className="text-sm font-medium text-foreground">{activeComponent.name}</h3>
                             </div>
                             <button
                                 onClick={handleCopy}
-                                className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-blue-600 dark:bg-white text-white dark:text-black text-sm font-medium hover:bg-blue-700 dark:hover:bg-white/90 transition-colors"
+                                className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity"
                             >
                                 {copied ? (
                                     <>
@@ -204,35 +204,35 @@ export function ComponentShowcase() {
                                 className={`
                                     w-full text-left p-4 rounded-xl border transition-all duration-300
                                     ${activeIndex === index
-                                        ? "bg-gray-100 dark:bg-[#1a1a1a] border-gray-300 dark:border-[#333]"
-                                        : "bg-transparent border-gray-200 dark:border-[#1a1a1a] hover:border-gray-300 dark:hover:border-[#262626]"
+                                        ? "bg-muted border-primary/50"
+                                        : "bg-transparent border-border hover:border-border/80"
                                     }
                                 `}
                                 whileHover={{ x: 4 }}
                             >
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <span className="text-xs text-gray-400 dark:text-[#6b6b6b]">{component.category}</span>
-                                        <h3 className="text-sm font-medium text-gray-900 dark:text-white">{component.name}</h3>
-                                        <p className="text-xs text-gray-400 dark:text-[#6b6b6b] mt-1">{component.description}</p>
+                                        <span className="text-xs text-muted-foreground">{component.category}</span>
+                                        <h3 className="text-sm font-medium text-foreground">{component.name}</h3>
+                                        <p className="text-xs text-muted-foreground mt-1">{component.description}</p>
                                     </div>
                                     <div className={`
                                         w-8 h-8 rounded-lg flex items-center justify-center transition-colors
-                                        ${activeIndex === index ? "bg-blue-600 dark:bg-white" : "bg-gray-200 dark:bg-[#262626]"}
+                                        ${activeIndex === index ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}
                                     `}>
-                                        <ArrowRight className={`w-4 h-4 ${activeIndex === index ? "text-white dark:text-black" : "text-gray-400 dark:text-[#6b6b6b]"}`} />
+                                        <ArrowRight className="w-4 h-4" />
                                     </div>
                                 </div>
 
                                 {/* Progress bar for active item */}
                                 {activeIndex === index && (
                                     <motion.div
-                                        className="mt-3 h-1 rounded-full bg-gray-200 dark:bg-[#262626] overflow-hidden"
+                                        className="mt-3 h-1 rounded-full bg-muted overflow-hidden"
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                     >
                                         <motion.div
-                                            className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
+                                            className="h-full bg-primary"
                                             initial={{ width: "0%" }}
                                             animate={{ width: "100%" }}
                                             transition={{ duration: 4, ease: "linear" }}

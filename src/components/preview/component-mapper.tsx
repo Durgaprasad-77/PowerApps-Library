@@ -13,7 +13,8 @@ import {
     ClassicButtonPreview,
     OutlineButtonPreview,
     LoadingButtonPreview,
-    IconButtonPreview
+    IconButtonPreview,
+    RippleButtonPreview
 } from './previews/buttons';
 import { ToastPreview, SpinnerPreview, SimpleBadgePreview, OutlineBadgePreview, IconBadgePreview, CounterBadgePreview, StatusDotPreview, PulsingBadgePreview, DismissibleChipPreview, AvatarStatusPreview, GradientBadgePreview, ProgressBarPreview } from './previews/feedback';
 import {
@@ -54,7 +55,7 @@ import {
     DashboardLayoutPreview
 } from './previews/shells';
 import { DataTablePreview } from './previews/data';
-import { ModernIconPreview } from './previews/display';
+import { ModernIconPreview, AuroraTextPreview } from './previews/display';
 import { AppHeaderPreview } from './previews/layout';
 
 // Preview component type
@@ -73,6 +74,7 @@ const fullPreviewRegistry: Record<string, PreviewComponent> = {
     'outline-button': OutlineButtonPreview,
     'loading-button': LoadingButtonPreview,
     'icon-button': IconButtonPreview,
+    'ripple-button': RippleButtonPreview,
 
     // Feedback
     'toast-notification': ToastPreview,
@@ -127,6 +129,7 @@ const fullPreviewRegistry: Record<string, PreviewComponent> = {
 
     // Display
     'modern-icon': ModernIconPreview,
+    'aurora-text': AuroraTextPreview,
 
     // Layout
     'app-header': AppHeaderPreview,

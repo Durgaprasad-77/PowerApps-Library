@@ -3,9 +3,17 @@
 import { useEffect, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import Link from "next/link";
-import Image from "next/image";
 import { LogOut, Settings, Shield, ChevronDown } from "lucide-react";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export function AuthButtons() {
     const [user, setUser] = useState<SupabaseUser | null>(null);
@@ -71,77 +79,47 @@ export function AuthButtons() {
     const initials = name.charAt(0).toUpperCase();
 
     return (
-        <div className="relative">
-            <button
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center gap-2 p-1 rounded-full hover:bg-white/5 transition-colors"
-            >
-                {avatarUrl ? (
-                    <Image
-                        src={avatarUrl}
-                        alt={name}
-                        width={32}
-                        height={32}
-                        className="w-8 h-8 rounded-full object-cover border border-white/10"
-                        unoptimized
-                    />
-                ) : (
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-semibold">
-                        {initials}
-                    </div>
-                )}
-                <ChevronDown className={`w-4 h-4 text-[#a1a1a1] transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
-            </button>
+        <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+            <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-2 p-1 rounded-full hover:bg-muted transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                    <Avatar className="h-8 w-8 border border-border">
+                        <AvatarImage src={avatarUrl} alt={name} />
+                        <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xs font-semibold">
+                            {initials}
+                        </AvatarFallback>
+                    </Avatar>
+                    <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+            </DropdownMenuTrigger>
 
-            {dropdownOpen && (
-                <>
-                    {/* Backdrop */}
-                    <div
-                        className="fixed inset-0 z-40"
-                        onClick={() => setDropdownOpen(false)}
-                    />
+            <DropdownMenuContent align="end" className="w-56">
+                <div className="px-2 py-1.5 border-b mb-1">
+                    <p className="text-sm font-medium leading-none truncate">{name}</p>
+                    <p className="text-xs text-muted-foreground truncate mt-1">{user.email}</p>
+                </div>
 
-                    {/* Dropdown */}
-                    <div className="absolute right-0 mt-2 w-56 rounded-lg bg-[#1a1a1a] border border-[#333] shadow-xl z-50 animate-fade-in overflow-hidden">
-                        {/* User info */}
-                        <div className="px-4 py-3 border-b border-[#333]">
-                            <p className="text-sm font-medium text-white truncate">{name}</p>
-                            <p className="text-xs text-[#a1a1a1] truncate">{user.email}</p>
-                        </div>
+                <DropdownMenuGroup>
+                    <DropdownMenuItem asChild>
+                        <Link href="/admin" className="cursor-pointer w-full">
+                            <Shield className="mr-2 h-4 w-4" />
+                            Admin Dashboard
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                        <Link href="/admin/security" className="cursor-pointer w-full">
+                            <Settings className="mr-2 h-4 w-4" />
+                            Security Settings
+                        </Link>
+                    </DropdownMenuItem>
+                </DropdownMenuGroup>
 
-                        {/* Menu items */}
-                        <div className="py-1">
-                            <Link
-                                href="/admin"
-                                className="flex items-center gap-3 px-4 py-2 text-sm text-[#a1a1a1] hover:text-white hover:bg-white/5 transition-colors"
-                                onClick={() => setDropdownOpen(false)}
-                            >
-                                <Shield className="w-4 h-4" />
-                                Admin Dashboard
-                            </Link>
-                            <Link
-                                href="/admin/security"
-                                className="flex items-center gap-3 px-4 py-2 text-sm text-[#a1a1a1] hover:text-white hover:bg-white/5 transition-colors"
-                                onClick={() => setDropdownOpen(false)}
-                            >
-                                <Settings className="w-4 h-4" />
-                                Security Settings
-                            </Link>
-                        </div>
+                <DropdownMenuSeparator />
 
-                        {/* Logout */}
-                        <div className="border-t border-[#333] py-1">
-                            <button
-                                onClick={handleLogout}
-                                className="flex items-center gap-3 w-full px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-white/5 transition-colors"
-                            >
-                                <LogOut className="w-4 h-4" />
-                                Sign out
-                            </button>
-                        </div>
-                    </div>
-                </>
-            )}
-        </div>
+                <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive cursor-pointer">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Sign out
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
     );
 }

@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export function Footer() {
     return (
-        <footer className="border-t border-gray-200 dark:border-[#262626] bg-gray-50 dark:bg-[#0a0a0a]">
+        <footer className="border-t border-border bg-muted/30">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     {/* Brand */}
@@ -16,11 +16,11 @@ export function Footer() {
                                 height={32}
                                 className="rounded-lg"
                             />
-                            <span className="font-semibold text-lg text-gray-900 dark:text-white tracking-tight">
+                            <span className="font-semibold text-lg text-foreground tracking-tight">
                                 PowerUI
                             </span>
                         </Link>
-                        <p className="text-gray-500 dark:text-[#6b6b6b] max-w-md text-sm leading-relaxed">
+                        <p className="text-muted-foreground max-w-md text-sm leading-relaxed">
                             The largest library of Power Apps components with copy-paste ready YAML code.
                             Build beautiful canvas apps faster.
                         </p>
@@ -28,20 +28,20 @@ export function Footer() {
 
                     {/* Links */}
                     <div>
-                        <h3 className="font-medium text-gray-900 dark:text-white mb-4 text-sm">Product</h3>
+                        <h3 className="font-medium text-foreground mb-4 text-sm">Product</h3>
                         <ul className="space-y-3">
                             <li>
-                                <Link href="/library" className="text-gray-500 dark:text-[#6b6b6b] hover:text-gray-900 dark:hover:text-white transition-colors text-sm">
+                                <Link href="/library" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
                                     Components
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/pricing" className="text-gray-500 dark:text-[#6b6b6b] hover:text-gray-900 dark:hover:text-white transition-colors text-sm">
+                                <Link href="/pricing" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
                                     Pricing
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/docs" className="text-gray-500 dark:text-[#6b6b6b] hover:text-gray-900 dark:hover:text-white transition-colors text-sm">
+                                <Link href="/docs" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
                                     Documentation
                                 </Link>
                             </li>
@@ -49,14 +49,14 @@ export function Footer() {
                     </div>
 
                     <div>
-                        <h3 className="font-medium text-gray-900 dark:text-white mb-4 text-sm">Connect</h3>
+                        <h3 className="font-medium text-foreground mb-4 text-sm">Connect</h3>
                         <ul className="space-y-3">
                             <li>
                                 <a
                                     href="https://twitter.com"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-gray-500 dark:text-[#6b6b6b] hover:text-gray-900 dark:hover:text-white transition-colors text-sm"
+                                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
                                 >
                                     Twitter
                                 </a>
@@ -66,13 +66,13 @@ export function Footer() {
                                     href="https://github.com"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-gray-500 dark:text-[#6b6b6b] hover:text-gray-900 dark:hover:text-white transition-colors text-sm"
+                                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
                                 >
                                     GitHub
                                 </a>
                             </li>
                             <li>
-                                <Link href="/support" className="text-gray-500 dark:text-[#6b6b6b] hover:text-gray-900 dark:hover:text-white transition-colors text-sm">
+                                <Link href="/support" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
                                     Support
                                 </Link>
                             </li>
@@ -80,8 +80,8 @@ export function Footer() {
                     </div>
                 </div>
 
-                <div className="mt-12 pt-8 border-t border-gray-200 dark:border-[#262626]">
-                    <p className="text-gray-500 dark:text-[#6b6b6b] text-sm text-center">
+                <div className="mt-12 pt-8 border-t border-border">
+                    <p className="text-muted-foreground text-sm text-center">
                         © {new Date().getFullYear()} PowerUI. All rights reserved.
                     </p>
                 </div>
