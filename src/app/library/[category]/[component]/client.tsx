@@ -69,13 +69,13 @@ export function ComponentDetailClient({ component, category }: Props) {
     const hasAccess = true;
 
     return (
-        <div className="min-h-screen pt-20">
+        <div className="min-h-screen pt-20 bg-black">
             {/* Header */}
-            <div className="border-b border-[#1a1a1a]">
+            <div className="border-b border-neutral-800">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                     <Link
                         href={`/library/${categorySlug}`}
-                        className="inline-flex items-center gap-2 text-[#6b6b6b] hover:text-white text-sm mb-4 transition-colors"
+                        className="inline-flex items-center gap-2 text-neutral-400 hover:text-white text-sm mb-4 transition-colors"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         Back to {category.name}
@@ -88,27 +88,27 @@ export function ComponentDetailClient({ component, category }: Props) {
                                 </h1>
                                 <div className="flex gap-2">
                                     {component.isNew && (
-                                        <span className="badge-new text-xs font-medium px-2 py-0.5 rounded">
+                                        <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-medium px-2 py-0.5 rounded">
                                             New
                                         </span>
                                     )}
                                     {component.isPro ? (
-                                        <span className="badge-pro text-xs font-medium px-2 py-0.5 rounded">
+                                        <span className="bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px] font-medium px-2 py-0.5 rounded">
                                             PRO
                                         </span>
                                     ) : (
-                                        <span className="badge-free text-xs font-medium px-2 py-0.5 rounded">
+                                        <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-medium px-2 py-0.5 rounded">
                                             Free
                                         </span>
                                     )}
                                     {hasSettings && (
-                                        <span className="text-xs font-medium px-2 py-0.5 rounded bg-white/10 text-white border border-white/20">
+                                        <span className="text-xs font-medium px-2 py-0.5 rounded bg-neutral-900 text-neutral-300 border border-neutral-800">
                                             Customizable
                                         </span>
                                     )}
                                 </div>
                             </div>
-                            <p className="text-[#6b6b6b] text-sm">{component.description}</p>
+                            <p className="text-neutral-400 text-sm">{component.description}</p>
                         </div>
                     </div>
                 </div>
@@ -117,14 +117,14 @@ export function ComponentDetailClient({ component, category }: Props) {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="grid lg:grid-cols-2 gap-6">
                     {/* Left Column: Preview / Settings / Instructions */}
-                    <div className="card overflow-hidden">
+                    <div className="card overflow-hidden bg-neutral-950 border border-neutral-800">
                         {/* Toggle Header with 3 tabs */}
-                        <div className="px-4 py-3 border-b border-[#1a1a1a] bg-[#0a0a0a] flex items-center gap-2">
+                        <div className="px-4 py-3 border-b border-neutral-800 bg-neutral-900 flex items-center gap-2">
                             <button
                                 onClick={() => setActiveView('preview')}
                                 className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${activeView === 'preview'
                                     ? 'bg-white text-black'
-                                    : 'text-[#a1a1a1] hover:text-white'
+                                    : 'text-neutral-400 hover:text-white'
                                     }`}
                             >
                                 <Eye className="w-4 h-4" />
@@ -135,13 +135,13 @@ export function ComponentDetailClient({ component, category }: Props) {
                                     onClick={() => setActiveView('settings')}
                                     className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${activeView === 'settings'
                                         ? 'bg-white text-black'
-                                        : 'text-[#a1a1a1] hover:text-white'
+                                        : 'text-neutral-400 hover:text-white'
                                         }`}
                                 >
                                     <Settings className="w-4 h-4" />
                                     Settings
                                     {hasChanges && (
-                                        <span className="w-2 h-2 bg-white rounded-full" />
+                                        <span className="w-2 h-2 bg-indigo-500 rounded-full" />
                                     )}
                                 </button>
                             )}
@@ -150,7 +150,7 @@ export function ComponentDetailClient({ component, category }: Props) {
                                     onClick={() => setActiveView('instructions')}
                                     className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${activeView === 'instructions'
                                         ? 'bg-white text-black'
-                                        : 'text-[#a1a1a1] hover:text-white'
+                                        : 'text-neutral-400 hover:text-white'
                                         }`}
                                 >
                                     <BookOpen className="w-4 h-4" />
@@ -193,17 +193,17 @@ export function ComponentDetailClient({ component, category }: Props) {
                                                 {instructions.variables.map((variable) => (
                                                     <div
                                                         key={variable.name}
-                                                        className="bg-[#0a0a0a] rounded-lg p-3 border border-[#1a1a1a]"
+                                                        className="bg-neutral-900 rounded-lg p-3 border border-neutral-800"
                                                     >
                                                         <div className="flex items-center justify-between mb-1">
                                                             <code className="text-blue-400 text-sm font-mono">
                                                                 {variable.name}
                                                             </code>
-                                                            <code className="text-[#6b6b6b] text-xs font-mono">
+                                                            <code className="text-neutral-500 text-xs font-mono">
                                                                 default: {variable.defaultValue}
                                                             </code>
                                                         </div>
-                                                        <p className="text-[#a1a1a1] text-xs">
+                                                        <p className="text-neutral-400 text-xs">
                                                             {variable.description}
                                                         </p>
                                                     </div>
@@ -219,14 +219,14 @@ export function ComponentDetailClient({ component, category }: Props) {
                                                 <Code2 className="w-4 h-4 text-green-400" />
                                                 Add to Screen.OnVisible
                                             </h3>
-                                            <div className="bg-[#0a0a0a] rounded-lg border border-[#1a1a1a] overflow-hidden">
-                                                <div className="px-3 py-2 border-b border-[#1a1a1a] flex items-center justify-between bg-[#111]">
-                                                    <span className="text-xs text-[#6b6b6b]">Power Fx</span>
+                                            <div className="bg-neutral-900 rounded-lg border border-neutral-800 overflow-hidden">
+                                                <div className="px-3 py-2 border-b border-neutral-800 flex items-center justify-between bg-neutral-950">
+                                                    <span className="text-xs text-neutral-500">Power Fx</span>
                                                     <button
                                                         onClick={() => {
                                                             navigator.clipboard.writeText(instructions.screenOnVisible!);
                                                         }}
-                                                        className="text-xs text-[#a1a1a1] hover:text-white transition-colors"
+                                                        className="text-xs text-neutral-400 hover:text-white transition-colors"
                                                     >
                                                         Copy
                                                     </button>
@@ -249,7 +249,7 @@ export function ComponentDetailClient({ component, category }: Props) {
                                                 {instructions.tips.map((tip, index) => (
                                                     <li
                                                         key={index}
-                                                        className="flex items-start gap-2 text-sm text-[#a1a1a1]"
+                                                        className="flex items-start gap-2 text-sm text-neutral-400"
                                                     >
                                                         <span className="text-yellow-400 mt-0.5">•</span>
                                                         {tip}
@@ -261,7 +261,7 @@ export function ComponentDetailClient({ component, category }: Props) {
 
                                     {/* Empty state if no instructions */}
                                     {instructions.variables.length === 0 && !instructions.screenOnVisible && (!instructions.tips || instructions.tips.length === 0) && (
-                                        <div className="text-center py-8 text-[#6b6b6b]">
+                                        <div className="text-center py-8 text-neutral-500">
                                             <BookOpen className="w-8 h-8 mx-auto mb-2 opacity-50" />
                                             <p className="text-sm">No special setup required</p>
                                         </div>
@@ -280,20 +280,20 @@ export function ComponentDetailClient({ component, category }: Props) {
                     </div>
 
                     {/* Right Column: YAML Code */}
-                    <div className="card overflow-hidden">
-                        <div className="px-4 py-3 border-b border-[#1a1a1a] bg-[#0a0a0a] flex items-center justify-between">
+                    <div className="card overflow-hidden bg-neutral-950 border border-neutral-800">
+                        <div className="px-4 py-3 border-b border-neutral-800 bg-neutral-900 flex items-center justify-between">
                             <div className="flex items-center gap-2">
                                 <h2 className="font-medium text-white text-sm">YAML Code</h2>
                                 {hasChanges && (
-                                    <span className="text-xs text-[#a1a1a1]">• Modified</span>
+                                    <span className="text-xs text-indigo-400">• Modified</span>
                                 )}
                             </div>
                             {hasAccess ? (
                                 <button
                                     onClick={handleCopy}
                                     className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${copied
-                                        ? "bg-white/10 text-white"
-                                        : "bg-white text-black hover:bg-white/90"
+                                        ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                                        : "bg-white text-black hover:bg-neutral-200"
                                         }`}
                                 >
                                     {copied ? (
@@ -311,7 +311,7 @@ export function ComponentDetailClient({ component, category }: Props) {
                             ) : (
                                 <Link
                                     href="/pricing"
-                                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium bg-white text-black hover:bg-white/90 transition-colors"
+                                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium bg-white text-black hover:bg-neutral-200 transition-colors"
                                 >
                                     <Lock className="w-3 h-3" />
                                     Unlock PRO
@@ -322,11 +322,11 @@ export function ComponentDetailClient({ component, category }: Props) {
                             {!hasAccess && (
                                 <div className="absolute inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-10">
                                     <div className="text-center p-8">
-                                        <Lock className="w-10 h-10 text-[#6b6b6b] mx-auto mb-4" />
+                                        <Lock className="w-10 h-10 text-neutral-500 mx-auto mb-4" />
                                         <h3 className="text-lg font-medium text-white mb-2">
                                             PRO Component
                                         </h3>
-                                        <p className="text-[#6b6b6b] text-sm mb-4">
+                                        <p className="text-neutral-400 text-sm mb-4">
                                             Upgrade to unlock this component
                                         </p>
                                         <Link href="/pricing" className="btn-primary text-sm">
@@ -347,11 +347,11 @@ export function ComponentDetailClient({ component, category }: Props) {
                 </div>
 
                 {/* Quick Start Guide */}
-                <div className="mt-8 card p-6">
+                <div className="mt-8 card p-6 bg-neutral-950 border border-neutral-800">
                     <h2 className="font-medium text-white text-sm mb-4">Quick Start</h2>
-                    <ol className="space-y-3 text-[#a1a1a1] text-sm">
+                    <ol className="space-y-3 text-neutral-400 text-sm">
                         <li className="flex gap-3">
-                            <span className="flex-shrink-0 w-5 h-5 bg-white text-black rounded-full flex items-center justify-center text-xs font-medium">
+                            <span className="flex-shrink-0 w-5 h-5 bg-neutral-800 text-white border border-neutral-700 rounded-full flex items-center justify-center text-xs font-medium">
                                 1
                             </span>
                             <span>
@@ -359,20 +359,20 @@ export function ComponentDetailClient({ component, category }: Props) {
                             </span>
                         </li>
                         <li className="flex gap-3">
-                            <span className="flex-shrink-0 w-5 h-5 bg-white text-black rounded-full flex items-center justify-center text-xs font-medium">
+                            <span className="flex-shrink-0 w-5 h-5 bg-neutral-800 text-white border border-neutral-700 rounded-full flex items-center justify-center text-xs font-medium">
                                 2
                             </span>
                             <span>Open Power Apps Studio and select a Screen or Container</span>
                         </li>
                         <li className="flex gap-3">
-                            <span className="flex-shrink-0 w-5 h-5 bg-white text-black rounded-full flex items-center justify-center text-xs font-medium">
+                            <span className="flex-shrink-0 w-5 h-5 bg-neutral-800 text-white border border-neutral-700 rounded-full flex items-center justify-center text-xs font-medium">
                                 3
                             </span>
                             <span>Paste the YAML code (Ctrl/Cmd + V)</span>
                         </li>
                         {hasSetupInstructions && instructions?.screenOnVisible && (
                             <li className="flex gap-3">
-                                <span className="flex-shrink-0 w-5 h-5 bg-white text-black rounded-full flex items-center justify-center text-xs font-medium">
+                                <span className="flex-shrink-0 w-5 h-5 bg-neutral-800 text-white border border-neutral-700 rounded-full flex items-center justify-center text-xs font-medium">
                                     4
                                 </span>
                                 <span>

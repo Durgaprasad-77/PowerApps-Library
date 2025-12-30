@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useState, useEffect } from "react";
-import { Menu, Layers, Palette, Wand2, PaintBucket, Sparkles, LayoutTemplate, FileCode, Zap } from "lucide-react";
+import { Menu, Layers, Palette, Wand2, PaintBucket, Sparkles, LayoutTemplate, FileCode } from "lucide-react";
+import { LogoIcon } from "@/components/ui/logo-icon";
 import { AuthButtons } from "./auth-buttons";
 import { ThemeToggle } from "@/components/theme";
 import {
@@ -38,6 +38,7 @@ const coreFeatures = [
         description: "Build and preview components live",
         href: "/products/yaml-studio",
         icon: FileCode,
+        isUpcoming: true,
     },
 ];
 
@@ -66,6 +67,7 @@ const moreProducts = [
         description: "AI-powered components",
         href: "/products/ai-generator",
         icon: Wand2,
+        isUpcoming: true,
     },
     {
         name: "Templates",
@@ -90,9 +92,9 @@ export function Navbar() {
     return (
         <header
             className={cn(
-                "fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out border-b border-white/[0.08]",
+                "fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out border-b border-neutral-800/50",
                 scrolled
-                    ? "bg-[#0B0C0E]/80 backdrop-blur-xl supports-[backdrop-filter]:bg-[#0B0C0E]/60"
+                    ? "bg-black/80 backdrop-blur-xl supports-[backdrop-filter]:bg-black/60"
                     : "bg-transparent border-transparent"
             )}
         >
@@ -100,10 +102,8 @@ export function Navbar() {
                 <div className="flex h-16 items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2 group">
-                        <div className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-purple-500/20 transition-transform group-hover:scale-110">
-                            <Zap className="h-5 w-5 text-white" />
-                        </div>
-                        <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70">
+                        <LogoIcon size={32} className="transition-transform group-hover:scale-110" />
+                        <span className="text-xl font-bold text-white">
                             PowerUI
                         </span>
                     </Link>
@@ -113,11 +113,11 @@ export function Navbar() {
                         <NavigationMenu>
                             <NavigationMenuList className="gap-1">
                                 <NavigationMenuItem>
-                                    <NavigationMenuTrigger className="bg-transparent hover:bg-white/5 text-muted-foreground hover:text-foreground transition-colors data-[state=open]:bg-white/5">
+                                    <NavigationMenuTrigger className="bg-transparent hover:bg-white/5 text-neutral-400 hover:text-white transition-colors data-[state=open]:bg-white/5 data-[state=open]:text-white">
                                         Features
                                     </NavigationMenuTrigger>
                                     <NavigationMenuContent>
-                                        <div className="w-[600px] p-6 bg-[#0B0C0E] border border-white/10 rounded-xl shadow-2xl">
+                                        <div className="w-[600px] p-6">
                                             <div className="flex gap-8">
                                                 {/* Core Features Column */}
                                                 <div className="flex-1">
@@ -127,22 +127,43 @@ export function Navbar() {
                                                     <div className="space-y-1">
                                                         {coreFeatures.map((item) => (
                                                             <NavigationMenuLink key={item.name} asChild>
-                                                                <Link
-                                                                    href={item.href}
-                                                                    className="group flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors block select-none space-y-1 leading-none no-underline outline-none"
-                                                                >
-                                                                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center group-hover:bg-indigo-500/20 transition-colors">
-                                                                        <item.icon className="w-5 h-5 text-indigo-400" />
-                                                                    </div>
-                                                                    <div>
-                                                                        <div className="font-medium text-foreground group-hover:text-indigo-400 transition-colors">
-                                                                            {item.name}
+                                                                {item.isUpcoming ? (
+                                                                    <div
+                                                                        className="group flex items-start gap-3 p-3 rounded-lg bg-neutral-900/50 cursor-not-allowed opacity-70 select-none space-y-1 leading-none outline-none"
+                                                                    >
+                                                                        <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-neutral-800 flex items-center justify-center">
+                                                                            <item.icon className="w-5 h-5 text-neutral-500" />
                                                                         </div>
-                                                                        <div className="text-sm text-muted-foreground line-clamp-2 mt-1">
-                                                                            {item.description}
+                                                                        <div>
+                                                                            <div className="font-medium text-neutral-400 flex items-center gap-2">
+                                                                                {item.name}
+                                                                                <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                                                                                    Upcoming
+                                                                                </span>
+                                                                            </div>
+                                                                            <div className="text-sm text-neutral-500 line-clamp-2 mt-1">
+                                                                                {item.description}
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </Link>
+                                                                ) : (
+                                                                    <Link
+                                                                        href={item.href}
+                                                                        className="group flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors block select-none space-y-1 leading-none no-underline outline-none"
+                                                                    >
+                                                                        <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-neutral-800 flex items-center justify-center group-hover:bg-neutral-700 transition-colors">
+                                                                            <item.icon className="w-5 h-5 text-white" />
+                                                                        </div>
+                                                                        <div>
+                                                                            <div className="font-medium text-white group-hover:text-neutral-300 transition-colors">
+                                                                                {item.name}
+                                                                            </div>
+                                                                            <div className="text-sm text-neutral-400 line-clamp-2 mt-1">
+                                                                                {item.description}
+                                                                            </div>
+                                                                        </div>
+                                                                    </Link>
+                                                                )}
                                                             </NavigationMenuLink>
                                                         ))}
                                                     </div>
@@ -159,15 +180,29 @@ export function Navbar() {
                                                     <div className="grid grid-cols-2 gap-1">
                                                         {moreProducts.map((item) => (
                                                             <NavigationMenuLink key={item.name} asChild>
-                                                                <Link
-                                                                    href={item.href}
-                                                                    className="group flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors block select-none space-y-1 leading-none no-underline outline-none"
-                                                                >
-                                                                    <item.icon className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
-                                                                    <div className="font-medium text-foreground text-sm">
-                                                                        {item.name}
+                                                                {item.isUpcoming ? (
+                                                                    <div
+                                                                        className="group flex items-center gap-3 p-3 rounded-lg cursor-not-allowed opacity-60 select-none space-y-1 leading-none outline-none"
+                                                                    >
+                                                                        <item.icon className="w-4 h-4 text-neutral-500" />
+                                                                        <div className="font-medium text-neutral-500 text-sm flex items-center gap-1.5">
+                                                                            {item.name}
+                                                                            <span className="text-[9px] font-medium px-1 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                                                                                Soon
+                                                                            </span>
+                                                                        </div>
                                                                     </div>
-                                                                </Link>
+                                                                ) : (
+                                                                    <Link
+                                                                        href={item.href}
+                                                                        className="group flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors block select-none space-y-1 leading-none no-underline outline-none"
+                                                                    >
+                                                                        <item.icon className="w-4 h-4 text-neutral-400 group-hover:text-white transition-colors" />
+                                                                        <div className="font-medium text-white text-sm">
+                                                                            {item.name}
+                                                                        </div>
+                                                                    </Link>
+                                                                )}
                                                             </NavigationMenuLink>
                                                         ))}
                                                     </div>
@@ -175,9 +210,9 @@ export function Navbar() {
                                             </div>
 
                                             {/* Footer */}
-                                            <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
-                                                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                                    <Sparkles className="w-4 h-4 text-indigo-400" />
+                                            <div className="mt-6 pt-4 border-t border-neutral-800 flex items-center justify-between">
+                                                <div className="flex items-center gap-2 text-sm text-neutral-400">
+                                                    <Sparkles className="w-4 h-4 text-white" />
                                                     <span>New: Animated backgrounds available</span>
                                                 </div>
                                             </div>
@@ -204,11 +239,11 @@ export function Navbar() {
 
                     {/* Auth Buttons */}
                     <div className="hidden md:flex items-center gap-4">
-                        <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                        <Link href="/login" className="text-sm font-medium text-neutral-400 hover:text-white transition-colors">
                             Log in
                         </Link>
                         <Link href="/signup">
-                            <Button size="sm" className="bg-[#5E6AD2] hover:bg-[#4e5ac0] text-white shadow-lg shadow-indigo-500/20 rounded-full px-6 transition-all hover:shadow-indigo-500/30 font-medium tracking-wide">
+                            <Button size="sm" className="bg-white text-black hover:bg-neutral-200 rounded-full px-6 font-medium transition-colors">
                                 Get Started
                             </Button>
                         </Link>
@@ -228,9 +263,7 @@ export function Navbar() {
                                 <div className="flex flex-col h-full bg-[#0B0C0E]">
                                     <SheetHeader className="p-6 border-b border-white/10">
                                         <SheetTitle className="text-left flex items-center gap-2">
-                                            <div className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600">
-                                                <Zap className="h-5 w-5 text-white" />
-                                            </div>
+                                            <LogoIcon size={32} />
                                             <span className="font-bold">PowerUI</span>
                                         </SheetTitle>
                                     </SheetHeader>

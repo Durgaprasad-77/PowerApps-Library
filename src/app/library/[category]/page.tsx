@@ -36,24 +36,24 @@ export default async function CategoryPage({ params }: Props) {
     const categoryComponents = await getComponents(categorySlug);
 
     return (
-        <div className="min-h-screen pt-20">
+        <div className="min-h-screen pt-20 bg-black">
             {/* Header */}
-            <div className="border-b border-[#1a1a1a]">
+            <div className="border-b border-neutral-800">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     <Link
                         href="/library"
-                        className="inline-flex items-center gap-2 text-[#6b6b6b] hover:text-white text-sm mb-4 transition-colors"
+                        className="inline-flex items-center gap-2 text-neutral-400 hover:text-white text-sm mb-4 transition-colors"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         Back to Library
                     </Link>
                     <div className="flex items-center gap-3">
-                        <CategoryIcon slug={categorySlug} className="w-8 h-8 text-[#6b6b6b]" />
+                        <CategoryIcon slug={categorySlug} className="w-8 h-8 text-neutral-400" />
                         <div>
                             <h1 className="text-2xl font-bold text-white">
                                 {category.name}
                             </h1>
-                            <p className="text-[#6b6b6b] text-sm">
+                            <p className="text-neutral-400 text-sm">
                                 {category.description} • {categoryComponents.length} components
                             </p>
                         </div>
@@ -70,10 +70,10 @@ export default async function CategoryPage({ params }: Props) {
                                 <Link
                                     key={component.id}
                                     href={`/library/${categorySlug}/${component.slug}`}
-                                    className="card overflow-hidden group border border-[#1a1a1a] hover:border-[#333333] transition-colors"
+                                    className="card overflow-hidden group border border-neutral-800 hover:border-neutral-700 bg-neutral-950 transition-colors"
                                 >
                                     {/* Preview */}
-                                    <div className="h-32 bg-[#0a0a0a] flex items-center justify-center border-b border-[#1a1a1a] overflow-hidden relative">
+                                    <div className="h-32 bg-neutral-900 flex items-center justify-center border-b border-neutral-800 overflow-hidden relative">
                                         <CardPreview componentSlug={component.slug} category={categorySlug} />
 
                                         {/* Hover overlay hint */}
@@ -87,27 +87,27 @@ export default async function CategoryPage({ params }: Props) {
                                     {/* Info */}
                                     <div className="p-4">
                                         <div className="flex items-start justify-between mb-2">
-                                            <h3 className="font-medium text-white group-hover:text-blue-400 transition-colors text-sm">
+                                            <h3 className="font-medium text-white group-hover:text-neutral-300 transition-colors text-sm">
                                                 {component.name}
                                             </h3>
                                             <div className="flex gap-1">
                                                 {component.isNew && (
-                                                    <span className="badge-new text-xs font-medium px-2 py-0.5 rounded">
+                                                    <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-medium px-2 py-0.5 rounded">
                                                         New
                                                     </span>
                                                 )}
                                                 {component.isPro ? (
-                                                    <span className="badge-pro text-xs font-medium px-2 py-0.5 rounded">
+                                                    <span className="bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px] font-medium px-2 py-0.5 rounded">
                                                         PRO
                                                     </span>
                                                 ) : (
-                                                    <span className="badge-free text-xs font-medium px-2 py-0.5 rounded">
+                                                    <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-medium px-2 py-0.5 rounded">
                                                         Free
                                                     </span>
                                                 )}
                                             </div>
                                         </div>
-                                        <p className="text-xs text-[#6b6b6b] line-clamp-2">
+                                        <p className="text-xs text-neutral-500 line-clamp-2">
                                             {component.description}
                                         </p>
                                     </div>
@@ -117,7 +117,7 @@ export default async function CategoryPage({ params }: Props) {
 
                         {categoryComponents.length === 0 && (
                             <div className="text-center py-12">
-                                <p className="text-[#6b6b6b] text-sm">No components in this category yet.</p>
+                                <p className="text-neutral-500 text-sm">No components in this category yet.</p>
                             </div>
                         )}
                     </main>

@@ -14,14 +14,14 @@ export default async function LibraryPage() {
     const freeComponents = components.filter(c => !c.isPro).length;
 
     return (
-        <div className="min-h-screen pt-20">
+        <div className="min-h-screen pt-20 bg-black">
             {/* Header */}
-            <div className="border-b border-gray-200 dark:border-gray-800">
+            <div className="border-b border-neutral-800">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+                    <h1 className="text-2xl font-bold text-white mb-1">
                         Component Library
                     </h1>
-                    <p className="text-gray-500 text-sm">
+                    <p className="text-neutral-500 text-sm">
                         {totalComponents} components • {freeComponents} free
                     </p>
                 </div>

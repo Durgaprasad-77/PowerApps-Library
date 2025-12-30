@@ -575,71 +575,145 @@ const products: Product[] = [
 
 export function ProductsShowcase() {
     return (
-        <section className="relative">
-            {products.map((product, index) => {
-                const Icon = product.icon;
-                const isEven = index % 2 === 0;
+        <section className="relative py-24 bg-black">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Section Header */}
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+                        Everything you need to build
+                    </h2>
+                    <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
+                        From components to AI-powered generation, we've got your Power Apps covered.
+                    </p>
+                </div>
 
-                return (
-                    <div
-                        key={product.id}
-                        className="py-24 lg:py-32 border-t border-border"
-                    >
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <div className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${isEven ? "" : "lg:grid-flow-dense"}`}>
-                                {/* Text content */}
-                                <motion.div
-                                    initial={{ opacity: 0, x: isEven ? -40 : 40 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true, margin: "-100px" }}
-                                    transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-                                    className={isEven ? "" : "lg:col-start-2"}
-                                >
-                                    {/* Icon badge */}
-                                    <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/10 mb-6 ring-1 ring-border">
-                                        <Icon className="w-7 h-7 text-primary" />
-                                    </div>
-
-                                    {/* Tagline */}
-                                    <div className="text-sm font-medium text-primary mb-2">
-                                        {product.tagline}
-                                    </div>
-
-                                    {/* Title */}
-                                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-                                        {product.name}
-                                    </h2>
-
-                                    {/* Description */}
-                                    <p className="text-lg text-muted-foreground mb-8 max-w-md">
-                                        {product.description}
-                                    </p>
-
-                                    {/* CTA */}
-                                    <Link
-                                        href={product.href}
-                                        className="inline-flex items-center gap-2 text-foreground font-medium hover:text-primary transition-colors group"
-                                    >
-                                        Explore {product.name}
-                                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                    </Link>
-                                </motion.div>
-
-                                {/* Visual */}
-                                <motion.div
-                                    initial={{ opacity: 0, x: isEven ? 40 : -40 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true, margin: "-100px" }}
-                                    transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-                                    className={isEven ? "" : "lg:col-start-1 lg:row-start-1"}
-                                >
-                                    {product.visual}
-                                </motion.div>
+                {/* Bento Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {/* Components - Large Card */}
+                    <Link href="/library" className="lg:col-span-2 group">
+                        <motion.div
+                            whileHover={{ y: -2 }}
+                            className="h-full bg-neutral-950 border border-neutral-800 hover:border-neutral-700 rounded-xl p-6 transition-colors"
+                        >
+                            <div className="flex items-start justify-between mb-4">
+                                <div className="p-3 rounded-xl bg-neutral-900 border border-neutral-800">
+                                    <Layers className="w-6 h-6 text-white" />
+                                </div>
+                                <ArrowRight className="w-5 h-5 text-neutral-600 group-hover:text-white group-hover:translate-x-1 transition-all" />
                             </div>
+                            <h3 className="text-xl font-semibold text-white mb-2">Components</h3>
+                            <p className="text-neutral-400 text-sm mb-4">Copy-paste ready YAML for Power Apps. The largest library of tested components.</p>
+                            <div className="h-32 bg-neutral-900/50 rounded-lg border border-neutral-800 overflow-hidden">
+                                <ComponentsVisual />
+                            </div>
+                        </motion.div>
+                    </Link>
+
+                    {/* YAML Studio - Upcoming */}
+                    <div className="group cursor-not-allowed">
+                        <div
+                            className="h-full bg-neutral-950/50 border border-neutral-800 rounded-xl p-6 opacity-60"
+                        >
+                            <div className="flex items-start justify-between mb-4">
+                                <div className="p-3 rounded-xl bg-neutral-900 border border-neutral-800">
+                                    <FileCode className="w-6 h-6 text-neutral-500" />
+                                </div>
+                                <span className="text-[10px] font-medium px-2 py-1 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                                    Upcoming
+                                </span>
+                            </div>
+                            <h3 className="text-xl font-semibold text-neutral-400 mb-2">YAML Studio</h3>
+                            <p className="text-neutral-500 text-sm">Build and preview components with live editing.</p>
                         </div>
                     </div>
-                );
-            })}
+
+                    {/* Backgrounds */}
+                    <Link href="/products/backgrounds" className="group">
+                        <motion.div
+                            whileHover={{ y: -2 }}
+                            className="h-full bg-neutral-950 border border-neutral-800 hover:border-neutral-700 rounded-xl p-6 transition-colors"
+                        >
+                            <div className="flex items-start justify-between mb-4">
+                                <div className="p-3 rounded-xl bg-neutral-900 border border-neutral-800">
+                                    <PaintBucket className="w-6 h-6 text-white" />
+                                </div>
+                                <ArrowRight className="w-5 h-5 text-neutral-600 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                            </div>
+                            <h3 className="text-xl font-semibold text-white mb-2">Backgrounds</h3>
+                            <p className="text-neutral-400 text-sm">Dynamic animated backgrounds for your apps.</p>
+                        </motion.div>
+                    </Link>
+
+                    {/* Icons */}
+                    <Link href="/products/icons" className="group">
+                        <motion.div
+                            whileHover={{ y: -2 }}
+                            className="h-full bg-neutral-950 border border-neutral-800 hover:border-neutral-700 rounded-xl p-6 transition-colors"
+                        >
+                            <div className="flex items-start justify-between mb-4">
+                                <div className="p-3 rounded-xl bg-neutral-900 border border-neutral-800">
+                                    <Sparkles className="w-6 h-6 text-white" />
+                                </div>
+                                <ArrowRight className="w-5 h-5 text-neutral-600 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                            </div>
+                            <h3 className="text-xl font-semibold text-white mb-2">Icons</h3>
+                            <p className="text-neutral-400 text-sm">1,200+ Fluent 2 icons with animations.</p>
+                        </motion.div>
+                    </Link>
+
+                    {/* Theme Builder */}
+                    <Link href="/products/theme-builder" className="group">
+                        <motion.div
+                            whileHover={{ y: -2 }}
+                            className="h-full bg-neutral-950 border border-neutral-800 hover:border-neutral-700 rounded-xl p-6 transition-colors"
+                        >
+                            <div className="flex items-start justify-between mb-4">
+                                <div className="p-3 rounded-xl bg-neutral-900 border border-neutral-800">
+                                    <Palette className="w-6 h-6 text-white" />
+                                </div>
+                                <ArrowRight className="w-5 h-5 text-neutral-600 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                            </div>
+                            <h3 className="text-xl font-semibold text-white mb-2">Theme Builder</h3>
+                            <p className="text-neutral-400 text-sm">Create custom color palettes for your apps.</p>
+                        </motion.div>
+                    </Link>
+
+                    {/* AI Generator - Wide - Upcoming */}
+                    <div className="lg:col-span-2 cursor-not-allowed">
+                        <div
+                            className="h-full bg-neutral-950/50 border border-neutral-800 rounded-xl p-6 opacity-60"
+                        >
+                            <div className="flex items-start justify-between mb-4">
+                                <div className="p-3 rounded-xl bg-neutral-900 border border-neutral-800">
+                                    <Wand2 className="w-6 h-6 text-neutral-500" />
+                                </div>
+                                <span className="text-[10px] font-medium px-2 py-1 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                                    Upcoming
+                                </span>
+                            </div>
+                            <h3 className="text-xl font-semibold text-neutral-400 mb-2">AI Generator</h3>
+                            <p className="text-neutral-500 text-sm mb-4">Describe what you need in plain English. Let AI create the YAML.</p>
+                        </div>
+                    </div>
+
+                    {/* Templates */}
+                    <Link href="/products/templates" className="group">
+                        <motion.div
+                            whileHover={{ y: -2 }}
+                            className="h-full bg-neutral-950 border border-neutral-800 hover:border-neutral-700 rounded-xl p-6 transition-colors"
+                        >
+                            <div className="flex items-start justify-between mb-4">
+                                <div className="p-3 rounded-xl bg-neutral-900 border border-neutral-800">
+                                    <LayoutTemplate className="w-6 h-6 text-white" />
+                                </div>
+                                <ArrowRight className="w-5 h-5 text-neutral-600 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                            </div>
+                            <h3 className="text-xl font-semibold text-white mb-2">Templates</h3>
+                            <p className="text-neutral-400 text-sm">Ready-to-use app templates and screens.</p>
+                        </motion.div>
+                    </Link>
+                </div>
+            </div>
         </section>
     );
 }

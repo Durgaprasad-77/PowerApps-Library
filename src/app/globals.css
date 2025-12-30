@@ -45,71 +45,75 @@
 
 :root {
   /* ========================================
-     SHADCN UI TOKENS (Linear Dark Theme)
+     MONOCHROME DESIGN SYSTEM (Linear/shadcn)
      ======================================== */
-  --background: 240 10% 3.9%;
+  --background: 0 0% 0%;
+  /* Pure black #000000 */
   --foreground: 0 0% 98%;
+  /* Near white */
 
-  --card: 240 10% 5%;
+  --card: 0 0% 4%;
+  /* Slightly elevated #0a0a0a */
   --card-foreground: 0 0% 98%;
 
-  --popover: 240 10% 3.9%;
+  --popover: 0 0% 4%;
   --popover-foreground: 0 0% 98%;
 
-  --primary: 0 0% 98%;
-  --primary-foreground: 240 5.9% 10%;
+  --primary: 0 0% 100%;
+  /* Pure white for CTAs */
+  --primary-foreground: 0 0% 0%;
+  /* Black text on white */
 
-  --secondary: 240 3.7% 15.9%;
+  --secondary: 0 0% 10%;
+  /* Dark gray */
   --secondary-foreground: 0 0% 98%;
 
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
+  --muted: 0 0% 10%;
+  --muted-foreground: 0 0% 50%;
+  /* Neutral gray for secondary text */
 
-  --accent: 240 3.7% 15.9%;
+  --accent: 0 0% 15%;
+  /* Subtle accent bg */
   --accent-foreground: 0 0% 98%;
 
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 0 0% 98%;
 
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
-  --ring: 240 4.9% 83.9%;
+  --border: 0 0% 14%;
+  /* Crisp border #242424 */
+  --input: 0 0% 14%;
+  --ring: 0 0% 30%;
 
-  --chart-1: 220 70% 50%;
-  --chart-2: 160 60% 45%;
-  --chart-3: 30 80% 55%;
-  --chart-4: 280 65% 60%;
-  --chart-5: 340 75% 55%;
+  --chart-1: 0 0% 70%;
+  /* Monochrome chart colors */
+  --chart-2: 0 0% 60%;
+  --chart-3: 0 0% 50%;
+  --chart-4: 0 0% 40%;
+  --chart-5: 0 0% 30%;
 
   --radius: 0.5rem;
 
   /* ========================================
-     LEGACY DESIGN SYSTEM TOKENS (Preserved)
+     MONOCHROME DESIGN TOKENS
      ======================================== */
-  --surface: #1a1a1a;
-  --surface-hover: #262626;
+  --surface: #0a0a0a;
+  --surface-hover: #141414;
 
-  /* Accent Colors */
-  --accent-blue: #3b82f6;
-  --accent-purple: #8b5cf6;
-  --accent-pink: #ec4899;
-  --accent-orange: #f97316;
+  /* Accent Color (use sparingly) */
+  --accent-blue: #5E6AD2;
+  /* Linear-style accent */
   --accent-green: #22c55e;
+  /* Success states only */
 
-  /* Gradients */
-  --gradient-blue-purple: linear-gradient(135deg, #3b82f6, #8b5cf6);
-  --gradient-purple-pink: linear-gradient(135deg, #8b5cf6, #ec4899);
-  --gradient-orange-yellow: linear-gradient(135deg, #f97316, #fbbf24);
-  --gradient-text: linear-gradient(to right, #ffffff, #a1a1a1);
-  --gradient-subtle: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+  /* Gradients - Subtle monochrome */
+  --gradient-text: linear-gradient(to bottom, #ffffff, #a1a1a1);
+  --gradient-subtle: linear-gradient(to bottom, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0));
 
-  /* Shadows & Glows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
-  --glow-blue: 0 0 60px rgba(59, 130, 246, 0.15);
-  --glow-purple: 0 0 60px rgba(139, 92, 246, 0.15);
-  --glow-white: 0 0 40px rgba(255, 255, 255, 0.05);
+  /* Shadows - Minimal */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.8);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.8);
+  --glow-subtle: 0 0 40px rgba(255, 255, 255, 0.02);
 
   /* Spacing */
   --space-1: 4px;

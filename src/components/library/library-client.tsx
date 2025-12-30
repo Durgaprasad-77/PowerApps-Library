@@ -122,18 +122,18 @@ export function LibraryClient({ components, categories }: Props) {
             <div className="flex flex-col lg:flex-row gap-8">
                 {/* Sidebar */}
                 <aside className="w-full lg:w-56 flex-shrink-0">
-                    <div className="card p-4 sticky top-24 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl">
-                        <h2 className="font-medium text-gray-900 dark:text-white text-sm mb-4">Categories</h2>
+                    <div className="card p-4 sticky top-24 bg-neutral-950 border border-neutral-800 rounded-xl">
+                        <h2 className="font-medium text-white text-sm mb-4">Categories</h2>
                         <nav className="space-y-1">
                             <button
                                 onClick={() => setSelectedCategory(null)}
                                 className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors ${selectedCategory === null
-                                        ? "text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-800"
-                                        : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                                    ? "text-white bg-neutral-900"
+                                    : "text-neutral-400 hover:text-white hover:bg-neutral-900"
                                     }`}
                             >
                                 <span>All Components</span>
-                                <span className="text-gray-500">{totalComponents}</span>
+                                <span className="text-neutral-500">{totalComponents}</span>
                             </button>
                             {categories.map((category) => {
                                 const IconComponent = getCategoryIcon(category.slug);
@@ -142,15 +142,15 @@ export function LibraryClient({ components, categories }: Props) {
                                         key={category.id}
                                         onClick={() => setSelectedCategory(category.slug)}
                                         className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${selectedCategory === category.slug
-                                                ? "text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-800 font-medium"
-                                                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                                            ? "text-white bg-neutral-900 font-medium"
+                                            : "text-neutral-400 hover:text-white hover:bg-neutral-900"
                                             }`}
                                     >
                                         <span className="flex items-center gap-2">
                                             <IconComponent className="w-4 h-4" />
                                             <span>{category.name}</span>
                                         </span>
-                                        <span className="text-gray-500">{category.componentsCount}</span>
+                                        <span className="text-neutral-500">{category.componentsCount}</span>
                                     </button>
                                 );
                             })}
@@ -172,12 +172,12 @@ export function LibraryClient({ components, categories }: Props) {
                                         placeholder="Search components..."
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="w-full pl-10 pr-20 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 text-sm focus:outline-none focus:border-gray-300 dark:focus:border-gray-700 focus:ring-2 focus:ring-purple-500/20 transition-colors"
+                                        className="w-full pl-10 pr-20 py-3 bg-neutral-950 border border-neutral-800 rounded-xl text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-neutral-700 focus:ring-2 focus:ring-white/10 transition-colors"
                                     />
                                     {/* Cmd+K shortcut indicator */}
                                     <button
                                         onClick={open}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 px-2 py-1 rounded-md bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-500 text-xs hover:text-gray-700 dark:hover:text-white hover:border-gray-300 dark:hover:border-gray-600 transition-colors"
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 px-2 py-1 rounded-md bg-neutral-900 border border-neutral-800 text-neutral-500 text-xs hover:text-white hover:border-neutral-700 transition-colors"
                                     >
                                         <Command className="w-3 h-3" />
                                         <span>K</span>
@@ -190,8 +190,8 @@ export function LibraryClient({ components, categories }: Props) {
                                     <button
                                         onClick={() => setShowFilters(!showFilters)}
                                         className={`px-4 py-2.5 rounded-xl border transition-colors flex items-center gap-2 text-sm font-medium ${showFilters || filterType !== "all"
-                                            ? "bg-gray-900 dark:bg-white text-white dark:text-gray-900 border-gray-900 dark:border-white"
-                                            : "bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:border-gray-300 dark:hover:border-gray-700"
+                                            ? "bg-white text-black border-white"
+                                            : "bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700"
                                             }`}
                                     >
                                         <Filter className="w-4 h-4" />
@@ -202,12 +202,12 @@ export function LibraryClient({ components, categories }: Props) {
                                     </button>
 
                                     {/* View Mode Toggle */}
-                                    <div className="flex bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-1">
+                                    <div className="flex bg-neutral-950 border border-neutral-800 rounded-xl p-1">
                                         <button
                                             onClick={() => setViewMode("grid")}
                                             className={`p-2 rounded-lg transition-colors ${viewMode === "grid"
-                                                ? "bg-gray-900 dark:bg-white text-white dark:text-gray-900"
-                                                : "text-gray-500 hover:text-gray-900 dark:hover:text-white"
+                                                ? "bg-white text-black"
+                                                : "text-neutral-500 hover:text-white"
                                                 }`}
                                             aria-label="Grid view"
                                         >
@@ -216,8 +216,8 @@ export function LibraryClient({ components, categories }: Props) {
                                         <button
                                             onClick={() => setViewMode("list")}
                                             className={`p-2 rounded-lg transition-colors ${viewMode === "list"
-                                                ? "bg-gray-900 dark:bg-white text-white dark:text-gray-900"
-                                                : "text-gray-500 hover:text-gray-900 dark:hover:text-white"
+                                                ? "bg-white text-black"
+                                                : "text-neutral-500 hover:text-white"
                                                 }`}
                                             aria-label="List view"
                                         >
@@ -243,13 +243,13 @@ export function LibraryClient({ components, categories }: Props) {
                                                     key={option.value}
                                                     onClick={() => setFilterType(option.value)}
                                                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${filterType === option.value
-                                                        ? "bg-gray-900 dark:bg-white text-white dark:text-gray-900"
-                                                        : "bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:border-gray-300 dark:hover:border-gray-600"
+                                                        ? "bg-white text-black"
+                                                        : "bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700"
                                                         }`}
                                                 >
                                                     {filterType === option.value && <Check className="w-3 h-3" />}
                                                     {option.label}
-                                                    <span className={`text-xs ${filterType === option.value ? "text-white/60 dark:text-gray-900/60" : "text-gray-500"}`}>
+                                                    <span className={`text-xs ${filterType === option.value ? "text-black/60" : "text-neutral-500"}`}>
                                                         {option.count}
                                                     </span>
                                                 </button>
@@ -258,7 +258,7 @@ export function LibraryClient({ components, categories }: Props) {
                                             {filterType !== "all" && (
                                                 <button
                                                     onClick={() => setFilterType("all")}
-                                                    className="px-3 py-2 rounded-lg text-sm text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors flex items-center gap-1"
+                                                    className="px-3 py-2 rounded-lg text-sm text-neutral-500 hover:text-white transition-colors flex items-center gap-1"
                                                 >
                                                     <X className="w-3 h-3" />
                                                     Clear
@@ -313,13 +313,13 @@ export function LibraryClient({ components, categories }: Props) {
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                className="py-20 text-center border border-dashed border-gray-200 dark:border-gray-800 rounded-xl bg-gray-50 dark:bg-gray-900/50"
+                                className="py-20 text-center border border-dashed border-neutral-800 rounded-xl bg-neutral-950"
                             >
-                                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 mb-4">
+                                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-neutral-900 mb-4">
                                     <Search className="w-6 h-6 text-gray-500" />
                                 </div>
-                                <h3 className="text-gray-900 dark:text-white font-medium mb-1">No components found</h3>
-                                <p className="text-gray-500 text-sm max-w-xs mx-auto">
+                                <h3 className="text-white font-medium mb-1">No components found</h3>
+                                <p className="text-neutral-500 text-sm max-w-xs mx-auto">
                                     Try adjusting your search terms or filters.
                                 </p>
                                 <button
@@ -328,7 +328,7 @@ export function LibraryClient({ components, categories }: Props) {
                                         setFilterType("all");
                                         setSelectedCategory(null);
                                     }}
-                                    className="mt-4 text-blue-500 text-sm hover:underline"
+                                    className="mt-4 text-white text-sm hover:underline"
                                 >
                                     Clear all filters
                                 </button>
@@ -337,7 +337,7 @@ export function LibraryClient({ components, categories }: Props) {
 
                         {/* Footer Info */}
                         <div className="mt-8 text-center">
-                            <p className="text-gray-500 text-sm">
+                            <p className="text-neutral-500 text-sm">
                                 Showing {filteredComponents.length} of {totalComponents} components
                             </p>
                         </div>
@@ -353,10 +353,10 @@ function GridCard({ component }: { component: Component }) {
     return (
         <Link
             href={`/library/${component.category}/${component.slug}`}
-            className="group block overflow-hidden rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-gray-900/50"
+            className="group block overflow-hidden rounded-xl bg-neutral-950 border border-neutral-800 hover:border-neutral-700 transition-all duration-300 hover:-translate-y-1"
         >
             {/* Preview */}
-            <div className="h-36 bg-gray-50 dark:bg-gray-950 flex items-center justify-center border-b border-gray-200 dark:border-gray-800 overflow-hidden relative">
+            <div className="h-36 bg-neutral-900 flex items-center justify-center border-b border-neutral-800 overflow-hidden relative">
                 <CardPreview componentSlug={component.slug} category={component.category} />
 
                 {/* Hover overlay */}
@@ -370,7 +370,7 @@ function GridCard({ component }: { component: Component }) {
             {/* Info */}
             <div className="p-4">
                 <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-medium text-gray-900 dark:text-white group-hover:text-blue-500 transition-colors text-sm">
+                    <h3 className="font-medium text-white group-hover:text-neutral-300 transition-colors text-sm">
                         {component.name}
                     </h3>
                     <div className="flex gap-1 flex-shrink-0 ml-2">
@@ -390,7 +390,7 @@ function GridCard({ component }: { component: Component }) {
                         )}
                     </div>
                 </div>
-                <p className="text-xs text-gray-500 line-clamp-2">
+                <p className="text-xs text-neutral-500 line-clamp-2">
                     {component.description}
                 </p>
             </div>
@@ -403,17 +403,17 @@ function ListCard({ component }: { component: Component }) {
     return (
         <Link
             href={`/library/${component.category}/${component.slug}`}
-            className="group flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300 hover:shadow-md dark:hover:shadow-gray-900/50"
+            className="group flex items-center gap-4 p-4 rounded-xl bg-neutral-950 border border-neutral-800 hover:border-neutral-700 transition-all duration-300"
         >
             {/* Preview Thumbnail */}
-            <div className="w-20 h-16 flex-shrink-0 rounded-lg bg-gray-50 dark:bg-gray-950 border border-gray-200 dark:border-gray-800 overflow-hidden">
+            <div className="w-20 h-16 flex-shrink-0 rounded-lg bg-neutral-900 border border-neutral-800 overflow-hidden">
                 <CardPreview componentSlug={component.slug} category={component.category} />
             </div>
 
             {/* Info */}
             <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-medium text-gray-900 dark:text-white group-hover:text-blue-500 transition-colors text-sm truncate">
+                    <h3 className="font-medium text-white group-hover:text-neutral-300 transition-colors text-sm truncate">
                         {component.name}
                     </h3>
                     <div className="flex gap-1 flex-shrink-0">
@@ -433,14 +433,14 @@ function ListCard({ component }: { component: Component }) {
                         )}
                     </div>
                 </div>
-                <p className="text-xs text-gray-500 line-clamp-1">
+                <p className="text-xs text-neutral-500 line-clamp-1">
                     {component.description}
                 </p>
-                <p className="text-xs text-gray-400 mt-1 capitalize">{component.category}</p>
+                <p className="text-xs text-neutral-600 mt-1 capitalize">{component.category}</p>
             </div>
 
             {/* Arrow */}
-            <div className="w-8 h-8 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center group-hover:bg-gray-900 dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-gray-900 text-gray-500 transition-colors">
+            <div className="w-8 h-8 rounded-lg bg-neutral-900 flex items-center justify-center group-hover:bg-white group-hover:text-black text-neutral-500 transition-colors">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
