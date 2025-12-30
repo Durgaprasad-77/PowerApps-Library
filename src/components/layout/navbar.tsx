@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Menu, Layers, Palette, Wand2, PaintBucket, Sparkles, LayoutTemplate, FileCode } from "lucide-react";
+import { Menu, Layers, Palette, Wand2, PaintBucket, Sparkles, LayoutTemplate, FileCode, SquarePen } from "lucide-react";
 import { LogoIcon } from "@/components/ui/logo-icon";
 import { AuthButtons } from "./auth-buttons";
 import { ThemeToggle } from "@/components/theme";
@@ -32,6 +32,12 @@ const coreFeatures = [
         description: "Copy-paste ready UI components",
         href: "/library",
         icon: Layers,
+    },
+    {
+        name: "Form Builder",
+        description: "Visually build Power Apps forms",
+        href: "/products/form-builder",
+        icon: SquarePen,
     },
     {
         name: "YAML Studio",
