@@ -36,16 +36,16 @@ function generateMultiColumnForm(config: FormConfig, fields: FormField[], column
   // Generate row containers with fields
   const rowsYaml = rows.map((row, rowIndex) => {
     const fieldsYaml = row.map((field, colIndex) => generateFieldContainer(field, colIndex, columns)).join("\n");
-    return `      - conRow${rowIndex + 1}:
-          Control: GroupContainer@1.3.0
-          Variant: AutoLayout
-          Properties:
-            LayoutDirection: =LayoutDirection.Horizontal
-            LayoutGap: =16
-            Height: =80
-            Width: =Parent.Width
-            LayoutAlignItems: =LayoutAlignItems.Start
-          Children:
+    return `            - conRow${rowIndex + 1}:
+                Control: GroupContainer@1.3.0
+                Variant: AutoLayout
+                Properties:
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =16
+                  Height: =80
+                  Width: =Parent.Width
+                  LayoutAlignItems: =LayoutAlignItems.Start
+                Children:
 ${fieldsYaml}`;
   }).join("\n");
 
@@ -146,25 +146,25 @@ ${rowsYaml}
 function generateFieldContainer(field: FormField, colIndex: number, totalColumns: number): string {
   const inputControl = generateInputControl(field);
 
-  return `            - con${field.controlName}:
-                Control: GroupContainer@1.3.0
-                Variant: AutoLayout
-                Properties:
-                  LayoutDirection: =LayoutDirection.Vertical
-                  LayoutGap: =4
-                  FillPortions: =1
-                  LayoutMinWidth: =0
-                Children:
-                  - lbl${field.controlName}:
-                      Control: Label@2.5.1
-                      Properties:
-                        Color: =RGBA(55, 65, 81, 1)
-                        Font: =Font.'Open Sans'
-                        FontWeight: =FontWeight.Semibold
-                        Height: =22
-                        Size: =10
-                        Text: ="${escape(field.label)}${field.required ? " *" : ""}"
-                        Width: =Parent.Width
+  return `                    - con${field.controlName}:
+                        Control: GroupContainer@1.3.0
+                        Variant: AutoLayout
+                        Properties:
+                          LayoutDirection: =LayoutDirection.Vertical
+                          LayoutGap: =4
+                          FillPortions: =1
+                          LayoutMinWidth: =0
+                        Children:
+                          - lbl${field.controlName}:
+                              Control: Label@2.5.1
+                              Properties:
+                                Color: =RGBA(55, 65, 81, 1)
+                                Font: =Font.'Open Sans'
+                                FontWeight: =FontWeight.Semibold
+                                Height: =22
+                                Size: =10
+                                Text: ="${escape(field.label)}${field.required ? " *" : ""}"
+                                Width: =Parent.Width
 ${inputControl}`;
 }
 
@@ -172,80 +172,80 @@ ${inputControl}`;
  * Generates the appropriate input control based on field type
  */
 function generateInputControl(field: FormField): string {
-  const commonProps = `                        Height: =36
-                        Width: =Parent.Width`;
+  const commonProps = `                              Height: =36
+                              Width: =Parent.Width`;
 
   switch (field.type) {
     case "text":
     case "number":
-      return `                  - ${field.controlName}:
-                      Control: Classic/TextInput@2.3.2
-                      Properties:
-                        BorderColor: =RGBA(209, 213, 219, 1)
-                        BorderThickness: =1
-                        Fill: =RGBA(255, 255, 255, 1)
-                        Font: =Font.'Open Sans'
+      return `                          - ${field.controlName}:
+                              Control: Classic/TextInput@2.3.2
+                              Properties:
+                                BorderColor: =RGBA(209, 213, 219, 1)
+                                BorderThickness: =1
+                                Fill: =RGBA(255, 255, 255, 1)
+                                Font: =Font.'Open Sans'
 ${commonProps}
-                        HintText: ="${escape(field.placeholder || "")}"
-                        HoverBorderColor: =RGBA(156, 163, 175, 1)
-                        RadiusBottomLeft: =6
-                        RadiusBottomRight: =6
-                        RadiusTopLeft: =6
-                        RadiusTopRight: =6
-                        Size: =10`;
+                                HintText: ="${escape(field.placeholder || "")}"
+                                HoverBorderColor: =RGBA(156, 163, 175, 1)
+                                RadiusBottomLeft: =6
+                                RadiusBottomRight: =6
+                                RadiusTopLeft: =6
+                                RadiusTopRight: =6
+                                Size: =10`;
 
     case "dropdown":
       const optionsStr = field.options?.map(o => `{Value: "${escape(o.label)}"}`).join(", ") || "";
-      return `                  - ${field.controlName}:
-                      Control: Classic/DropDown@2.3.1
-                      Properties:
-                        BorderColor: =RGBA(209, 213, 219, 1)
-                        ChevronBackground: =RGBA(0, 0, 0, 0)
-                        ChevronFill: =RGBA(107, 114, 128, 1)
-                        ChevronHoverBackground: =RGBA(0, 0, 0, 0)
-                        ChevronHoverFill: =RGBA(75, 85, 99, 1)
-                        Fill: =RGBA(255, 255, 255, 1)
+      return `                          - ${field.controlName}:
+                              Control: Classic/DropDown@2.3.1
+                              Properties:
+                                BorderColor: =RGBA(209, 213, 219, 1)
+                                ChevronBackground: =RGBA(0, 0, 0, 0)
+                                ChevronFill: =RGBA(107, 114, 128, 1)
+                                ChevronHoverBackground: =RGBA(0, 0, 0, 0)
+                                ChevronHoverFill: =RGBA(75, 85, 99, 1)
+                                Fill: =RGBA(255, 255, 255, 1)
 ${commonProps}
-                        HoverFill: =RGBA(249, 250, 251, 1)
-                        Items: =[${optionsStr}]
-                        Items.Value: =Value
-                        RadiusBottomLeft: =6
-                        RadiusBottomRight: =6
-                        RadiusTopLeft: =6
-                        RadiusTopRight: =6`;
+                                HoverFill: =RGBA(249, 250, 251, 1)
+                                Items: =[${optionsStr}]
+                                Items.Value: =Value
+                                RadiusBottomLeft: =6
+                                RadiusBottomRight: =6
+                                RadiusTopLeft: =6
+                                RadiusTopRight: =6`;
 
     case "date":
-      return `                  - ${field.controlName}:
-                      Control: DatePicker@0.0.46
-                      Properties:
-                        BorderColor: =RGBA(209, 213, 219, 1)
+      return `                          - ${field.controlName}:
+                              Control: DatePicker@0.0.46
+                              Properties:
+                                BorderColor: =RGBA(209, 213, 219, 1)
 ${commonProps}
-                        SelectedDate: =Today()
-                        RadiusBottomLeft: =6
-                        RadiusBottomRight: =6
-                        RadiusTopLeft: =6
-                        RadiusTopRight: =6`;
+                                SelectedDate: =Today()
+                                RadiusBottomLeft: =6
+                                RadiusBottomRight: =6
+                                RadiusTopLeft: =6
+                                RadiusTopRight: =6`;
 
     case "checkbox":
-      return `                  - ${field.controlName}:
-                      Control: Checkbox@0.0.30
-                      Properties:
-                        Height: =32
-                        Width: =Parent.Width
-                        CheckboxSize: =20
-                        BorderColor: =RGBA(209, 213, 219, 1)`;
+      return `                          - ${field.controlName}:
+                              Control: Checkbox@0.0.30
+                              Properties:
+                                Height: =32
+                                Width: =Parent.Width
+                                CheckboxSize: =20
+                                BorderColor: =RGBA(209, 213, 219, 1)`;
 
     case "toggle":
-      return `                  - ${field.controlName}:
-                      Control: Toggle@1.1.5
-                      Properties:
-                        Height: =32
-                        Width: =60`;
+      return `                          - ${field.controlName}:
+                              Control: Toggle@1.1.5
+                              Properties:
+                                Height: =32
+                                Width: =60`;
 
     default:
-      return `                  - ${field.controlName}:
-                      Control: Classic/TextInput@2.3.2
-                      Properties:
+      return `                          - ${field.controlName}:
+                              Control: Classic/TextInput@2.3.2
+                              Properties:
 ${commonProps}`;
   }
 }
