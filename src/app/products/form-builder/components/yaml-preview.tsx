@@ -36,7 +36,7 @@ export function YamlPreview({ code }: YamlPreviewProps) {
             </DialogTrigger>
             <DialogContent className="max-w-4xl max-h-[80vh] bg-neutral-950 border-neutral-800 text-white overflow-hidden flex flex-col">
                 <DialogHeader className="flex-shrink-0">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between pr-8">
                         <DialogTitle>Generated YAML Code</DialogTitle>
                         <Button
                             onClick={handleCopy}
