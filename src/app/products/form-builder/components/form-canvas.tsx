@@ -61,67 +61,47 @@ export function FormCanvas({ config, fields, selectedFieldId, activeStepId, onSe
                                 </p>
                             </div>
                         ) : (
-                            <Reorder.Group
-                                axis="y"
-                                values={displayFields}
-                                onReorder={(newOrder) => {
-                                    // Merge reordered fields with any step-filtered ones
-                                    if (activeStepId) {
-                                        const otherFields = fields.filter(f => f.stepId !== activeStepId && f.stepId);
-                                        onReorder([...newOrder, ...otherFields]);
-                                    } else {
-                                        onReorder(newOrder);
-                                    }
-                                }}
-                                className="space-y-4"
+                            <div
+                                className={cn(
+                                    "grid gap-4",
+                                    config.columns === 3 ? "grid-cols-3" : config.columns === 2 ? "grid-cols-2" : "grid-cols-1"
+                                )}
                             >
                                 {displayFields.map((field) => (
-                                    <Reorder.Item
+                                    <div
                                         key={field.id}
-                                        value={field}
-                                        className="cursor-grab active:cursor-grabbing"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            onSelectField(field.id);
+                                        }}
+                                        className={cn(
+                                            "group relative p-4 rounded-lg border-2 transition-all cursor-pointer",
+                                            selectedFieldId === field.id
+                                                ? "border-blue-500 bg-blue-50/50"
+                                                : "border-transparent hover:border-neutral-200 bg-neutral-50"
+                                        )}
                                     >
-                                        <div
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                onSelectField(field.id);
-                                            }}
-                                            className={cn(
-                                                "group relative p-4 rounded-lg border-2 transition-all",
-                                                selectedFieldId === field.id
-                                                    ? "border-blue-500 bg-blue-50/50"
-                                                    : "border-transparent hover:border-neutral-200 bg-neutral-50"
-                                            )}
-                                        >
-                                            {/* Drag Handle */}
-                                            <div className="absolute left-1 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <GripVertical className="w-4 h-4 text-neutral-400" />
-                                            </div>
-
-                                            {/* Field Label */}
-                                            <div className="flex items-center gap-2 mb-2 pl-4">
-                                                <span className="text-neutral-500">
-                                                    {fieldIcons[field.type]}
-                                                </span>
-                                                <label className="text-sm font-medium text-neutral-700">
-                                                    {field.label}
-                                                    {field.required && <span className="text-red-500 ml-1">*</span>}
-                                                </label>
-                                            </div>
-
-                                            {/* Field Preview */}
-                                            <div className="pl-4">
-                                                <FieldPreview field={field} />
-                                            </div>
-
-                                            {/* Selection indicator */}
-                                            {selectedFieldId === field.id && (
-                                                <div className="absolute -right-1 -top-1 w-3 h-3 bg-blue-500 rounded-full" />
-                                            )}
+                                        {/* Field Label */}
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <span className="text-neutral-500">
+                                                {fieldIcons[field.type]}
+                                            </span>
+                                            <label className="text-sm font-medium text-neutral-700">
+                                                {field.label}
+                                                {field.required && <span className="text-red-500 ml-1">*</span>}
+                                            </label>
                                         </div>
-                                    </Reorder.Item>
+
+                                        {/* Field Preview */}
+                                        <FieldPreview field={field} />
+
+                                        {/* Selection indicator */}
+                                        {selectedFieldId === field.id && (
+                                            <div className="absolute -right-1 -top-1 w-3 h-3 bg-blue-500 rounded-full" />
+                                        )}
+                                    </div>
                                 ))}
-                            </Reorder.Group>
+                            </div>
                         )}
                     </div>
 
