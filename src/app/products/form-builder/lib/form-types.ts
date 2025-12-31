@@ -33,6 +33,7 @@ export interface FormConfig {
     submitButtonText: string;
     cancelButtonText: string;
     width: number;
+    columns?: 1 | 2 | 3;
     steps?: FormStep[];
     background?: string;
     blurBackground?: boolean;
@@ -47,4 +48,4 @@ export interface FormTemplate {
     defaultFields: FormField[];
 }
 
-export type FormStep = "welcome" | "templates" | "builder";
+export type FormBuilderStep = "welcome" | "templates" | "builder";

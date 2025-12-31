@@ -9,41 +9,50 @@ const escape = (str: string) => str ? str.replace(/"/g, '\\"') : "";
  * Supports multiple iterations (Classic, Modern, Glass, Slim).
  */
 export function generateFormYaml(config: FormConfig, fields: FormField[], templateYaml?: string): string {
-    const formWidth = config.width || 387;
+  const formWidth = config.width || 387;
+  const columns = config.columns || 1;
 
-    // Build the Items table entries
-    const itemsEntries = fields.map((field, index) => {
-        const comma = index < fields.length - 1 ? "," : "";
-        const hint = field.placeholder || "";
+  // Build the Items table entries with column index for multi-column layout
+  const itemsEntries = fields.map((field, index) => {
+    const comma = index < fields.length - 1 ? "," : "";
+    const hint = field.placeholder || "";
+    const colIndex = index % columns; // Column position (0, 1, or 2)
+    const rowIndex = Math.floor(index / columns); // Row position
 
-        let extras = "";
-        if (field.type === "dropdown" && field.options) {
-            // Power Fx Table options: [{Value: "Opt1"}, {Value: "Opt2"}]
-            const optionsStr = field.options.map(o => `{Value: "${escape(o.label)}"}`).join(", ");
-            extras = `, options: [${optionsStr}]`;
-        }
+    let extras = "";
+    if (field.type === "dropdown" && field.options) {
+      // Power Fx Table options: [{Value: "Opt1"}, {Value: "Opt2"}]
+      const optionsStr = field.options.map(o => `{Value: "${escape(o.label)}"}`).join(", ");
+      extras = `, options: [${optionsStr}]`;
+    }
 
-        return `                { id: ${index + 1}, labelText: "${escape(field.label)}", hintText: "${escape(hint)}", fieldType: "${field.type}"${extras} }${comma}`;
-    }).join("\n");
+    return `                { id: ${index + 1}, labelText: "${escape(field.label)}", hintText: "${escape(hint)}", fieldType: "${field.type}", colIndex: ${colIndex}, rowIndex: ${rowIndex}${extras} }${comma}`;
+  }).join("\n");
 
-    // Use provided template or fallback to the Classic Card structure
-    const structure = templateYaml || getClassicTemplate();
+  // Use provided template or fallback to the Classic Card structure
+  const structure = templateYaml || getClassicTemplate(columns);
 
-    // Replace placeholders
-    let yaml = structure
-        .replace(/{{FORM_WIDTH}}/g, formWidth.toString())
-        .replace(/{{TITLE}}/g, escape(config.title || "Form Title"))
-        .replace(/{{SUBTITLE}}/g, escape(config.subtitle || ""))
-        .replace(/{{SUBMIT_TEXT}}/g, escape(config.submitButtonText || "Submit"))
-        .replace(/{{CANCEL_TEXT}}/g, escape(config.cancelButtonText || "Cancel"))
-        .replace(/{{ITEMS_ENTRIES}}/g, itemsEntries)
-        .replace(/{{GALLERY_CHILDREN}}/g, getGalleryChildren(fields, templateYaml?.includes("modern-fluent") ? "modern" : templateYaml?.includes("glassmorphic") ? "glass" : templateYaml?.includes("slim-sidebar") ? "slim" : "classic"));
+  // Replace placeholders
+  let yaml = structure
+    .replace(/{{FORM_WIDTH}}/g, formWidth.toString())
+    .replace(/{{TITLE}}/g, escape(config.title || "Form Title"))
+    .replace(/{{SUBTITLE}}/g, escape(config.subtitle || ""))
+    .replace(/{{SUBMIT_TEXT}}/g, escape(config.submitButtonText || "Submit"))
+    .replace(/{{CANCEL_TEXT}}/g, escape(config.cancelButtonText || "Cancel"))
+    .replace(/{{COLUMNS}}/g, columns.toString())
+    .replace(/{{ITEMS_ENTRIES}}/g, itemsEntries)
+    .replace(/{{GALLERY_CHILDREN}}/g, getGalleryChildren(fields, templateYaml?.includes("modern-fluent") ? "modern" : templateYaml?.includes("glassmorphic") ? "glass" : templateYaml?.includes("slim-sidebar") ? "slim" : "classic", columns));
 
-    return yaml;
+  return yaml;
 }
 
-function getClassicTemplate(): string {
-    return `- conFormCardContainer:
+function getClassicTemplate(columns: number = 1): string {
+  // Calculate row count for proper height calculation
+  const heightFormula = columns === 1
+    ? `=galFormFields.AllItemsCount * (galFormFields.TemplateHeight + 10)`
+    : `=RoundUp(galFormFields.AllItemsCount / ${columns}, 0) * (galFormFields.TemplateHeight + 10)`;
+
+  return `- conFormCardContainer:
     Control: GroupContainer@1.3.0
     Variant: ManualLayout
     Properties:
@@ -86,7 +95,7 @@ function getClassicTemplate(): string {
           Control: Gallery@2.15.0
           Variant: Vertical
           Properties:
-            Height: =galFormFields.AllItemsCount * (galFormFields.TemplateHeight +10)
+            Height: ${heightFormula}
             Items: |
               =Table(
 {{ITEMS_ENTRIES}}

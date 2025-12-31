@@ -50,7 +50,8 @@ export const formTemplates: FormTemplate[] = [
             subtitle: "Welcome! Please complete this form to finalize your onboarding",
             submitButtonText: "Submit",
             cancelButtonText: "Save Draft",
-            width: 420,
+            width: 600,
+            columns: 2,
         },
         defaultFields: [
             {

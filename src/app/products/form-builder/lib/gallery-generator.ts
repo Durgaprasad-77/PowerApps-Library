@@ -1,31 +1,37 @@
 import { FormField } from "./form-types";
 
-export function getGalleryChildren(fields: FormField[], style: string): string {
+export function getGalleryChildren(fields: FormField[], style: string, columns: number = 1): string {
   const usedTypes = new Set(fields.map(f => f.type));
 
   // Always include the label
-  let children = [getLabelSnippet(style)];
+  let children = [getLabelSnippet(style, columns)];
 
   if (usedTypes.has("text") || usedTypes.has("number")) {
-    children.push(getTextSnippet(style));
+    children.push(getTextSnippet(style, columns));
   }
   if (usedTypes.has("dropdown")) {
-    children.push(getDropdownSnippet(style));
+    children.push(getDropdownSnippet(style, columns));
   }
   if (usedTypes.has("toggle")) {
-    children.push(getToggleSnippet(style));
+    children.push(getToggleSnippet(style, columns));
   }
   if (usedTypes.has("checkbox")) {
-    children.push(getCheckboxSnippet(style));
+    children.push(getCheckboxSnippet(style, columns));
   }
   if (usedTypes.has("date")) {
-    children.push(getDateSnippet(style));
+    children.push(getDateSnippet(style, columns));
   }
 
   return children.join("\n");
 }
 
-function getLabelSnippet(style: string): string {
+function getLabelSnippet(style: string, columns: number = 1): string {
+  const widthFormula = columns === 1 ? `=Parent.TemplateWidth` : `=Parent.TemplateWidth / ${columns} - 4`;
+  const xFormula = columns === 1 ? `` : `
+                  X: =ThisItem.colIndex * (Parent.TemplateWidth / ${columns})`;
+  const visibleFormula = columns > 1 ? `
+                  Visible: =ThisItem.colIndex = 0 || Mod(ThisItem.id - 1, ${columns}) = ThisItem.colIndex` : ``;
+
   const common = `            - lblFieldLabel:
                 Control: Label@2.5.1
                 Properties:`;
@@ -37,7 +43,7 @@ function getLabelSnippet(style: string): string {
                   Height: =20
                   Size: =9
                   Text: =ThisItem.labelText
-                  Width: =Parent.TemplateWidth
+                  Width: ${widthFormula}${xFormula}
                   Y: =0`;
   }
   if (style === "glass") {
@@ -47,6 +53,7 @@ function getLabelSnippet(style: string): string {
                   Height: =20
                   Size: =9
                   Text: =ThisItem.labelText
+                  Width: ${widthFormula}${xFormula}
                   Y: =0`;
   }
   if (style === "slim") {
@@ -55,6 +62,7 @@ function getLabelSnippet(style: string): string {
                   Height: =20
                   Size: =9
                   Text: =ThisItem.labelText
+                  Width: ${widthFormula}${xFormula}
                   Y: =8`;
   }
   // Classic
@@ -65,11 +73,14 @@ function getLabelSnippet(style: string): string {
                   Height: =22
                   Size: =10
                   Text: =ThisItem.labelText
-                  Width: =Parent.TemplateWidth
+                  Width: ${widthFormula}${xFormula}
                   Y: =5`;
 }
 
-function getTextSnippet(style: string): string {
+function getTextSnippet(style: string, columns: number = 1): string {
+  const widthFormula = columns === 1 ? `=Parent.TemplateWidth` : `=Parent.TemplateWidth / ${columns} - 4`;
+  const xFormula = columns === 1 ? `` : `
+                  X: =ThisItem.colIndex * (Parent.TemplateWidth / ${columns})`;
   if (style === "modern") {
     return `            - txtFieldValue:
                 Control: Classic/TextInput@2.3.2
@@ -91,7 +102,7 @@ function getTextSnippet(style: string): string {
                   PressedBorderColor: =RGBA(37, 99, 235, 1)
                   Size: =10
                   Visible: =ThisItem.fieldType = "text" || ThisItem.fieldType = "number"
-                  Width: =Parent.TemplateWidth
+                  Width: ${widthFormula}${xFormula}
                   Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`;
   }
   if (style === "glass") {
@@ -109,7 +120,8 @@ function getTextSnippet(style: string): string {
                   OnChange: |
                     =RemoveIf(colFormValues, id = ThisItem.id);
                     Collect(colFormValues, { id: ThisItem.id, value: Self.Text })
-                  Width: =Parent.TemplateWidth
+                  Visible: =ThisItem.fieldType = "text" || ThisItem.fieldType = "number"
+                  Width: ${widthFormula}${xFormula}
                   Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`;
   }
   if (style === "slim") {
@@ -130,7 +142,7 @@ function getTextSnippet(style: string): string {
                   RadiusTopRight: =4
                   Size: =9
                   Visible: =ThisItem.fieldType = "text" || ThisItem.fieldType = "number"
-                  Width: =Parent.TemplateWidth
+                  Width: ${widthFormula}${xFormula}
                   Y: =lblFieldLabel.Y + lblFieldLabel.Height + 2`;
   }
   // Classic
@@ -155,11 +167,14 @@ function getTextSnippet(style: string): string {
                   PressedFill: =ColorFade(Self.HoverFill, -10%)
                   Size: =9
                   Visible: =ThisItem.fieldType = "text" || ThisItem.fieldType = "number"
-                  Width: =Parent.TemplateWidth
+                  Width: ${widthFormula}${xFormula}
                   Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`;
 }
 
-function getDropdownSnippet(style: string): string {
+function getDropdownSnippet(style: string, columns: number = 1): string {
+  const widthFormula = columns === 1 ? `=Parent.TemplateWidth` : `=Parent.TemplateWidth / ${columns} - 4`;
+  const xFormula = columns === 1 ? `` : `
+                  X: =ThisItem.colIndex * (Parent.TemplateWidth / ${columns})`;
   const common = `            - ddFieldValue:
                 Control: Classic/DropDown@2.3.1
                 Properties:`;
@@ -178,7 +193,7 @@ function getDropdownSnippet(style: string): string {
                     =RemoveIf(colFormValues, id = ThisItem.id);
                     Collect(colFormValues, { id: ThisItem.id, value: Self.Selected.Value })
                   Visible: =ThisItem.fieldType = "dropdown"
-                  Width: =Parent.TemplateWidth
+                  Width: ${widthFormula}${xFormula}
                   Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`;
   }
   if (style === "glass") {
@@ -195,7 +210,7 @@ function getDropdownSnippet(style: string): string {
                   Items: =ThisItem.options
                   Items.Value: =Value
                   Visible: =ThisItem.fieldType = "dropdown"
-                  Width: =Parent.TemplateWidth
+                  Width: ${widthFormula}${xFormula}
                   Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`;
   }
   if (style === "slim") {
@@ -211,7 +226,7 @@ function getDropdownSnippet(style: string): string {
                   Items: =ThisItem.options
                   Items.Value: =Value
                   Visible: =ThisItem.fieldType = "dropdown"
-                  Width: =Parent.TemplateWidth
+                  Width: ${widthFormula}${xFormula}
                   Y: =lblFieldLabel.Y + lblFieldLabel.Height + 2`;
   }
   // Classic
@@ -229,11 +244,11 @@ function getDropdownSnippet(style: string): string {
                     =RemoveIf(colFormValues, id = ThisItem.id);
                     Collect(colFormValues, { id: ThisItem.id, value: Self.Selected.Value })
                   Visible: =ThisItem.fieldType = "dropdown"
-                  Width: =Parent.TemplateWidth
+                  Width: ${widthFormula}${xFormula}
                   Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`;
 }
 
-function getToggleSnippet(style: string): string {
+function getToggleSnippet(style: string, columns: number = 1): string {
   return `            - tglFieldValue:
                 Control: Toggle@1.1.5
                 Properties:
@@ -250,7 +265,10 @@ function getToggleSnippet(style: string): string {
                   Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`;
 }
 
-function getCheckboxSnippet(style: string): string {
+function getCheckboxSnippet(style: string, columns: number = 1): string {
+  const widthFormula = columns === 1 ? `=Parent.TemplateWidth` : `=Parent.TemplateWidth / ${columns} - 4`;
+  const xFormula = columns === 1 ? `` : `
+                  X: =ThisItem.colIndex * (Parent.TemplateWidth / ${columns})`;
   return `            - chkFieldValue:
                 Control: Checkbox@0.0.30
                 Properties:
@@ -263,11 +281,14 @@ function getCheckboxSnippet(style: string): string {
                     =RemoveIf(colFormValues, id = ThisItem.id);
                     Collect(colFormValues, { id: ThisItem.id, value: "false" })
                   Visible: =ThisItem.fieldType = "checkbox"
-                  Width: =Parent.TemplateWidth
+                  Width: ${widthFormula}${xFormula}
                   Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`;
 }
 
-function getDateSnippet(style: string): string {
+function getDateSnippet(style: string, columns: number = 1): string {
+  const widthFormula = columns === 1 ? `=Parent.TemplateWidth` : `=Parent.TemplateWidth / ${columns} - 4`;
+  const xFormula = columns === 1 ? `` : `
+                  X: =ThisItem.colIndex * (Parent.TemplateWidth / ${columns})`;
   return `            - dpFieldValue:
                 Control: DatePicker@0.0.46
                 Properties:
@@ -277,6 +298,6 @@ function getDateSnippet(style: string): string {
                     =RemoveIf(colFormValues, id = ThisItem.id);
                     Collect(colFormValues, { id: ThisItem.id, value: Text(Self.SelectedDate) })
                   Visible: =ThisItem.fieldType = "date"
-                  Width: =Parent.TemplateWidth
+                  Width: ${widthFormula}${xFormula}
                   Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`;
 }
