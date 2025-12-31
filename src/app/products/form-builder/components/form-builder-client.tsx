@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import { WelcomeScreen } from "./welcome-screen";
 import { FormCanvas } from "./form-canvas";
@@ -20,8 +21,31 @@ type FormStep = "welcome" | "builder";
 
 export function FormBuilderClient() {
     const [step, setStep] = useState<FormStep>("welcome");
-    const [selectedTemplate, setSelectedTemplate] = useState<FormTemplate | null>(null);
+    const [selectedTemplate, setSelectedTemplate] = useState<any | null>(null);
+    const [templates, setTemplates] = useState<any[]>([]);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const supabase = createClient();
+
+    // Fetch templates from Supabase
+    useEffect(() => {
+        const fetchTemplates = async () => {
+            const { data, error } = await supabase
+                .from("form_templates")
+                .select("*")
+                .order("slug", { ascending: true });
+
+            if (data) {
+                setTemplates(data);
+                // Set classic-card as default if available
+                const classic = data.find(t => t.slug === "classic-card");
+                if (classic) {
+                    setSelectedTemplate(classic);
+                    setConfig(prev => ({ ...prev, ...classic.default_config }));
+                }
+            }
+        };
+        fetchTemplates();
+    }, []);
 
     // Form State
     const [config, setConfig] = useState<FormConfig>({
@@ -35,17 +59,22 @@ export function FormBuilderClient() {
     const [fields, setFields] = useState<FormField[]>([]);
     const [selectedFieldId, setSelectedFieldId] = useState<string | null>(null);
 
-    // Computed YAML
     const yamlCode = useMemo(() => {
-        return generateFormYaml(config, fields);
-    }, [config, fields]);
+        return generateFormYaml(config, fields, selectedTemplate?.yaml_structure);
+    }, [config, fields, selectedTemplate]);
 
     // Handlers
 
-    const handleSelectTemplate = (template: FormTemplate) => {
+    const handleSelectTemplate = (template: any) => {
         setSelectedTemplate(template);
-        setConfig(template.defaultConfig);
-        setFields(template.defaultFields);
+        if (template.default_config) {
+            setConfig({
+                ...config,
+                ...template.default_config
+            });
+        }
+        // Keep existing fields if any, otherwise use template defaults if they existed
+        // In this new system, we rely on the yaml_structure for layout
         setStep("builder");
     };
 
@@ -133,6 +162,24 @@ export function FormBuilderClient() {
                             ))}
                         </div>
                     )}
+                    {/* Iteration Selector */}
+                    <div className="flex items-center gap-2 mr-4">
+                        <Label className="text-xs text-neutral-400">Style:</Label>
+                        <select
+                            title="Form Style"
+                            className="bg-neutral-900 border border-neutral-800 text-xs rounded-md px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-600 h-8 text-white"
+                            value={selectedTemplate?.slug || ""}
+                            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                                const t = templates.find(t => t.slug === e.target.value);
+                                if (t) handleSelectTemplate(t);
+                            }}
+                        >
+                            {templates.map(t => (
+                                <option key={t.id} value={t.slug}>{t.name}</option>
+                            ))}
+                        </select>
+                    </div>
+
                     <YamlPreview code={yamlCode} />
                     <Dialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
                         <DialogTrigger asChild>
