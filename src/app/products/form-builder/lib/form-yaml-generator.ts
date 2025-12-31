@@ -172,8 +172,9 @@ ${inputControl}`;
  * Generates the appropriate input control based on field type
  */
 function generateInputControl(field: FormField): string {
-  const commonProps = `                              Height: =36
-                              Width: =Parent.Width`;
+  // Properties need 32 spaces to align with other properties
+  const heightProp = `                                Height: =36`;
+  const widthProp = `                                Width: =Parent.Width`;
 
   switch (field.type) {
     case "text":
@@ -185,7 +186,8 @@ function generateInputControl(field: FormField): string {
                                 BorderThickness: =1
                                 Fill: =RGBA(255, 255, 255, 1)
                                 Font: =Font.'Open Sans'
-${commonProps}
+${heightProp}
+${widthProp}
                                 HintText: ="${escape(field.placeholder || "")}"
                                 HoverBorderColor: =RGBA(156, 163, 175, 1)
                                 RadiusBottomLeft: =6
@@ -205,7 +207,8 @@ ${commonProps}
                                 ChevronHoverBackground: =RGBA(0, 0, 0, 0)
                                 ChevronHoverFill: =RGBA(75, 85, 99, 1)
                                 Fill: =RGBA(255, 255, 255, 1)
-${commonProps}
+${heightProp}
+${widthProp}
                                 HoverFill: =RGBA(249, 250, 251, 1)
                                 Items: =[${optionsStr}]
                                 Items.Value: =Value
@@ -219,7 +222,8 @@ ${commonProps}
                               Control: DatePicker@0.0.46
                               Properties:
                                 BorderColor: =RGBA(209, 213, 219, 1)
-${commonProps}
+${heightProp}
+${widthProp}
                                 SelectedDate: =Today()
                                 RadiusBottomLeft: =6
                                 RadiusBottomRight: =6
@@ -246,7 +250,8 @@ ${commonProps}
       return `                          - ${field.controlName}:
                               Control: Classic/TextInput@2.3.2
                               Properties:
-${commonProps}`;
+${heightProp}
+${widthProp}`;
   }
 }
 
