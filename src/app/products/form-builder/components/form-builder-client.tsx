@@ -67,14 +67,17 @@ export function FormBuilderClient() {
 
     const handleSelectTemplate = (template: any) => {
         setSelectedTemplate(template);
-        if (template.default_config) {
+        // Apply default config from template
+        if (template.defaultConfig || template.default_config) {
             setConfig({
                 ...config,
-                ...template.default_config
+                ...(template.defaultConfig || template.default_config)
             });
         }
-        // Keep existing fields if any, otherwise use template defaults if they existed
-        // In this new system, we rely on the yaml_structure for layout
+        // Load default fields from the template
+        if (template.defaultFields && template.defaultFields.length > 0) {
+            setFields(template.defaultFields);
+        }
         setStep("builder");
     };
 
