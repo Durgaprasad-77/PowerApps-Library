@@ -196,6 +196,37 @@ function TemplatePreview({ type }: { type: string }) {
                     </div>
                 </div>
             );
+        case "onboarding":
+            return (
+                <div className="w-24 scale-75">
+                    <div className="bg-white rounded-lg p-2 shadow-lg">
+                        {/* Title */}
+                        <div className="h-2 w-16 bg-neutral-300 rounded mb-1" />
+                        <div className="h-1 w-20 bg-neutral-200 rounded mb-2" />
+                        {/* Form fields - stacked to show comprehensive form */}
+                        <div className="space-y-1.5">
+                            <div className="flex gap-1">
+                                <div className="h-3 flex-1 bg-neutral-100 rounded" />
+                                <div className="h-3 flex-1 bg-neutral-100 rounded" />
+                            </div>
+                            <div className="h-3 bg-neutral-100 rounded" />
+                            <div className="flex gap-1">
+                                <div className="h-3 flex-1 bg-blue-100 rounded" />
+                                <div className="h-3 flex-1 bg-neutral-100 rounded" />
+                            </div>
+                            <div className="flex items-center gap-1">
+                                <div className="h-2 w-2 bg-emerald-400 rounded-sm" />
+                                <div className="h-1.5 w-8 bg-neutral-200 rounded" />
+                            </div>
+                        </div>
+                        {/* Buttons */}
+                        <div className="mt-2 flex gap-1 justify-end">
+                            <div className="h-2.5 w-8 bg-neutral-200 rounded" />
+                            <div className="h-2.5 w-8 bg-blue-500 rounded" />
+                        </div>
+                    </div>
+                </div>
+            );
         default:
             return (
                 <div className="text-neutral-600 text-xs">
