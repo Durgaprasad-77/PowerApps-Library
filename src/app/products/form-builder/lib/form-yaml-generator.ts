@@ -1,56 +1,274 @@
 import { FormConfig, FormField } from "./form-types";
-import { getGalleryChildren } from "./gallery-generator";
 
 // Helper to escape double quotes in strings for Power Apps YAML
 const escape = (str: string) => str ? str.replace(/"/g, '\\"') : "";
 
 /**
- * Generates Power Apps YAML code for a form using a template-based system.
- * Supports multiple iterations (Classic, Modern, Glass, Slim).
+ * Generates Power Apps YAML code for a form.
+ * - Single column: Uses Gallery-based approach
+ * - Multi-column: Uses nested AutoLayout containers
  */
 export function generateFormYaml(config: FormConfig, fields: FormField[], templateYaml?: string): string {
-  const formWidth = config.width || 387;
+  const formWidth = config.width || 400;
   const columns = config.columns || 1;
 
-  // Build the Items table entries with column index for multi-column layout
+  // For multi-column (2 or 3), use container-based approach
+  if (columns > 1) {
+    return generateMultiColumnForm(config, fields, columns);
+  }
+
+  // For single column, use the simpler Gallery approach
+  return generateSingleColumnForm(config, fields, templateYaml);
+}
+
+/**
+ * Generates a multi-column form using nested AutoLayout containers
+ */
+function generateMultiColumnForm(config: FormConfig, fields: FormField[], columns: number): string {
+  const formWidth = config.width || 600;
+
+  // Group fields into rows
+  const rows: FormField[][] = [];
+  for (let i = 0; i < fields.length; i += columns) {
+    rows.push(fields.slice(i, i + columns));
+  }
+
+  // Generate row containers with fields
+  const rowsYaml = rows.map((row, rowIndex) => {
+    const fieldsYaml = row.map((field, colIndex) => generateFieldContainer(field, colIndex, columns)).join("\n");
+    return `      - conRow${rowIndex + 1}:
+          Control: GroupContainer@1.3.0
+          Variant: AutoLayout
+          Properties:
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =16
+            Height: =80
+            Width: =Parent.Width
+            LayoutAlignItems: =LayoutAlignItems.Start
+          Children:
+${fieldsYaml}`;
+  }).join("\n");
+
+  return `- conFormCard:
+    Control: GroupContainer@1.3.0
+    Variant: AutoLayout
+    Properties:
+      DropShadow: =DropShadow.Regular
+      Fill: =RGBA(255, 255, 255, 1)
+      RadiusBottomLeft: =15
+      RadiusBottomRight: =15
+      RadiusTopLeft: =15
+      RadiusTopRight: =15
+      Width: =${formWidth}
+      LayoutDirection: =LayoutDirection.Vertical
+      LayoutGap: =0
+      PaddingTop: =20
+      PaddingBottom: =20
+      PaddingLeft: =24
+      PaddingRight: =24
+    Children:
+      - lblTitle:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(0, 0, 0, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            Size: =16
+            Text: ="${escape(config.title || "Form Title")}"
+            Width: =Parent.Width - 48
+      - lblSubtitle:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(128, 128, 128, 1)
+            Font: =Font.'Open Sans'
+            Height: =24
+            Size: =10
+            Text: ="${escape(config.subtitle || "")}"
+            Width: =Parent.Width - 48
+      - conFormBody:
+          Control: GroupContainer@1.3.0
+          Variant: AutoLayout
+          Properties:
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =12
+            Width: =Parent.Width
+            PaddingTop: =16
+          Children:
+${rowsYaml}
+      - conButtons:
+          Control: GroupContainer@1.3.0
+          Variant: AutoLayout
+          Properties:
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =12
+            LayoutJustifyContent: =LayoutJustifyContent.End
+            Height: =50
+            Width: =Parent.Width
+            PaddingTop: =16
+          Children:
+            - btnCancel:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =RGBA(219, 219, 219, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(0, 0, 0, 1)
+                  Fill: =RGBA(0, 0, 0, 0)
+                  Height: =36
+                  HoverFill: =RGBA(245, 245, 245, 1)
+                  HoverColor: =Self.Color
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                  Text: ="${escape(config.cancelButtonText || "Cancel")}"
+                  Width: =120
+            - btnSubmit:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Color: =RGBA(255, 255, 255, 1)
+                  Fill: =RGBA(59, 130, 246, 1)
+                  Height: =36
+                  HoverFill: =ColorFade(Self.Fill, -10%)
+                  HoverColor: =Self.Color
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                  Text: ="${escape(config.submitButtonText || "Submit")}"
+                  Width: =120`;
+}
+
+/**
+ * Generates a field container with label and input control
+ */
+function generateFieldContainer(field: FormField, colIndex: number, totalColumns: number): string {
+  const inputControl = generateInputControl(field);
+
+  return `            - con${field.controlName}:
+                Control: GroupContainer@1.3.0
+                Variant: AutoLayout
+                Properties:
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =4
+                  FillPortions: =1
+                  LayoutMinWidth: =0
+                Children:
+                  - lbl${field.controlName}:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(55, 65, 81, 1)
+                        Font: =Font.'Open Sans'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =22
+                        Size: =10
+                        Text: ="${escape(field.label)}${field.required ? " *" : ""}"
+                        Width: =Parent.Width
+${inputControl}`;
+}
+
+/**
+ * Generates the appropriate input control based on field type
+ */
+function generateInputControl(field: FormField): string {
+  const commonProps = `                        Height: =36
+                        Width: =Parent.Width`;
+
+  switch (field.type) {
+    case "text":
+    case "number":
+      return `                  - ${field.controlName}:
+                      Control: Classic/TextInput@2.3.2
+                      Properties:
+                        BorderColor: =RGBA(209, 213, 219, 1)
+                        BorderThickness: =1
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Font: =Font.'Open Sans'
+${commonProps}
+                        HintText: ="${escape(field.placeholder || "")}"
+                        HoverBorderColor: =RGBA(156, 163, 175, 1)
+                        RadiusBottomLeft: =6
+                        RadiusBottomRight: =6
+                        RadiusTopLeft: =6
+                        RadiusTopRight: =6
+                        Size: =10`;
+
+    case "dropdown":
+      const optionsStr = field.options?.map(o => `{Value: "${escape(o.label)}"}`).join(", ") || "";
+      return `                  - ${field.controlName}:
+                      Control: Classic/DropDown@2.3.1
+                      Properties:
+                        BorderColor: =RGBA(209, 213, 219, 1)
+                        ChevronBackground: =RGBA(0, 0, 0, 0)
+                        ChevronFill: =RGBA(107, 114, 128, 1)
+                        ChevronHoverBackground: =RGBA(0, 0, 0, 0)
+                        ChevronHoverFill: =RGBA(75, 85, 99, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+${commonProps}
+                        HoverFill: =RGBA(249, 250, 251, 1)
+                        Items: =[${optionsStr}]
+                        Items.Value: =Value
+                        RadiusBottomLeft: =6
+                        RadiusBottomRight: =6
+                        RadiusTopLeft: =6
+                        RadiusTopRight: =6`;
+
+    case "date":
+      return `                  - ${field.controlName}:
+                      Control: DatePicker@0.0.46
+                      Properties:
+                        BorderColor: =RGBA(209, 213, 219, 1)
+${commonProps}
+                        SelectedDate: =Today()
+                        RadiusBottomLeft: =6
+                        RadiusBottomRight: =6
+                        RadiusTopLeft: =6
+                        RadiusTopRight: =6`;
+
+    case "checkbox":
+      return `                  - ${field.controlName}:
+                      Control: Checkbox@0.0.30
+                      Properties:
+                        Height: =32
+                        Width: =Parent.Width
+                        CheckboxSize: =20
+                        BorderColor: =RGBA(209, 213, 219, 1)`;
+
+    case "toggle":
+      return `                  - ${field.controlName}:
+                      Control: Toggle@1.1.5
+                      Properties:
+                        Height: =32
+                        Width: =60`;
+
+    default:
+      return `                  - ${field.controlName}:
+                      Control: Classic/TextInput@2.3.2
+                      Properties:
+${commonProps}`;
+  }
+}
+
+/**
+ * Single column form using Gallery approach (existing implementation)
+ */
+function generateSingleColumnForm(config: FormConfig, fields: FormField[], templateYaml?: string): string {
+  const formWidth = config.width || 400;
+
+  // Build the Items table entries
   const itemsEntries = fields.map((field, index) => {
     const comma = index < fields.length - 1 ? "," : "";
     const hint = field.placeholder || "";
-    const colIndex = index % columns; // Column position (0, 1, or 2)
-    const rowIndex = Math.floor(index / columns); // Row position
 
     let extras = "";
     if (field.type === "dropdown" && field.options) {
-      // Power Fx Table options: [{Value: "Opt1"}, {Value: "Opt2"}]
       const optionsStr = field.options.map(o => `{Value: "${escape(o.label)}"}`).join(", ");
       extras = `, options: [${optionsStr}]`;
     }
 
-    return `                { id: ${index + 1}, labelText: "${escape(field.label)}", hintText: "${escape(hint)}", fieldType: "${field.type}", colIndex: ${colIndex}, rowIndex: ${rowIndex}${extras} }${comma}`;
+    return `                { id: ${index + 1}, labelText: "${escape(field.label)}", hintText: "${escape(hint)}", fieldType: "${field.type}"${extras} }${comma}`;
   }).join("\n");
-
-  // Use provided template or fallback to the Classic Card structure
-  const structure = templateYaml || getClassicTemplate(columns);
-
-  // Replace placeholders
-  let yaml = structure
-    .replace(/{{FORM_WIDTH}}/g, formWidth.toString())
-    .replace(/{{TITLE}}/g, escape(config.title || "Form Title"))
-    .replace(/{{SUBTITLE}}/g, escape(config.subtitle || ""))
-    .replace(/{{SUBMIT_TEXT}}/g, escape(config.submitButtonText || "Submit"))
-    .replace(/{{CANCEL_TEXT}}/g, escape(config.cancelButtonText || "Cancel"))
-    .replace(/{{COLUMNS}}/g, columns.toString())
-    .replace(/{{ITEMS_ENTRIES}}/g, itemsEntries)
-    .replace(/{{GALLERY_CHILDREN}}/g, getGalleryChildren(fields, templateYaml?.includes("modern-fluent") ? "modern" : templateYaml?.includes("glassmorphic") ? "glass" : templateYaml?.includes("slim-sidebar") ? "slim" : "classic", columns));
-
-  return yaml;
-}
-
-function getClassicTemplate(columns: number = 1): string {
-  // Calculate row count for proper height calculation
-  const heightFormula = columns === 1
-    ? `=galFormFields.AllItemsCount * (galFormFields.TemplateHeight + 10)`
-    : `=RoundUp(galFormFields.AllItemsCount / ${columns}, 0) * (galFormFields.TemplateHeight + 10)`;
 
   return `- conFormCardContainer:
     Control: GroupContainer@1.3.0
@@ -63,7 +281,7 @@ function getClassicTemplate(columns: number = 1): string {
       RadiusBottomRight: =15
       RadiusTopLeft: =15
       RadiusTopRight: =15
-      Width: ={{FORM_WIDTH}}
+      Width: =${formWidth}
       X: =465
       Y: =114
     Children:
@@ -75,11 +293,11 @@ function getClassicTemplate(columns: number = 1): string {
             Font: =Font.'Open Sans'
             FontWeight: =FontWeight.Bold
             Height: =27
-            Text: ="{{TITLE}}"
+            Text: ="${escape(config.title || "Form Title")}"
             Width: =Parent.Width * 0.9
             X: =Parent.Width * 0.05
             Y: =20
-      - lblTitle2:
+      - lblSubtitle:
           Control: Label@2.5.1
           Properties:
             BorderColor: =RGBA(0, 18, 107, 1)
@@ -87,7 +305,7 @@ function getClassicTemplate(columns: number = 1): string {
             Font: =Font.'Open Sans'
             Height: =28
             Size: =10
-            Text: ="{{SUBTITLE}}"
+            Text: ="${escape(config.subtitle || "")}"
             Width: =Parent.Width * 0.9
             X: =Parent.Width * 0.05
             Y: =lblTitle.Y + lblTitle.Height
@@ -95,36 +313,56 @@ function getClassicTemplate(columns: number = 1): string {
           Control: Gallery@2.15.0
           Variant: Vertical
           Properties:
-            Height: ${heightFormula}
+            Height: =galFormFields.AllItemsCount * (galFormFields.TemplateHeight + 10)
             Items: |
               =Table(
-{{ITEMS_ENTRIES}}
+${itemsEntries}
               )
             ShowScrollbar: =false
             TemplateSize: =80
             Width: =Parent.Width * 0.9
             X: =Parent.Width * 0.05
-            Y: =lblTitle2.Y + lblTitle2.Height + 10
+            Y: =lblSubtitle.Y + lblSubtitle.Height + 10
           Children:
-{{GALLERY_CHILDREN}}
-      - btnDeploy:
+            - lblFieldLabel:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(0, 0, 0, 1)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =22
+                  Size: =10
+                  Text: =ThisItem.labelText
+                  Width: =Parent.TemplateWidth
+                  Y: =5
+            - txtFieldValue:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(201, 201, 201, 1)
+                  BorderThickness: =1
+                  Default: =LookUp(colFormValues, id = ThisItem.id).value
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =32
+                  HintText: =ThisItem.hintText
+                  Visible: =ThisItem.fieldType = "text" || ThisItem.fieldType = "number"
+                  Width: =Parent.TemplateWidth
+                  Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4
+      - btnSubmit:
           Control: Classic/Button@2.2.0
           Properties:
             BorderStyle: =BorderStyle.None
             Color: =RGBA(255, 255, 255, 1)
             Fill: =RGBA(59, 130, 246, 1)
             Height: =30
-            HoverBorderColor: =ColorFade(Self.BorderColor, -20%)
-            HoverColor: =Self.Color
             HoverFill: =ColorFade(Self.Fill, -10%)
-            PressedBorderColor: =ColorFade(Self.BorderColor, -40%)
-            PressedFill: =ColorFade(Self.Fill, -20%)
+            HoverColor: =Self.Color
             RadiusBottomLeft: =5
             RadiusBottomRight: =5
             RadiusTopLeft: =5
             RadiusTopRight: =5
             Size: =11
-            Text: ="{{SUBMIT_TEXT}}"
+            Text: ="${escape(config.submitButtonText || "Submit")}"
             Width: =(Parent.Width - (Parent.Width - lblTitle.Width))/2 - 5
             X: =lblTitle.X
             Y: =galFormFields.Y + galFormFields.Height + 20
@@ -135,20 +373,15 @@ function getClassicTemplate(columns: number = 1): string {
             BorderThickness: =1
             Color: =RGBA(0, 0, 0, 1)
             Fill: =RGBA(0, 0, 0, 0)
-            FocusedBorderThickness: =1
             Height: =30
-            HoverBorderColor: =ColorFade(Self.BorderColor, -10%)
-            HoverColor: =Self.Color
             HoverFill: =RGBA(219, 219, 219, 1)
-            PressedBorderColor: =ColorFade(Self.BorderColor, -20%)
-            PressedColor: =RGBA(0, 0, 0, 1)
-            PressedFill: =ColorFade(Self.HoverFill, -10%)
+            HoverColor: =Self.Color
             RadiusBottomLeft: =5
             RadiusBottomRight: =5
             RadiusTopLeft: =5
             RadiusTopRight: =5
             Size: =11
-            Text: ="{{CANCEL_TEXT}}"
+            Text: ="${escape(config.cancelButtonText || "Cancel")}"
             Width: =(Parent.Width - (Parent.Width - lblTitle.Width))/2 - 5
             X: =lblTitle.X + lblTitle.Width - Self.Width
             Y: =galFormFields.Y + galFormFields.Height + 20`;
