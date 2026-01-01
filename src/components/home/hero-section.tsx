@@ -230,8 +230,8 @@ export function HeroSection({ totalCount, freeCount }: HeroSectionProps) {
                     transition={{ duration: 0.5, delay: 0.2 }}
                     className="mt-6 text-lg sm:text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed"
                 >
-                    The largest library of copy-paste ready YAML components.
-                    Stop rebuilding buttons. Start shipping apps.
+                    Copy paste the most trending components and use them in your Power Apps
+                    without having to worry about styling and animations.
                 </motion.p>
 
                 {/* CTAs - Monochrome */}
