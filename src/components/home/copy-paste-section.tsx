@@ -3,27 +3,30 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Check } from "lucide-react";
+import { Check, Copy } from "lucide-react";
 
-// --- KEYBOARD COMPONENT (Simplified, cleaner) ---
+// --- KEYBOARD COMPONENT (Wide, realistic layout) ---
 
 const Key = ({
     children,
     className,
     isPressed = false,
-    width = "w-9",
+    width = "w-12",
+    height = "h-10",
 }: {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     className?: string;
     isPressed?: boolean;
     width?: string;
+    height?: string;
 }) => {
     return (
         <div
             className={cn(
-                "h-9 rounded-md border border-neutral-800 bg-neutral-900/80 flex items-center justify-center text-[10px] font-medium text-neutral-500 transition-all duration-150",
+                "rounded-md border border-neutral-700/80 bg-neutral-800 flex items-center justify-center text-[11px] font-medium text-neutral-400 transition-all duration-100",
                 width,
-                isPressed && "bg-blue-500/20 text-blue-400 border-blue-500/50 shadow-[0_0_12px_rgba(59,130,246,0.3)]",
+                height,
+                isPressed && "bg-blue-500/30 text-blue-300 border-blue-500/60 shadow-[0_0_15px_rgba(59,130,246,0.4)]",
                 className
             )}
         >
@@ -38,68 +41,97 @@ const Keyboard = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setIsPressed(true);
-            setTimeout(() => setIsPressed(false), 500);
-        }, 3000);
+            setTimeout(() => setIsPressed(false), 600);
+        }, 3500);
 
         // Initial trigger
         setTimeout(() => {
             setIsPressed(true);
-            setTimeout(() => setIsPressed(false), 500);
-        }, 500);
+            setTimeout(() => setIsPressed(false), 600);
+        }, 800);
 
         return () => clearInterval(interval);
     }, []);
 
     return (
-        <div className="relative p-3 rounded-xl bg-neutral-950 border border-neutral-800/50 shadow-xl">
-            <div className="flex flex-col gap-1">
-                {/* Row 1 - Numbers */}
-                <div className="flex gap-1">
-                    {["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"].map((k) => (
-                        <Key key={k} width="w-8">{k}</Key>
+        <div className="relative p-4 rounded-2xl bg-gradient-to-b from-neutral-800 to-neutral-900 border border-neutral-700/50 shadow-2xl">
+            {/* Keyboard frame effect */}
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-neutral-700/20 to-transparent pointer-events-none" />
+
+            <div className="flex flex-col gap-1.5 relative">
+                {/* Function Row */}
+                <div className="flex gap-1.5 mb-1">
+                    <Key width="w-10" height="h-7">esc</Key>
+                    <div className="flex-1" />
+                    {["F1", "F2", "F3", "F4"].map((k) => (
+                        <Key key={k} width="w-10" height="h-7">{k}</Key>
+                    ))}
+                    <div className="w-2" />
+                    {["F5", "F6", "F7", "F8"].map((k) => (
+                        <Key key={k} width="w-10" height="h-7">{k}</Key>
+                    ))}
+                    <div className="w-2" />
+                    {["F9", "F10", "F11", "F12"].map((k) => (
+                        <Key key={k} width="w-10" height="h-7">{k}</Key>
                     ))}
                 </div>
 
+                {/* Row 1 - Numbers */}
+                <div className="flex gap-1.5">
+                    {["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "="].map((k) => (
+                        <Key key={k}>{k}</Key>
+                    ))}
+                    <Key width="w-16">⌫</Key>
+                </div>
+
                 {/* Row 2 - QWERTY */}
-                <div className="flex gap-1">
-                    {["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"].map((k) => (
-                        <Key key={k} width="w-8">{k}</Key>
+                <div className="flex gap-1.5">
+                    <Key width="w-16">Tab</Key>
+                    {["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "[", "]", "\\"].map((k) => (
+                        <Key key={k}>{k}</Key>
                     ))}
                 </div>
 
                 {/* Row 3 - ASDF */}
-                <div className="flex gap-1 pl-2">
-                    {["A", "S", "D", "F", "G", "H", "J", "K", "L"].map((k) => (
-                        <Key key={k} width="w-8">{k}</Key>
+                <div className="flex gap-1.5">
+                    <Key width="w-[72px]">Caps</Key>
+                    {["A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "'"].map((k) => (
+                        <Key key={k}>{k}</Key>
                     ))}
+                    <Key width="w-[72px]">Enter</Key>
                 </div>
 
                 {/* Row 4 - ZXCV */}
-                <div className="flex gap-1 pl-4">
+                <div className="flex gap-1.5">
+                    <Key width="w-[92px]">Shift</Key>
                     {["Z", "X"].map((k) => (
-                        <Key key={k} width="w-8">{k}</Key>
+                        <Key key={k}>{k}</Key>
                     ))}
-                    <Key width="w-8">C</Key>
-                    <Key isPressed={isPressed} width="w-8">V</Key>
-                    {["B", "N", "M"].map((k) => (
-                        <Key key={k} width="w-8">{k}</Key>
+                    <Key>C</Key>
+                    <Key isPressed={isPressed}>V</Key>
+                    {["B", "N", "M", ",", ".", "/"].map((k) => (
+                        <Key key={k}>{k}</Key>
                     ))}
+                    <Key width="w-[92px]">Shift</Key>
                 </div>
 
                 {/* Row 5 - Bottom */}
-                <div className="flex gap-1 items-center">
-                    <Key isPressed={isPressed} width="w-12">Ctrl</Key>
-                    <Key width="w-10">Alt</Key>
-                    <Key width="w-36"></Key>
-                    <Key width="w-10">Alt</Key>
-                    <Key width="w-12">Ctrl</Key>
+                <div className="flex gap-1.5">
+                    <Key isPressed={isPressed} width="w-14">Ctrl</Key>
+                    <Key width="w-12">Win</Key>
+                    <Key width="w-12">Alt</Key>
+                    <Key width="flex-1 min-w-[200px]"></Key>
+                    <Key width="w-12">Alt</Key>
+                    <Key width="w-12">Fn</Key>
+                    <Key width="w-12">☰</Key>
+                    <Key width="w-14">Ctrl</Key>
                 </div>
             </div>
         </div>
     );
 };
 
-// --- CODE WINDOW COMPONENT (Simplified) ---
+// --- CODE WINDOW COMPONENT ---
 
 const CodeWindow = () => {
     const [showCode, setShowCode] = useState(false);
@@ -107,65 +139,73 @@ const CodeWindow = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setShowCode(true);
-            setTimeout(() => setShowCode(false), 2500);
-        }, 3000);
+            setTimeout(() => setShowCode(false), 3000);
+        }, 3500);
 
         setTimeout(() => {
             setShowCode(true);
-            setTimeout(() => setShowCode(false), 2500);
-        }, 500);
+            setTimeout(() => setShowCode(false), 3000);
+        }, 800);
 
         return () => clearInterval(interval);
     }, []);
 
     const codeLines = [
-        { text: "CustomButton:", color: "text-purple-400" },
-        { text: "  Control: Classic/Button", color: "text-blue-400" },
-        { text: "  Properties:", color: "text-neutral-400" },
-        { text: '    Text: ="Click Me"', color: "text-green-400" },
-        { text: "    Fill: =RGBA(59, 130, 246, 1)", color: "text-yellow-400" },
-        { text: "    Color: =RGBA(255, 255, 255, 1)", color: "text-yellow-400" },
+        { num: 1, text: '"use client";', color: "text-green-400" },
+        { num: 2, text: "", color: "" },
+        { num: 3, text: "CustomButton:", color: "text-purple-400" },
+        { num: 4, text: "  Control: Classic/Button", color: "text-blue-400" },
+        { num: 5, text: "  Properties:", color: "text-neutral-300" },
+        { num: 6, text: '    Text: ="Click Me"', color: "text-green-400" },
+        { num: 7, text: "    Fill: =RGBA(59, 130, 246, 1)", color: "text-yellow-400" },
+        { num: 8, text: "    HoverFill: =ColorFade(Self.Fill, -10%)", color: "text-yellow-400" },
     ];
 
     return (
-        <div className="w-72 rounded-xl overflow-hidden bg-neutral-950 border border-neutral-800/50 shadow-xl">
+        <div className="w-[340px] rounded-xl overflow-hidden bg-neutral-900 border border-neutral-700/50 shadow-2xl">
             {/* Title Bar */}
-            <div className="flex items-center gap-1.5 px-3 py-2 bg-neutral-900/80 border-b border-neutral-800/50">
-                <div className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
-                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
-                <div className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
-                <span className="ml-2 text-[9px] text-neutral-600 font-mono">component.yaml</span>
+            <div className="flex items-center gap-2 px-4 py-3 bg-neutral-800 border-b border-neutral-700/50">
+                <div className="flex gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-red-500" />
+                    <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                    <div className="w-3 h-3 rounded-full bg-green-500" />
+                </div>
+                <span className="ml-3 text-[11px] text-neutral-400 font-mono flex items-center gap-2">
+                    <Copy className="w-3 h-3" />
+                    component.yaml
+                </span>
             </div>
 
             {/* Code */}
-            <div className="p-3 font-mono text-[10px] leading-relaxed min-h-[120px]">
+            <div className="p-4 font-mono text-xs leading-relaxed min-h-[180px] relative">
                 <AnimatePresence>
                     {showCode && codeLines.map((line, i) => (
                         <motion.div
                             key={i}
-                            initial={{ opacity: 0, x: -5 }}
+                            initial={{ opacity: 0, x: -8 }}
                             animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: 5 }}
-                            transition={{ duration: 0.15, delay: i * 0.05 }}
-                            className={cn("whitespace-pre", line.color)}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.12, delay: i * 0.04 }}
+                            className="flex"
                         >
-                            {line.text}
+                            <span className="w-6 text-neutral-600 select-none text-right mr-4">{line.num}</span>
+                            <span className={cn("whitespace-pre", line.color)}>{line.text}</span>
                         </motion.div>
                     ))}
                 </AnimatePresence>
 
-                {/* Pasted indicator */}
+                {/* Pasted badge */}
                 <AnimatePresence>
                     {showCode && (
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.8 }}
-                            transition={{ delay: 0.3 }}
-                            className="absolute bottom-3 right-3 bg-green-500/20 text-green-400 text-[9px] px-2 py-0.5 rounded flex items-center gap-1"
+                            initial={{ opacity: 0, y: 5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -5 }}
+                            transition={{ delay: 0.4 }}
+                            className="absolute bottom-4 right-4 bg-green-500/20 text-green-400 text-[10px] px-2.5 py-1 rounded-md flex items-center gap-1.5 border border-green-500/30"
                         >
-                            <Check className="w-2.5 h-2.5" />
-                            Pasted
+                            <Check className="w-3 h-3" />
+                            Pasted!
                         </motion.div>
                     )}
                 </AnimatePresence>
@@ -174,67 +214,52 @@ const CodeWindow = () => {
     );
 };
 
-// --- MAIN SECTION (Matching site style) ---
+// --- MAIN SECTION ---
 
 export function CopyPasteSection() {
     return (
-        <section className="relative py-24 bg-black">
+        <section className="relative py-24 bg-black overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Section Header - Matching ProductsShowcase style */}
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-                        As simple as copy and paste
-                    </h2>
-                    <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
-                        Copy the YAML code into your clipboard and paste directly into Power Apps Studio.
-                        No complex imports. No dependencies.
-                    </p>
-                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
-                {/* Content Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
-                    {/* Left: Features List */}
-                    <div className="flex flex-col gap-4">
-                        {[
-                            { title: "Direct copy-paste", desc: "No npm, no config files. Just copy and paste." },
-                            { title: "Works with Git", desc: "YAML-based code works seamlessly with version control." },
-                            { title: "Zero dependencies", desc: "No external libraries or packages to install." },
-                        ].map((item, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, x: -20 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.4, delay: i * 0.1 }}
-                                viewport={{ once: true }}
-                                className="flex items-start gap-4 p-4 rounded-xl bg-neutral-900/50 border border-neutral-800/50"
-                            >
-                                <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
-                                    <Check className="w-4 h-4 text-blue-400" />
-                                </div>
-                                <div>
-                                    <h4 className="text-white font-medium mb-1">{item.title}</h4>
-                                    <p className="text-sm text-neutral-500">{item.desc}</p>
-                                </div>
-                            </motion.div>
-                        ))}
+                    {/* Left: Text Content */}
+                    <div className="flex flex-col gap-6">
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
+                            As simple as copy and paste
+                        </h2>
+                        <p className="text-neutral-400 text-lg leading-relaxed">
+                            Copy paste the code into your <code className="px-1.5 py-0.5 bg-neutral-800 rounded text-sm">ui</code> folder
+                            and use the components in your projects. It's that simple, really.
+                        </p>
                     </div>
 
-                    {/* Right: Visual Demo */}
+                    {/* Right: Visuals */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
+                        initial={{ opacity: 0, x: 30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.7 }}
                         viewport={{ once: true }}
                         className="relative flex items-center justify-center"
                     >
-                        <div className="relative">
+                        {/* Keyboard */}
+                        <div className="transform scale-[0.85] lg:scale-100 origin-center">
                             <Keyboard />
-
-                            {/* Floating Code Window */}
-                            <div className="absolute -right-8 -top-8">
-                                <CodeWindow />
-                            </div>
                         </div>
+
+                        {/* Floating Code Window */}
+                        <motion.div
+                            className="absolute -right-4 lg:right-0 -top-16 lg:-top-12 z-10"
+                            animate={{
+                                y: [0, -8, 0],
+                            }}
+                            transition={{
+                                duration: 5,
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                            }}
+                        >
+                            <CodeWindow />
+                        </motion.div>
                     </motion.div>
                 </div>
             </div>
