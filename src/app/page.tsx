@@ -2,7 +2,8 @@ import { getCategories, getComponents } from "@/lib/data";
 import {
   HeroSection,
   ProductsShowcase,
-  CTASection
+  CTASection,
+  CopyPasteSection
 } from "@/components/home";
 
 export default async function HomePage() {
@@ -19,6 +20,9 @@ export default async function HomePage() {
 
       {/* Products Showcase - Linear Style */}
       <ProductsShowcase />
+
+      {/* Copy Paste Section */}
+      <CopyPasteSection />
 
       {/* CTA Section */}
       <CTASection />
