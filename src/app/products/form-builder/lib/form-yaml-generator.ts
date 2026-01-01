@@ -345,7 +345,7 @@ ${itemsEntries}
                 Properties:
                   BorderColor: =RGBA(201, 201, 201, 1)
                   BorderThickness: =1
-                  Default: =LookUp(colFormValues, id = ThisItem.id).value
+                  Default: =LookUp(colFormValues, id = ThisItem.id, value)
                   Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Height: =32
