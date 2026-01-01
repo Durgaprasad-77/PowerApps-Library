@@ -22,6 +22,7 @@ import {
     CommandItem,
     useCommandPalette
 } from "@/components/ui/command-palette";
+import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
 
 interface Props {
     components: Component[];
@@ -166,22 +167,22 @@ export function LibraryClient({ components, categories }: Props) {
                             {/* Search Input with Command Shortcut */}
                             <div className="flex flex-col sm:flex-row gap-4 mb-4">
                                 <div className="relative flex-1">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                                    <input
-                                        type="text"
-                                        placeholder="Search components..."
+                                    <PlaceholdersAndVanishInput
+                                        placeholders={[
+                                            "Search for buttons...",
+                                            "Find navigation components...",
+                                            "Looking for cards?",
+                                            "Search form inputs...",
+                                            "Browse all components...",
+                                        ]}
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="w-full pl-10 pr-20 py-3 bg-neutral-950 border border-neutral-800 rounded-xl text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-neutral-700 focus:ring-2 focus:ring-white/10 transition-colors"
+                                        onSubmit={(e) => {
+                                            e.preventDefault();
+                                            // Keep the search query as is
+                                        }}
+                                        className="max-w-full"
                                     />
-                                    {/* Cmd+K shortcut indicator */}
-                                    <button
-                                        onClick={open}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 px-2 py-1 rounded-md bg-neutral-900 border border-neutral-800 text-neutral-500 text-xs hover:text-white hover:border-neutral-700 transition-colors"
-                                    >
-                                        <Command className="w-3 h-3" />
-                                        <span>K</span>
-                                    </button>
                                 </div>
 
                                 {/* View Toggle and Filter */}
