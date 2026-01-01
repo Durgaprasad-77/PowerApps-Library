@@ -165,22 +165,10 @@ export function FormBuilderClient() {
                             ))}
                         </div>
                     )}
-                    {/* Iteration Selector */}
+                    {/* Template Label */}
                     <div className="flex items-center gap-2 mr-4">
-                        <Label className="text-xs text-neutral-400">Style:</Label>
-                        <select
-                            title="Form Style"
-                            className="bg-neutral-900 border border-neutral-800 text-xs rounded-md px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-600 h-8 text-white"
-                            value={selectedTemplate?.slug || ""}
-                            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                                const t = templates.find(t => t.slug === e.target.value);
-                                if (t) handleSelectTemplate(t);
-                            }}
-                        >
-                            {templates.map(t => (
-                                <option key={t.id} value={t.slug}>{t.name}</option>
-                            ))}
-                        </select>
+                        <Label className="text-xs text-neutral-400">Template:</Label>
+                        <span className="text-xs text-white bg-neutral-800 px-2 py-1 rounded-md">Classic Card</span>
                     </div>
 
                     <YamlPreview code={yamlCode} />
@@ -247,19 +235,6 @@ export function FormBuilderClient() {
                                         onChange={(e) => setConfig({ ...config, width: parseInt(e.target.value) || 400 })}
                                         className="bg-neutral-900 border-neutral-800 focus:ring-blue-600"
                                     />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label>Columns</Label>
-                                    <select
-                                        title="Number of columns"
-                                        className="w-full bg-neutral-900 border border-neutral-800 text-sm rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-600 text-white"
-                                        value={config.columns || 1}
-                                        onChange={(e) => setConfig({ ...config, columns: parseInt(e.target.value) as 1 | 2 | 3 })}
-                                    >
-                                        <option value={1}>1 Column</option>
-                                        <option value={2}>2 Columns</option>
-                                        <option value={3}>3 Columns</option>
-                                    </select>
                                 </div>
                             </div>
                         </DialogContent>

@@ -4,20 +4,10 @@ import { FormConfig, FormField } from "./form-types";
 const escape = (str: string) => str ? str.replace(/"/g, '\\"') : "";
 
 /**
- * Generates Power Apps YAML code for a form.
- * - Single column: Uses Gallery-based approach
- * - Multi-column: Uses nested AutoLayout containers
+ * Generates Power Apps YAML code for a single-column form.
+ * Uses a Gallery-based approach with vertical layout.
  */
 export function generateFormYaml(config: FormConfig, fields: FormField[], templateYaml?: string): string {
-  const formWidth = config.width || 400;
-  const columns = config.columns || 1;
-
-  // For multi-column (2 or 3), use container-based approach
-  if (columns > 1) {
-    return generateMultiColumnForm(config, fields, columns);
-  }
-
-  // For single column, use the simpler Gallery approach
   return generateSingleColumnForm(config, fields, templateYaml);
 }
 

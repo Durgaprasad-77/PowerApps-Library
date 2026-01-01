@@ -33,7 +33,6 @@ export interface FormConfig {
     submitButtonText: string;
     cancelButtonText: string;
     width: number;
-    columns?: 1 | 2 | 3;
     steps?: FormStep[];
     background?: string;
     blurBackground?: boolean;

@@ -116,6 +116,22 @@ export function WelcomeScreen({ onSelectTemplate }: WelcomeScreenProps) {
                                     </div>
                                 </motion.button>
                             ))}
+
+                            {/* Coming Soon Card */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, delay: 0.7 }}
+                                className="relative bg-neutral-900/30 border border-dashed border-neutral-700 rounded-xl p-6 text-center flex flex-col items-center justify-center"
+                            >
+                                <div className="w-full h-32 rounded-lg bg-neutral-800/30 border border-neutral-700/30 mb-4 flex items-center justify-center">
+                                    <span className="text-3xl">🚀</span>
+                                </div>
+                                <h3 className="text-neutral-400 font-semibold mb-1">More Coming Soon!</h3>
+                                <p className="text-sm text-neutral-600">
+                                    New templates are on the way
+                                </p>
+                            </motion.div>
                         </div>
 
                         {/* Blank template option */}
