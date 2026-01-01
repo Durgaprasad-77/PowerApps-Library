@@ -6,7 +6,7 @@ import { ArrowRight, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollVelocityContainer, ScrollVelocityRow } from "@/components/ui/scroll-based-velocity";
 import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
-import { Spotlight } from "@/components/ui/spotlight";
+import { Spotlight } from "@/components/ui/spotlight-new";
 
 interface HeroSectionProps {
     totalCount: number;
@@ -180,6 +180,9 @@ export function HeroSection({ totalCount, freeCount }: HeroSectionProps) {
         <section className="relative min-h-[100vh] flex flex-col items-center justify-start overflow-hidden pt-32 sm:pt-40 lg:pt-48 bg-black">
             {/* Background - Subtle grid pattern */}
             <div className="absolute inset-0 pointer-events-none">
+                {/* Spotlight Effect */}
+                <Spotlight />
+
                 {/* Radial gradient for depth */}
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.02),transparent_70%)]" />
 
