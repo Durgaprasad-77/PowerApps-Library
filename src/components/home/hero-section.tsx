@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollVelocityContainer, ScrollVelocityRow } from "@/components/ui/scroll-based-velocity";
+import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
 
 interface HeroSectionProps {
     totalCount: number;
@@ -206,19 +207,22 @@ export function HeroSection({ totalCount, freeCount }: HeroSectionProps) {
                     </Link>
                 </motion.div>
 
-                {/* Headline - Pure white, no gradient */}
-                <motion.h1
+                {/* Headline - Animated Text Flip */}
+                <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
-                    className="mt-8 text-5xl sm:text-6xl lg:text-8xl font-bold tracking-tight text-white max-w-5xl mx-auto leading-[1.1] sm:leading-[1.15]"
+                    className="mt-8 flex flex-col items-center"
                 >
-                    Build Power Apps{" "}
-                    <br className="hidden sm:block" />
-                    <span className="text-neutral-500">
-                        at warp speed.
-                    </span>
-                </motion.h1>
+                    <LayoutTextFlip
+                        text="Build Power Apps"
+                        words={["at warp speed", "lightning fast", "10x faster", "with ease"]}
+                        className="text-5xl sm:text-6xl lg:text-8xl font-bold tracking-tight leading-[1.1] sm:leading-[1.15]"
+                        textClassName="text-white"
+                        wordClassName="text-neutral-500"
+                        duration={2500}
+                    />
+                </motion.div>
 
                 {/* Subheadline */}
                 <motion.p
