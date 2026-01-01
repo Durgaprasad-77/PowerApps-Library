@@ -15,7 +15,8 @@ import {
 } from "lucide-react";
 import { Component, Category } from "@/lib/types";
 import { CardPreview } from "@/components/preview/card-preview";
-import { getCategoryIcon } from "@/components/category-icons";
+import { LibrarySidebar } from "./library-sidebar";
+import { LibraryPromoSidebar } from "./library-promo-sidebar";
 import {
     CommandPalette,
     CommandGroup,
@@ -42,7 +43,6 @@ export function LibraryClient({ components, categories }: Props) {
     const { isOpen, open, close } = useCommandPalette();
 
     const totalComponents = components.length;
-    const freeComponents = components.filter(c => !c.isPro).length;
 
     // Filter logic
     const filteredComponents = components.filter((component) => {
@@ -51,7 +51,6 @@ export function LibraryClient({ components, categories }: Props) {
             component.name.toLowerCase().includes(query) ||
             component.description.toLowerCase().includes(query);
 
-        // Category filter
         const matchesCategory = !selectedCategory || component.category === selectedCategory;
 
         let matchesFilter = true;
@@ -120,230 +119,200 @@ export function LibraryClient({ components, categories }: Props) {
                 )}
             </CommandPalette>
 
-            <div className="flex flex-col lg:flex-row gap-8">
-                {/* Sidebar */}
-                <aside className="w-full lg:w-56 flex-shrink-0">
-                    <div className="card p-4 sticky top-24 bg-neutral-950 border border-neutral-800 rounded-xl">
-                        <h2 className="font-medium text-white text-sm mb-4">Categories</h2>
-                        <nav className="space-y-1">
-                            <button
-                                onClick={() => setSelectedCategory(null)}
-                                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors ${selectedCategory === null
-                                    ? "text-white bg-neutral-900"
-                                    : "text-neutral-400 hover:text-white hover:bg-neutral-900"
-                                    }`}
-                            >
-                                <span>All Components</span>
-                                <span className="text-neutral-500">{totalComponents}</span>
-                            </button>
-                            {categories.map((category) => {
-                                const IconComponent = getCategoryIcon(category.slug);
-                                return (
-                                    <button
-                                        key={category.id}
-                                        onClick={() => setSelectedCategory(category.slug)}
-                                        className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${selectedCategory === category.slug
-                                            ? "text-white bg-neutral-900 font-medium"
-                                            : "text-neutral-400 hover:text-white hover:bg-neutral-900"
-                                            }`}
-                                    >
-                                        <span className="flex items-center gap-2">
-                                            <IconComponent className="w-4 h-4" />
-                                            <span>{category.name}</span>
-                                        </span>
-                                        <span className="text-neutral-500">{category.componentsCount}</span>
-                                    </button>
-                                );
-                            })}
-                        </nav>
-                    </div>
-                </aside>
+            {/* 3-Column Layout */}
+            <div className="flex gap-8">
+                {/* Left Sidebar - Navigation */}
+                <LibrarySidebar
+                    categories={categories}
+                    components={components}
+                    selectedCategory={selectedCategory}
+                    onSelectCategory={setSelectedCategory}
+                />
 
                 {/* Main Content */}
-                <main className="flex-1">
-                    <div>
-                        {/* Search Bar and Controls */}
-                        <div className="mb-6">
-                            {/* Search Input with Command Shortcut */}
-                            <div className="flex flex-col sm:flex-row gap-4 mb-4">
-                                <div className="relative flex-1">
-                                    <PlaceholdersAndVanishInput
-                                        placeholders={[
-                                            "Search for buttons...",
-                                            "Find navigation components...",
-                                            "Looking for cards?",
-                                            "Search form inputs...",
-                                            "Browse all components...",
-                                        ]}
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        onSubmit={(e) => {
-                                            e.preventDefault();
-                                            // Keep the search query as is
-                                        }}
-                                        className="max-w-full"
-                                    />
-                                </div>
-
-                                {/* View Toggle and Filter */}
-                                <div className="flex gap-2">
-                                    {/* Filter Toggle */}
-                                    <button
-                                        onClick={() => setShowFilters(!showFilters)}
-                                        className={`px-4 py-2.5 rounded-xl border transition-colors flex items-center gap-2 text-sm font-medium ${showFilters || filterType !== "all"
-                                            ? "bg-white text-black border-white"
-                                            : "bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700"
-                                            }`}
-                                    >
-                                        <Filter className="w-4 h-4" />
-                                        <span className="hidden sm:inline">Filter</span>
-                                        {filterType !== "all" && (
-                                            <span className="w-2 h-2 rounded-full bg-blue-500" />
-                                        )}
-                                    </button>
-
-                                    {/* View Mode Toggle */}
-                                    <div className="flex bg-neutral-950 border border-neutral-800 rounded-xl p-1">
-                                        <button
-                                            onClick={() => setViewMode("grid")}
-                                            className={`p-2 rounded-lg transition-colors ${viewMode === "grid"
-                                                ? "bg-white text-black"
-                                                : "text-neutral-500 hover:text-white"
-                                                }`}
-                                            aria-label="Grid view"
-                                        >
-                                            <Grid3X3 className="w-4 h-4" />
-                                        </button>
-                                        <button
-                                            onClick={() => setViewMode("list")}
-                                            className={`p-2 rounded-lg transition-colors ${viewMode === "list"
-                                                ? "bg-white text-black"
-                                                : "text-neutral-500 hover:text-white"
-                                                }`}
-                                            aria-label="List view"
-                                        >
-                                            <List className="w-4 h-4" />
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Expandable Filter Options */}
-                            <AnimatePresence>
-                                {showFilters && (
-                                    <motion.div
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: "auto", opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{ duration: 0.2 }}
-                                        className="overflow-hidden"
-                                    >
-                                        <div className="flex flex-wrap gap-2 pb-4">
-                                            {filterOptions.map((option) => (
-                                                <button
-                                                    key={option.value}
-                                                    onClick={() => setFilterType(option.value)}
-                                                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${filterType === option.value
-                                                        ? "bg-white text-black"
-                                                        : "bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700"
-                                                        }`}
-                                                >
-                                                    {filterType === option.value && <Check className="w-3 h-3" />}
-                                                    {option.label}
-                                                    <span className={`text-xs ${filterType === option.value ? "text-black/60" : "text-neutral-500"}`}>
-                                                        {option.count}
-                                                    </span>
-                                                </button>
-                                            ))}
-
-                                            {filterType !== "all" && (
-                                                <button
-                                                    onClick={() => setFilterType("all")}
-                                                    className="px-3 py-2 rounded-lg text-sm text-neutral-500 hover:text-white transition-colors flex items-center gap-1"
-                                                >
-                                                    <X className="w-3 h-3" />
-                                                    Clear
-                                                </button>
-                                            )}
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-
-                        {/* Results Count */}
-                        {(searchQuery || filterType !== "all" || selectedCategory) && (
-                            <div className="mb-4 text-sm text-gray-500">
-                                Found {filteredComponents.length} result{filteredComponents.length !== 1 ? "s" : ""}
-                                {selectedCategory && (
-                                    <span> in <span className="capitalize">{selectedCategory}</span></span>
-                                )}
-                            </div>
-                        )}
-
-                        {/* Component Grid/List */}
-                        {filteredComponents.length > 0 ? (
-                            <motion.div
-                                layout
-                                className={viewMode === "grid"
-                                    ? "grid sm:grid-cols-2 xl:grid-cols-3 gap-4"
-                                    : "flex flex-col gap-3"
-                                }
-                            >
-                                <AnimatePresence mode="popLayout">
-                                    {filteredComponents.map((component, index) => (
-                                        <motion.div
-                                            key={component.id}
-                                            layout
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, scale: 0.95 }}
-                                            transition={{ duration: 0.2, delay: index * 0.02 }}
-                                        >
-                                            {viewMode === "grid" ? (
-                                                <GridCard component={component} />
-                                            ) : (
-                                                <ListCard component={component} />
-                                            )}
-                                        </motion.div>
-                                    ))}
-                                </AnimatePresence>
-                            </motion.div>
-                        ) : (
-                            /* Empty State */
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                className="py-20 text-center border border-dashed border-neutral-800 rounded-xl bg-neutral-950"
-                            >
-                                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-neutral-900 mb-4">
-                                    <Search className="w-6 h-6 text-gray-500" />
-                                </div>
-                                <h3 className="text-white font-medium mb-1">No components found</h3>
-                                <p className="text-neutral-500 text-sm max-w-xs mx-auto">
-                                    Try adjusting your search terms or filters.
-                                </p>
-                                <button
-                                    onClick={() => {
-                                        setSearchQuery("");
-                                        setFilterType("all");
-                                        setSelectedCategory(null);
+                <main className="flex-1 min-w-0">
+                    {/* Search Bar and Controls */}
+                    <div className="mb-6">
+                        <div className="flex flex-col sm:flex-row gap-4 mb-4">
+                            <div className="relative flex-1">
+                                <PlaceholdersAndVanishInput
+                                    placeholders={[
+                                        "Search for buttons...",
+                                        "Find navigation components...",
+                                        "Looking for cards?",
+                                        "Search form inputs...",
+                                        "Browse all components...",
+                                    ]}
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    onSubmit={(e) => {
+                                        e.preventDefault();
                                     }}
-                                    className="mt-4 text-white text-sm hover:underline"
-                                >
-                                    Clear all filters
-                                </button>
-                            </motion.div>
-                        )}
+                                    className="max-w-full"
+                                />
+                            </div>
 
-                        {/* Footer Info */}
-                        <div className="mt-8 text-center">
-                            <p className="text-neutral-500 text-sm">
-                                Showing {filteredComponents.length} of {totalComponents} components
-                            </p>
+                            {/* View Toggle and Filter */}
+                            <div className="flex gap-2">
+                                {/* Filter Toggle */}
+                                <button
+                                    onClick={() => setShowFilters(!showFilters)}
+                                    className={`px-4 py-2.5 rounded-xl border transition-colors flex items-center gap-2 text-sm font-medium ${showFilters || filterType !== "all"
+                                        ? "bg-white text-black border-white"
+                                        : "bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700"
+                                        }`}
+                                >
+                                    <Filter className="w-4 h-4" />
+                                    <span className="hidden sm:inline">Filter</span>
+                                    {filterType !== "all" && (
+                                        <span className="w-2 h-2 rounded-full bg-blue-500" />
+                                    )}
+                                </button>
+
+                                {/* View Mode Toggle */}
+                                <div className="flex bg-neutral-950 border border-neutral-800 rounded-xl p-1">
+                                    <button
+                                        onClick={() => setViewMode("grid")}
+                                        className={`p-2 rounded-lg transition-colors ${viewMode === "grid"
+                                            ? "bg-white text-black"
+                                            : "text-neutral-500 hover:text-white"
+                                            }`}
+                                        aria-label="Grid view"
+                                    >
+                                        <Grid3X3 className="w-4 h-4" />
+                                    </button>
+                                    <button
+                                        onClick={() => setViewMode("list")}
+                                        className={`p-2 rounded-lg transition-colors ${viewMode === "list"
+                                            ? "bg-white text-black"
+                                            : "text-neutral-500 hover:text-white"
+                                            }`}
+                                        aria-label="List view"
+                                    >
+                                        <List className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            </div>
                         </div>
+
+                        {/* Expandable Filter Options */}
+                        <AnimatePresence>
+                            {showFilters && (
+                                <motion.div
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: "auto", opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    transition={{ duration: 0.2 }}
+                                    className="overflow-hidden"
+                                >
+                                    <div className="flex flex-wrap gap-2 pb-4">
+                                        {filterOptions.map((option) => (
+                                            <button
+                                                key={option.value}
+                                                onClick={() => setFilterType(option.value)}
+                                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${filterType === option.value
+                                                    ? "bg-white text-black"
+                                                    : "bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700"
+                                                    }`}
+                                            >
+                                                {filterType === option.value && <Check className="w-3 h-3" />}
+                                                {option.label}
+                                                <span className={`text-xs ${filterType === option.value ? "text-black/60" : "text-neutral-500"}`}>
+                                                    {option.count}
+                                                </span>
+                                            </button>
+                                        ))}
+
+                                        {filterType !== "all" && (
+                                            <button
+                                                onClick={() => setFilterType("all")}
+                                                className="px-3 py-2 rounded-lg text-sm text-neutral-500 hover:text-white transition-colors flex items-center gap-1"
+                                            >
+                                                <X className="w-3 h-3" />
+                                                Clear
+                                            </button>
+                                        )}
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
+
+                    {/* Results Count */}
+                    {(searchQuery || filterType !== "all" || selectedCategory) && (
+                        <div className="mb-4 text-sm text-gray-500">
+                            Found {filteredComponents.length} result{filteredComponents.length !== 1 ? "s" : ""}
+                            {selectedCategory && (
+                                <span> in <span className="capitalize">{selectedCategory}</span></span>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Component Grid/List */}
+                    {filteredComponents.length > 0 ? (
+                        <motion.div
+                            layout
+                            className={viewMode === "grid"
+                                ? "grid sm:grid-cols-2 gap-4"
+                                : "flex flex-col gap-3"
+                            }
+                        >
+                            <AnimatePresence mode="popLayout">
+                                {filteredComponents.map((component, index) => (
+                                    <motion.div
+                                        key={component.id}
+                                        layout
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, scale: 0.95 }}
+                                        transition={{ duration: 0.2, delay: index * 0.02 }}
+                                    >
+                                        {viewMode === "grid" ? (
+                                            <GridCard component={component} />
+                                        ) : (
+                                            <ListCard component={component} />
+                                        )}
+                                    </motion.div>
+                                ))}
+                            </AnimatePresence>
+                        </motion.div>
+                    ) : (
+                        /* Empty State */
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="py-20 text-center border border-dashed border-neutral-800 rounded-xl bg-neutral-950"
+                        >
+                            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-neutral-900 mb-4">
+                                <Search className="w-6 h-6 text-gray-500" />
+                            </div>
+                            <h3 className="text-white font-medium mb-1">No components found</h3>
+                            <p className="text-neutral-500 text-sm max-w-xs mx-auto">
+                                Try adjusting your search terms or filters.
+                            </p>
+                            <button
+                                onClick={() => {
+                                    setSearchQuery("");
+                                    setFilterType("all");
+                                    setSelectedCategory(null);
+                                }}
+                                className="mt-4 text-white text-sm hover:underline"
+                            >
+                                Clear all filters
+                            </button>
+                        </motion.div>
+                    )}
+
+                    {/* Footer Info */}
+                    <div className="mt-8 text-center">
+                        <p className="text-neutral-500 text-sm">
+                            Showing {filteredComponents.length} of {totalComponents} components
+                        </p>
                     </div>
                 </main>
+
+                {/* Right Sidebar - Promo */}
+                <LibraryPromoSidebar />
             </div>
         </>
     );
@@ -376,16 +345,16 @@ function GridCard({ component }: { component: Component }) {
                     </h3>
                     <div className="flex gap-1 flex-shrink-0 ml-2">
                         {component.isNew && (
-                            <span className="badge badge-new text-xs font-medium px-2 py-0.5 rounded">
+                            <span className="text-[9px] px-1.5 py-0.5 bg-green-500/20 text-green-400 rounded font-medium">
                                 New
                             </span>
                         )}
                         {component.isPro ? (
-                            <span className="badge badge-pro text-xs font-medium px-2 py-0.5 rounded">
-                                PRO
+                            <span className="text-[9px] px-1.5 py-0.5 bg-neutral-700 text-neutral-400 rounded font-medium">
+                                Pro
                             </span>
                         ) : (
-                            <span className="badge badge-free text-xs font-medium px-2 py-0.5 rounded">
+                            <span className="text-[9px] px-1.5 py-0.5 bg-blue-500/20 text-blue-400 rounded font-medium">
                                 Free
                             </span>
                         )}
@@ -419,16 +388,16 @@ function ListCard({ component }: { component: Component }) {
                     </h3>
                     <div className="flex gap-1 flex-shrink-0">
                         {component.isNew && (
-                            <span className="badge badge-new text-xs font-medium px-2 py-0.5 rounded">
+                            <span className="text-[9px] px-1.5 py-0.5 bg-green-500/20 text-green-400 rounded font-medium">
                                 New
                             </span>
                         )}
                         {component.isPro ? (
-                            <span className="badge badge-pro text-xs font-medium px-2 py-0.5 rounded">
-                                PRO
+                            <span className="text-[9px] px-1.5 py-0.5 bg-neutral-700 text-neutral-400 rounded font-medium">
+                                Pro
                             </span>
                         ) : (
-                            <span className="badge badge-free text-xs font-medium px-2 py-0.5 rounded">
+                            <span className="text-[9px] px-1.5 py-0.5 bg-blue-500/20 text-blue-400 rounded font-medium">
                                 Free
                             </span>
                         )}
