@@ -157,39 +157,39 @@ export function LibraryClient({ components, categories }: Props) {
                                 {/* Filter Toggle */}
                                 <button
                                     onClick={() => setShowFilters(!showFilters)}
-                                    className={`px-4 py-2.5 rounded-xl border transition-colors flex items-center gap-2 text-sm font-medium ${showFilters || filterType !== "all"
+                                    className={`px-3 py-2 rounded-lg border transition-colors flex items-center gap-1.5 text-[12px] font-medium ${showFilters || filterType !== "all"
                                         ? "bg-white text-black border-white"
                                         : "bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700"
                                         }`}
                                 >
-                                    <Filter className="w-4 h-4" />
+                                    <Filter className="w-3.5 h-3.5" />
                                     <span className="hidden sm:inline">Filter</span>
                                     {filterType !== "all" && (
-                                        <span className="w-2 h-2 rounded-full bg-blue-500" />
+                                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
                                     )}
                                 </button>
 
                                 {/* View Mode Toggle */}
-                                <div className="flex bg-neutral-950 border border-neutral-800 rounded-xl p-1">
+                                <div className="flex bg-neutral-950 border border-neutral-800 rounded-lg p-0.5">
                                     <button
                                         onClick={() => setViewMode("grid")}
-                                        className={`p-2 rounded-lg transition-colors ${viewMode === "grid"
+                                        className={`p-1.5 rounded-md transition-colors ${viewMode === "grid"
                                             ? "bg-white text-black"
                                             : "text-neutral-500 hover:text-white"
                                             }`}
                                         aria-label="Grid view"
                                     >
-                                        <Grid3X3 className="w-4 h-4" />
+                                        <Grid3X3 className="w-3.5 h-3.5" />
                                     </button>
                                     <button
                                         onClick={() => setViewMode("list")}
-                                        className={`p-2 rounded-lg transition-colors ${viewMode === "list"
+                                        className={`p-1.5 rounded-md transition-colors ${viewMode === "list"
                                             ? "bg-white text-black"
                                             : "text-neutral-500 hover:text-white"
                                             }`}
                                         aria-label="List view"
                                     >
-                                        <List className="w-4 h-4" />
+                                        <List className="w-3.5 h-3.5" />
                                     </button>
                                 </div>
                             </div>
@@ -323,44 +323,44 @@ function GridCard({ component }: { component: Component }) {
     return (
         <Link
             href={`/library/${component.category}/${component.slug}`}
-            className="group block overflow-hidden rounded-xl bg-neutral-950 border border-neutral-800 hover:border-neutral-700 transition-all duration-300 hover:-translate-y-1"
+            className="group block overflow-hidden rounded-lg bg-neutral-950 border border-neutral-800 hover:border-neutral-700 transition-all duration-300 hover:-translate-y-0.5"
         >
             {/* Preview */}
-            <div className="h-36 bg-neutral-900 flex items-center justify-center border-b border-neutral-800 overflow-hidden relative">
+            <div className="h-32 bg-neutral-900 flex items-center justify-center border-b border-neutral-800 overflow-hidden relative">
                 <CardPreview componentSlug={component.slug} category={component.category} />
 
                 {/* Hover overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-3">
-                    <span className="text-white text-xs font-medium px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-2">
+                    <span className="text-white text-[10px] font-medium px-2 py-1 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
                         View Component
                     </span>
                 </div>
             </div>
 
             {/* Info */}
-            <div className="p-4">
-                <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-medium text-white group-hover:text-neutral-300 transition-colors text-sm">
+            <div className="p-3">
+                <div className="flex items-start justify-between mb-1">
+                    <h3 className="font-medium text-white group-hover:text-neutral-300 transition-colors text-[13px]">
                         {component.name}
                     </h3>
-                    <div className="flex gap-1 flex-shrink-0 ml-2">
+                    <div className="flex gap-0.5 flex-shrink-0 ml-1.5">
                         {component.isNew && (
-                            <span className="text-[9px] px-1.5 py-0.5 bg-green-500/20 text-green-400 rounded font-medium">
+                            <span className="text-[8px] px-1 py-0.5 bg-green-500/20 text-green-400 rounded font-medium">
                                 New
                             </span>
                         )}
                         {component.isPro ? (
-                            <span className="text-[9px] px-1.5 py-0.5 bg-neutral-700 text-neutral-400 rounded font-medium">
+                            <span className="text-[8px] px-1 py-0.5 bg-neutral-700 text-neutral-400 rounded font-medium">
                                 Pro
                             </span>
                         ) : (
-                            <span className="text-[9px] px-1.5 py-0.5 bg-blue-500/20 text-blue-400 rounded font-medium">
+                            <span className="text-[8px] px-1 py-0.5 bg-blue-500/20 text-blue-400 rounded font-medium">
                                 Free
                             </span>
                         )}
                     </div>
                 </div>
-                <p className="text-xs text-neutral-500 line-clamp-2">
+                <p className="text-[11px] text-neutral-500 line-clamp-2">
                     {component.description}
                 </p>
             </div>
@@ -373,45 +373,45 @@ function ListCard({ component }: { component: Component }) {
     return (
         <Link
             href={`/library/${component.category}/${component.slug}`}
-            className="group flex items-center gap-4 p-4 rounded-xl bg-neutral-950 border border-neutral-800 hover:border-neutral-700 transition-all duration-300"
+            className="group flex items-center gap-3 p-3 rounded-lg bg-neutral-950 border border-neutral-800 hover:border-neutral-700 transition-all duration-300"
         >
             {/* Preview Thumbnail */}
-            <div className="w-20 h-16 flex-shrink-0 rounded-lg bg-neutral-900 border border-neutral-800 overflow-hidden">
+            <div className="w-16 h-12 flex-shrink-0 rounded-md bg-neutral-900 border border-neutral-800 overflow-hidden">
                 <CardPreview componentSlug={component.slug} category={component.category} />
             </div>
 
             {/* Info */}
             <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-medium text-white group-hover:text-neutral-300 transition-colors text-sm truncate">
+                <div className="flex items-center gap-1.5 mb-0.5">
+                    <h3 className="font-medium text-white group-hover:text-neutral-300 transition-colors text-[13px] truncate">
                         {component.name}
                     </h3>
-                    <div className="flex gap-1 flex-shrink-0">
+                    <div className="flex gap-0.5 flex-shrink-0">
                         {component.isNew && (
-                            <span className="text-[9px] px-1.5 py-0.5 bg-green-500/20 text-green-400 rounded font-medium">
+                            <span className="text-[8px] px-1 py-0.5 bg-green-500/20 text-green-400 rounded font-medium">
                                 New
                             </span>
                         )}
                         {component.isPro ? (
-                            <span className="text-[9px] px-1.5 py-0.5 bg-neutral-700 text-neutral-400 rounded font-medium">
+                            <span className="text-[8px] px-1 py-0.5 bg-neutral-700 text-neutral-400 rounded font-medium">
                                 Pro
                             </span>
                         ) : (
-                            <span className="text-[9px] px-1.5 py-0.5 bg-blue-500/20 text-blue-400 rounded font-medium">
+                            <span className="text-[8px] px-1 py-0.5 bg-blue-500/20 text-blue-400 rounded font-medium">
                                 Free
                             </span>
                         )}
                     </div>
                 </div>
-                <p className="text-xs text-neutral-500 line-clamp-1">
+                <p className="text-[11px] text-neutral-500 line-clamp-1">
                     {component.description}
                 </p>
-                <p className="text-xs text-neutral-600 mt-1 capitalize">{component.category}</p>
+                <p className="text-[10px] text-neutral-600 mt-0.5 capitalize">{component.category}</p>
             </div>
 
             {/* Arrow */}
-            <div className="w-8 h-8 rounded-lg bg-neutral-900 flex items-center justify-center group-hover:bg-white group-hover:text-black text-neutral-500 transition-colors">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="w-6 h-6 rounded-md bg-neutral-900 flex items-center justify-center group-hover:bg-white group-hover:text-black text-neutral-500 transition-colors">
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
             </div>
