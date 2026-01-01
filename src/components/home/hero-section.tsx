@@ -180,12 +180,6 @@ export function HeroSection({ totalCount, freeCount }: HeroSectionProps) {
         <section className="relative min-h-[100vh] flex flex-col items-center justify-start overflow-hidden pt-32 sm:pt-40 lg:pt-48 bg-black">
             {/* Background - Subtle grid pattern */}
             <div className="absolute inset-0 pointer-events-none">
-                {/* Spotlight Effect */}
-                <Spotlight
-                    className="-top-96 -left-40 md:-top-80 md:left-0"
-                    fill="white"
-                />
-
                 {/* Radial gradient for depth */}
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.02),transparent_70%)]" />
 
