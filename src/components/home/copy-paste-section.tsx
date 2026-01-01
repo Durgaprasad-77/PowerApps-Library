@@ -220,49 +220,47 @@ export function CopyPasteSection() {
     return (
         <section className="relative py-24 bg-black overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                {/* Centered Header */}
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+                        As simple as copy and paste
+                    </h2>
+                    <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
+                        Copy paste the code into your <code className="px-1.5 py-0.5 bg-neutral-800 rounded text-sm">ui</code> folder
+                        and use the components in your projects. It's that simple, really.
+                    </p>
+                </div>
 
-                    {/* Left: Text Content */}
-                    <div className="flex flex-col gap-6">
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
-                            As simple as copy and paste
-                        </h2>
-                        <p className="text-neutral-400 text-lg leading-relaxed">
-                            Copy paste the code into your <code className="px-1.5 py-0.5 bg-neutral-800 rounded text-sm">ui</code> folder
-                            and use the components in your projects. It's that simple, really.
-                        </p>
+                {/* Keyboard + Code Window */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7 }}
+                    viewport={{ once: true }}
+                    className="relative flex items-center justify-center"
+                >
+                    {/* Keyboard */}
+                    <div className="transform scale-[0.7] sm:scale-[0.85] lg:scale-100 origin-center">
+                        <Keyboard />
                     </div>
 
-                    {/* Right: Visuals */}
+                    {/* Floating Code Window */}
                     <motion.div
-                        initial={{ opacity: 0, x: 30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.7 }}
-                        viewport={{ once: true }}
-                        className="relative flex items-center justify-center"
+                        className="absolute right-4 sm:right-12 lg:right-32 -top-8 lg:top-4 z-10"
+                        animate={{
+                            y: [0, -8, 0],
+                        }}
+                        transition={{
+                            duration: 5,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
                     >
-                        {/* Keyboard */}
-                        <div className="transform scale-[0.85] lg:scale-100 origin-center">
-                            <Keyboard />
-                        </div>
-
-                        {/* Floating Code Window */}
-                        <motion.div
-                            className="absolute -right-4 lg:right-0 -top-16 lg:-top-12 z-10"
-                            animate={{
-                                y: [0, -8, 0],
-                            }}
-                            transition={{
-                                duration: 5,
-                                repeat: Infinity,
-                                ease: "easeInOut"
-                            }}
-                        >
-                            <CodeWindow />
-                        </motion.div>
+                        <CodeWindow />
                     </motion.div>
-                </div>
+                </motion.div>
             </div>
         </section>
     );
 }
+
