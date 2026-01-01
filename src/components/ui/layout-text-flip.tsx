@@ -36,7 +36,7 @@ export function LayoutTextFlip({
             <motion.div
                 layout
                 className={cn(
-                    "inline-flex items-center gap-2 text-5xl sm:text-6xl lg:text-8xl font-bold tracking-tight",
+                    "inline-flex flex-wrap items-baseline justify-center gap-x-4 gap-y-2",
                     className
                 )}
             >
