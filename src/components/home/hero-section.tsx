@@ -182,7 +182,7 @@ export function HeroSection({ totalCount, freeCount }: HeroSectionProps) {
             <div className="absolute inset-0 pointer-events-none">
                 {/* Spotlight Effect */}
                 <Spotlight
-                    className="-top-40 left-0 md:-top-20 md:left-60"
+                    className="top-10 -left-20 md:top-20 md:-left-10"
                     fill="white"
                 />
 
