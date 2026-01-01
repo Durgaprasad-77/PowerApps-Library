@@ -50,16 +50,16 @@ export function LayoutTextFlip({
                     <motion.span
                         layout
                         key={words[currentIndex]}
-                        initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-                        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                        exit={{ opacity: 0, y: -20, filter: "blur(8px)" }}
+                        initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -20, scale: 0.9 }}
                         transition={{
                             type: "spring",
-                            stiffness: 200,
-                            damping: 20,
+                            stiffness: 300,
+                            damping: 25,
                         }}
                         className={cn(
-                            "inline-block bg-gradient-to-r from-violet-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent",
+                            "inline-block px-6 py-2 rounded-xl bg-neutral-800 border border-neutral-700 text-white",
                             wordClassName
                         )}
                     >

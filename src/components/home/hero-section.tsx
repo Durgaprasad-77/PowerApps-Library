@@ -215,11 +215,10 @@ export function HeroSection({ totalCount, freeCount }: HeroSectionProps) {
                     className="mt-8 flex flex-col items-center"
                 >
                     <LayoutTextFlip
-                        text="Build Power Apps"
-                        words={["at warp speed", "lightning fast", "10x faster", "with ease"]}
-                        className="text-5xl sm:text-6xl lg:text-8xl font-bold tracking-tight leading-[1.1] sm:leading-[1.15]"
+                        text="Make your Power Apps look 10x"
+                        words={["awesome", "better", "modern", "beautiful"]}
+                        className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.2]"
                         textClassName="text-white"
-                        wordClassName="text-neutral-500"
                         duration={2500}
                     />
                 </motion.div>
