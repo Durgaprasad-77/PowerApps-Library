@@ -55,7 +55,7 @@ import {
     DashboardLayoutPreview
 } from './previews/shells';
 import { DataTablePreview } from './previews/data';
-import { ModernIconPreview, AuroraTextPreview } from './previews/display';
+import { ModernIconPreview, AuroraTextPreview, LayoutTextFlipPreview } from './previews/display';
 import { AppHeaderPreview } from './previews/layout';
 
 // Preview component type
@@ -130,6 +130,7 @@ const fullPreviewRegistry: Record<string, PreviewComponent> = {
     // Display
     'modern-icon': ModernIconPreview,
     'aurora-text': AuroraTextPreview,
+    'layout-text-flip': LayoutTextFlipPreview,
 
     // Layout
     'app-header': AppHeaderPreview,

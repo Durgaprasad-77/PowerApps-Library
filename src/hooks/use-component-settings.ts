@@ -16,22 +16,25 @@ export function useComponentSettings(
     const storageKey = `component-settings-${schema.componentId}`;
     const defaults = getDefaultSettings(schema);
 
-    // Initialize settings from localStorage or defaults
-    const [settings, setSettings] = useState<SettingsValues>(() => {
-        if (typeof window === 'undefined') return defaults;
+    // Always initialize with defaults to prevent hydration mismatch
+    const [settings, setSettings] = useState<SettingsValues>(defaults);
+    const [isHydrated, setIsHydrated] = useState(false);
 
+    // Hydrate from localStorage after mount to prevent server/client mismatch
+    useEffect(() => {
         try {
             const stored = localStorage.getItem(storageKey);
             if (stored) {
                 const parsed = JSON.parse(stored);
                 // Merge with defaults to handle new fields
-                return { ...defaults, ...parsed };
+                setSettings(prev => ({ ...prev, ...parsed }));
             }
         } catch {
             // Ignore parse errors
         }
-        return defaults;
-    });
+        setIsHydrated(true);
+    }, [storageKey]);
+
 
     const hasChanges = useMemo(() => {
         return Object.keys(settings).some(key => {

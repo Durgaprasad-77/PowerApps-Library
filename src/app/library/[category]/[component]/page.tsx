@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
-import { getCategories, getComponent } from "@/lib/data";
+import { getCategories, getComponent, getComponents } from "@/lib/data";
 import { ComponentDetailClient } from "./client";
+import { LibraryLayout } from "@/components/library/library-layout";
 
 interface Props {
     params: Promise<{ category: string; component: string }>;
@@ -21,9 +22,10 @@ export async function generateMetadata({ params }: Props) {
 export default async function ComponentPage({ params }: Props) {
     const { category: categorySlug, component: componentSlug } = await params;
 
-    const [categories, component] = await Promise.all([
+    const [categories, component, allComponents] = await Promise.all([
         getCategories(),
-        getComponent(componentSlug, categorySlug)
+        getComponent(componentSlug, categorySlug),
+        getComponents()
     ]);
 
     const category = categories.find(c => c.slug === categorySlug);
@@ -32,5 +34,14 @@ export default async function ComponentPage({ params }: Props) {
         notFound();
     }
 
-    return <ComponentDetailClient component={component} category={category} />;
+    return (
+        <LibraryLayout categories={categories} components={allComponents}>
+            <ComponentDetailClient
+                component={component}
+                category={category}
+                categories={categories}
+                allComponents={allComponents}
+            />
+        </LibraryLayout>
+    );
 }

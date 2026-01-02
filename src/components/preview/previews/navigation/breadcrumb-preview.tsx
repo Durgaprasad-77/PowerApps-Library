@@ -9,9 +9,9 @@ interface BreadcrumbPreviewProps {
 
 export function BreadcrumbPreview({ settings }: BreadcrumbPreviewProps) {
     const items = (settings.items as string[]) || ['Home', 'Products', 'Electronics'];
-    const separatorColor = (settings.separatorColor as string) || '#6b7280';
-    const textColor = (settings.textColor as string) || '#9ca3af';
-    const activeColor = (settings.activeColor as string) || '#ffffff';
+    const separatorColor = (settings.separatorColor as string) || '#6b6b6b';
+    const textColor = (settings.textColor as string) || '#6b6b6b';
+    const activeColor = (settings.activeColor as string) || '#999999';
 
     return (
         <nav className="flex items-center gap-1">

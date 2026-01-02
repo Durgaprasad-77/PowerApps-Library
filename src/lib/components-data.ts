@@ -11,9 +11,112 @@ export const categories: Category[] = [
   { id: '6', name: 'App Shells', slug: 'app-shells', description: 'Complete app layouts', icon: '🏠', orderIndex: 6, componentsCount: 4, freeCount: 0 },
   { id: '7', name: 'Modals', slug: 'modals', description: 'Dialog and popup components', icon: '🪟', orderIndex: 7, componentsCount: 4, freeCount: 1 },
   { id: '8', name: 'Cards', slug: 'cards', description: 'Content card components', icon: '🃏', orderIndex: 8, componentsCount: 4, freeCount: 1 },
+  { id: '9', name: 'Display', slug: 'display', description: 'Display and visual components', icon: '✨', orderIndex: 9, componentsCount: 1, freeCount: 0 },
 ];
 
 export const components: Component[] = [
+  {
+    id: 'layout-text-flip',
+    name: 'Layout Text Flip',
+    slug: 'layout-text-flip',
+    category: 'display',
+    description: 'A text flip effect that changes the layout of surrounding text',
+    isPro: true,
+    isNew: true,
+    createdAt: '2026-01-02',
+    updatedAt: '2026-01-02',
+    yamlCode: `- conLayoutTextFlip_1:
+    Control: GroupContainer@1.3.0
+    Variant: AutoLayout
+    Properties:
+      DropShadow: =DropShadow.None
+      Fill: =RGBA(0, 0, 0, 1)
+      Height: =97
+      LayoutAlignItems: =LayoutAlignItems.Center
+      LayoutDirection: =LayoutDirection.Horizontal
+      LayoutGap: =8
+      RadiusBottomLeft: =8
+      RadiusBottomRight: =8
+      RadiusTopLeft: =8
+      RadiusTopRight: =8
+      Width: =513
+      X: =(Parent.Width - Self.Width) / 2
+      Y: =(Parent.Height - Self.Height) / 2
+    Children:
+      - lblStaticText_1:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FillPortions: =1
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =Parent.Height
+            Size: =28
+            Text: ="Welcome to"
+            Width: =170
+      - conFlipPill_1:
+          Control: GroupContainer@1.3.0
+          Variant: ManualLayout
+          Properties:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =RGBA(161, 159, 157, 1)
+            BorderThickness: =0.5
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(41, 40, 40, 1)
+            Height: =48
+            PaddingRight: =5
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            Width: =180
+          Children:
+            - imgFlipText:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =Parent.Height
+                  Image: |-
+                    ="data:image/svg+xml;utf8," & EncodeUrl("
+                    <svg xmlns='http://www.w3.org/2000/svg' width='180' height='48' viewBox='0 0 180 48'>
+                      <defs>
+                        <style>
+                          @keyframes flipIn {
+                            0% { transform: translateY(100%) rotateX(-90deg); opacity: 0; }
+                            100% { transform: translateY(0) rotateX(0deg); opacity: 1; }
+                          }
+                          .flip-text {
+                            animation: flipIn 0.5s ease-out forwards;
+                          }
+                        </style>
+                      </defs>
+                      <text x='90' y='30' 
+                        text-anchor='middle' 
+                        font-family='Open Sans, sans-serif' 
+                        font-size='23' 
+                        font-weight='700' 
+                        fill='white'
+                        class='flip-text'>" & 
+                        Switch(Mod(locWordIndex, 4) + 1,
+                          1, "PowerUI Pro",
+                          2, "Power Apps",
+                          3, "The Future",
+                          4, "Innovation"
+                        ) & "</text>
+                    </svg>
+                    ")
+                  ImagePosition: =ImagePosition.Center
+                  Width: =Parent.Width
+      - timerWordFlip_1:
+          Control: Timer@2.1.0
+          Properties:
+            AutoStart: =true
+            Duration: =3000
+            OnTimerEnd: =Set(locWordIndex, locWordIndex + 1)
+            Repeat: =true
+            Visible: =false
+# Screen.OnVisible: Set(locWordIndex, 0)`
+  },
   // TABS - FREE
   {
     id: 'tab-bar',
@@ -744,42 +847,61 @@ export const components: Component[] = [
     Control: GroupContainer@1.3.0
     Variant: AutoLayout
     Properties:
-      LayoutDirection: =LayoutDirection.Horizontal
+      DropShadow: =DropShadow.None
+      Height: =58
       LayoutAlignItems: =LayoutAlignItems.Center
-      LayoutGap: =8
-      Height: =40
-      Width: =Parent.Width
+      LayoutDirection: =LayoutDirection.Horizontal
+      Width: =529
+      X: =90
+      Y: =57
     Children:
-      - lblHome:
+      - lblBreadcrumb1:
           Control: Label@2.5.1
           Properties:
+            Color: =RGBA(107, 107, 107, 1)
+            Font: =Font.'Segoe UI'
             Text: ="Home"
-            Color: =RGBA(59, 130, 246, 1)
-            Size: =14
+            Width: =60
       - lblSep1:
           Control: Label@2.5.1
           Properties:
-            Text: ="/"
-            Color: =RGBA(156, 163, 175, 1)
-            Size: =14
-      - lblCategory:
+            Color: =RGBA(107, 107, 107, 1)
+            Text: =" / "
+            Width: =30
+      - lblBreadcrumb2:
           Control: Label@2.5.1
           Properties:
-            Text: ="Category"
-            Color: =RGBA(59, 130, 246, 1)
-            Size: =14
+            Color: =RGBA(107, 107, 107, 1)
+            Font: =Font.'Segoe UI'
+            Text: ="Products"
+            Width: =80
       - lblSep2:
           Control: Label@2.5.1
           Properties:
-            Text: ="/"
-            Color: =RGBA(156, 163, 175, 1)
-            Size: =14
-      - lblCurrent:
+            Color: =RGBA(107, 107, 107, 1)
+            Text: =" / "
+            Width: =30
+      - lblBreadcrumb3:
           Control: Label@2.5.1
           Properties:
-            Text: ="Current Page"
-            Color: =RGBA(107, 114, 128, 1)
-            Size: =14`
+            Color: =RGBA(153, 153, 153, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Text: ="Electronics"
+            Width: =100
+      - lblSep2_1:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(107, 107, 107, 1)
+            Text: =" / "
+            Width: =30
+      - lblBreadcrumb3_1:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(153, 153, 153, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Text: ="Electronics"`
   },
   // NAVIGATION - PRO
   {

@@ -1814,32 +1814,45 @@ export function generateBreadcrumbYAML(settings: SettingsValues): string {
   const items = (settings.items as string[]) || ['Home', 'Products', 'Electronics'];
   const separator = (settings.separator as string) || '/';
   const textColor = hexToRGBA((settings.textColor as string) || '#6b6b6b');
-  const activeColor = hexToRGBA((settings.activeColor as string) || '#ffffff');
+  const activeColor = hexToRGBA((settings.activeColor as string) || '#999999');
 
   const breadcrumbItems = items.map((item, index) => {
     const isLast = index === items.length - 1;
-    return `      - lblBreadcrumb${index + 1}:
+    const labelWidth = item.length * 10 + 20;
+
+    let itemYaml = `      - lblBreadcrumb${index + 1}:
           Control: Label@2.5.1
           Properties:
-            Text: ="${item}"
             Color: =${isLast ? activeColor : textColor}
             Font: =Font.'Segoe UI'
-            FontWeight: =${isLast ? 'FontWeight.Semibold' : 'FontWeight.Normal'}${index < items.length - 1 ? `
+            FontWeight: =${isLast ? 'FontWeight.Semibold' : 'FontWeight.Normal'}
+            Text: ="${item}"
+            Width: =${labelWidth}`;
+
+    if (!isLast) {
+      itemYaml += `
       - lblSep${index + 1}:
           Control: Label@2.5.1
           Properties:
+            Color: =${textColor}
             Text: =" ${separator} "
-            Color: =${textColor}` : ''}`;
+            Width: =30`;
+    }
+
+    return itemYaml;
   }).join('\n');
 
   return `- conBreadcrumb:
     Control: GroupContainer@1.3.0
     Variant: AutoLayout
     Properties:
-      LayoutDirection: =LayoutDirection.Horizontal
+      DropShadow: =DropShadow.None
+      Height: =58
       LayoutAlignItems: =LayoutAlignItems.Center
-      Width: =Parent.Width
-      Height: =32
+      LayoutDirection: =LayoutDirection.Horizontal
+      Width: =529
+      X: =90
+      Y: =57
     Children:
 ${breadcrumbItems}`;
 }
