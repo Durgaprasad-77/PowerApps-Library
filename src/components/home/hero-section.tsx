@@ -191,7 +191,7 @@ export function HeroSection({ totalCount, freeCount }: HeroSectionProps) {
             </div>
 
             {/* Content Container */}
-            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+            <div className="relative z-10 max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
 
                 {/* Announcement Badge */}
                 <motion.div

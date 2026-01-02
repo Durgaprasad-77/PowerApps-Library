@@ -46,7 +46,7 @@ const features = [
 export function BentoGrid() {
     return (
         <section className="py-32 bg-[#0B0C0E]">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Section Header */}
                 <div className="text-center mb-20">
                     <h2 className="text-3xl sm:text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/70 mb-4 tracking-tight">

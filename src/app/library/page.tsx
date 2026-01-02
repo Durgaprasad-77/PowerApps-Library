@@ -17,7 +17,7 @@ export default async function LibraryPage() {
         <div className="min-h-screen pt-20 bg-black">
             {/* Header */}
             <div className="border-b border-neutral-800">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     <h1 className="text-2xl font-bold text-white mb-1">
                         Component Library
                     </h1>
@@ -27,7 +27,7 @@ export default async function LibraryPage() {
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <LibraryClient components={components} categories={categories} />
             </div>
         </div>

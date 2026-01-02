@@ -29,7 +29,7 @@ export default async function IconsPage() {
                     }}
                 />
 
-                <div className="max-w-7xl mx-auto relative z-10">
+                <div className="max-w-[1536px] mx-auto relative z-10">
                     <div className="text-center max-w-3xl mx-auto">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-sm font-medium mb-6">
                             <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
@@ -74,7 +74,7 @@ export default async function IconsPage() {
 
             {/* Gallery Section */}
             <section className="py-12 px-4">
-                <div className="max-w-7xl mx-auto">
+                <div className="max-w-[1536px] mx-auto">
                     <IconsPageContent
                         initialIcons={initialIcons}
                         initialTotal={total}

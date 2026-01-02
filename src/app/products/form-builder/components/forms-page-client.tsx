@@ -197,7 +197,7 @@ export function FormsPageClient() {
                     <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)]" />
                 </div>
 
-                <div className="max-w-7xl mx-auto relative z-10">
+                <div className="max-w-[1536px] mx-auto relative z-10">
                     <div className="text-center max-w-3xl mx-auto mb-16">
                         {/* Badge */}
                         <motion.div

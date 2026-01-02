@@ -713,9 +713,9 @@ body {
 }
 
 .container-wide {
-  max-width: 1280px;
+  max-width: 1536px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 1.5rem;
 }
 
 /* Section spacing */

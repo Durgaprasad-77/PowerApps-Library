@@ -72,7 +72,7 @@ export function ComponentDetailClient({ component, category }: Props) {
         <div className="min-h-screen pt-20 bg-black">
             {/* Header */}
             <div className="border-b border-neutral-800">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
                     <Link
                         href={`/library/${categorySlug}`}
                         className="inline-flex items-center gap-2 text-neutral-400 hover:text-white text-sm mb-4 transition-colors"
@@ -114,7 +114,7 @@ export function ComponentDetailClient({ component, category }: Props) {
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="grid lg:grid-cols-2 gap-6">
                     {/* Left Column: Preview / Settings / Instructions */}
                     <div className="card overflow-hidden bg-neutral-950 border border-neutral-800">

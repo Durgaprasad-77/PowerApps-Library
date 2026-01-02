@@ -44,7 +44,7 @@ export function NavBody({ children, className, visible = true }: NavBodyProps) {
             }}
             transition={{ duration: 0.3 }}
             className={cn(
-                "hidden md:flex items-center justify-between max-w-7xl mx-auto px-6 py-4 rounded-full border mt-4",
+                "hidden md:flex items-center justify-between max-w-[1536px] mx-auto px-6 py-4 rounded-full border mt-4",
                 className
             )}
         >
