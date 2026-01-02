@@ -226,8 +226,8 @@ export function CopyPasteSection() {
                         As simple as copy and paste
                     </h2>
                     <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
-                        Copy paste the code into your <code className="px-1.5 py-0.5 bg-neutral-800 rounded text-sm">ui</code> folder
-                        and use the components in your projects. It's that simple, really.
+                        Copy the YAML code directly into <code className="px-1.5 py-0.5 bg-neutral-800 rounded text-sm">Power Apps Studio</code> and
+                        start using the components instantly. It's that simple, really.
                     </p>
                 </div>
 
