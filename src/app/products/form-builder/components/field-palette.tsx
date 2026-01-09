@@ -1,6 +1,6 @@
 "use client";
 
-import { Type, Hash, ChevronDown, Calendar, ToggleRight, CheckSquare } from "lucide-react";
+import { Type, Hash, ChevronDown, Calendar, ToggleRight, CheckSquare, AlignLeft, SlidersHorizontal, Star, CircleDot, Mail, Phone, Lock } from "lucide-react";
 import { FieldType } from "../lib/form-types";
 import { cn } from "@/lib/utils";
 
@@ -16,16 +16,58 @@ const fieldTypes: { type: FieldType; label: string; icon: React.ReactNode; descr
         description: "Single line text",
     },
     {
+        type: "textarea",
+        label: "Text Area",
+        icon: <AlignLeft className="w-4 h-4" />,
+        description: "Multi-line text",
+    },
+    {
+        type: "email",
+        label: "Email",
+        icon: <Mail className="w-4 h-4" />,
+        description: "Email address",
+    },
+    {
+        type: "phone",
+        label: "Phone",
+        icon: <Phone className="w-4 h-4" />,
+        description: "Phone number",
+    },
+    {
+        type: "password",
+        label: "Password",
+        icon: <Lock className="w-4 h-4" />,
+        description: "Masked input",
+    },
+    {
         type: "number",
         label: "Number",
         icon: <Hash className="w-4 h-4" />,
         description: "Numeric input",
     },
     {
+        type: "slider",
+        label: "Slider",
+        icon: <SlidersHorizontal className="w-4 h-4" />,
+        description: "Range selection",
+    },
+    {
+        type: "rating",
+        label: "Rating",
+        icon: <Star className="w-4 h-4" />,
+        description: "Star rating",
+    },
+    {
         type: "dropdown",
         label: "Dropdown",
         icon: <ChevronDown className="w-4 h-4" />,
         description: "Select from options",
+    },
+    {
+        type: "radio",
+        label: "Radio Group",
+        icon: <CircleDot className="w-4 h-4" />,
+        description: "Single choice",
     },
     {
         type: "date",
@@ -46,6 +88,7 @@ const fieldTypes: { type: FieldType; label: string; icon: React.ReactNode; descr
         description: "Boolean option",
     },
 ];
+
 
 export function FieldPalette({ onAddField }: FieldPaletteProps) {
     return (

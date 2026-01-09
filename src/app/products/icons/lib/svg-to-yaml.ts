@@ -24,14 +24,15 @@ function applySvgColor(svg: string, color: string): string {
     // Replace currentColor with the specified color
     let coloredSvg = svg.replace(/currentColor/gi, color);
 
-    // If svg has fill="none" on paths, we need to set stroke instead
+    // If svg has fill='none' on paths, we need to set stroke instead
     // For Fluent icons, typically the SVG uses fill
-    if (!coloredSvg.includes('fill=') || coloredSvg.includes('fill="none"')) {
+    if (!coloredSvg.includes('fill=') || coloredSvg.includes('fill=\'none\'')) {
         // Add fill to the SVG root if not present
-        coloredSvg = coloredSvg.replace('<svg', `<svg fill="${color}"`);
+        coloredSvg = coloredSvg.replace('<svg', `<svg fill='${color}'`);
     } else {
-        // Replace existing fill color (but not fill="none")
-        coloredSvg = coloredSvg.replace(/fill="(?!none)[^"]*"/gi, `fill="${color}"`);
+        // Replace existing fill color (but not fill='none')
+        // Match both single and double quoted attributes
+        coloredSvg = coloredSvg.replace(/fill=(["'])(?!none)[^"']*\1/gi, `fill='${color}'`);
     }
 
     return coloredSvg;
@@ -43,6 +44,9 @@ function applySvgColor(svg: string, color: string): string {
 function escapeSvgForPowerApps(svg: string): string {
     // Remove newlines and extra spaces
     let cleanSvg = svg.replace(/\n/g, '').replace(/\s+/g, ' ').trim();
+
+    // Convert all double quotes to single quotes in SVG attributes
+    cleanSvg = cleanSvg.replace(/="/g, "='").replace(/"/g, "'");
 
     // Escape single quotes for Power Apps string
     cleanSvg = cleanSvg.replace(/'/g, "''");

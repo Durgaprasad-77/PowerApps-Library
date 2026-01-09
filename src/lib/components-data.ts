@@ -11,7 +11,7 @@ export const categories: Category[] = [
   { id: '6', name: 'App Shells', slug: 'app-shells', description: 'Complete app layouts', icon: '🏠', orderIndex: 6, componentsCount: 4, freeCount: 0 },
   { id: '7', name: 'Modals', slug: 'modals', description: 'Dialog and popup components', icon: '🪟', orderIndex: 7, componentsCount: 4, freeCount: 1 },
   { id: '8', name: 'Cards', slug: 'cards', description: 'Content card components', icon: '🃏', orderIndex: 8, componentsCount: 4, freeCount: 1 },
-  { id: '9', name: 'Display', slug: 'display', description: 'Display and visual components', icon: '✨', orderIndex: 9, componentsCount: 1, freeCount: 0 },
+  { id: '9', name: 'Display', slug: 'display', description: 'Display and visual components', icon: '✨', orderIndex: 9, componentsCount: 2, freeCount: 0 },
 ];
 
 export const components: Component[] = [
@@ -315,89 +315,153 @@ export const components: Component[] = [
 # Set(locTargetTabX, 0);
 # Set(locStartTabAnim, false)`
   },
-  // TABS - PRO
   {
     id: 'animated-pill-tabs',
     name: 'Animated Pill Tabs',
     slug: 'animated-pill-tabs',
     category: 'tabs',
-    description: 'Modern iOS-style tabs with sliding pill background',
+    description: 'Modern iOS-style tabs with smooth sliding pill animation',
     isPro: true,
     isNew: true,
     createdAt: '2024-12-26',
-    updatedAt: '2024-12-26',
+    updatedAt: '2026-01-03',
     yamlCode: `- conPillTabs:
     Control: GroupContainer@1.3.0
     Variant: ManualLayout
     Properties:
-      Fill: =RGBA(243, 244, 246, 1)
-      Height: =44
-      Width: =Parent.Width
-      RadiusTopLeft: =22
-      RadiusTopRight: =22
-      RadiusBottomLeft: =22
-      RadiusBottomRight: =22
+      Fill: =RGBA(26, 26, 26, 1)
+      Height: =46
+      RadiusBottomLeft: =23
+      RadiusBottomRight: =23
+      RadiusTopLeft: =23
+      RadiusTopRight: =23
+      Width: =416
+      X: =153
+      Y: =120
     Children:
-      - conPill:
+      - conPillIndicator:
           Control: GroupContainer@1.3.0
           Variant: ManualLayout
           Properties:
-            Fill: =RGBA(59, 130, 246, 1)
-            Height: =36
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =40
+            RadiusBottomLeft: =20
+            RadiusBottomRight: =20
+            RadiusTopLeft: =20
+            RadiusTopRight: =20
             Width: =Parent.Width / 3 - 8
-            Y: =4
-            X: =4 + (locSelectedTab - 1) * (Parent.Width / 3)
-            RadiusTopLeft: =18
-            RadiusTopRight: =18
-            RadiusBottomLeft: =18
-            RadiusBottomRight: =18
+            X: =4 + locPrevPillX + (locTargetPillX - locPrevPillX) * (1 - Power(1 - tmrPill.Value / tmrPill.Duration, 3))
+            Y: =3
       - btnPill1:
           Control: Classic/Button@2.2.0
           Properties:
-            Text: ="Photos"
-            Fill: =RGBA(0, 0, 0, 0)
-            HoverFill: =RGBA(0, 0, 0, 0)
             BorderStyle: =BorderStyle.None
-            Color: =If(locSelectedTab = 1, RGBA(255, 255, 255, 1), RGBA(107, 114, 128, 1))
-            HoverColor: =Self.Color
-            FontWeight: =FontWeight.Semibold
-            Height: =Parent.Height
-            Width: =Parent.Width / 3
-            X: =0
-            Y: =0
-            OnSelect: =Set(locSelectedTab, 1)
+            Color: =If(locSelectedPill = 1, RGBA(0, 0, 0, 1), RGBA(156, 156, 156, 1))
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Segoe UI'
+            FontWeight: =If(locSelectedPill = 1, FontWeight.Semibold, FontWeight.Normal)
+            Height: =40
+            HoverColor: =If(locSelectedPill = 1, RGBA(0, 0, 0, 1), RGBA(200, 200, 200, 1))
+            HoverFill: =RGBA(0, 0, 0, 0)
+            OnSelect: |-
+              =Set(locPrevPillX, conPillIndicator.X - 4);
+              Set(locTargetPillX, 0);
+              Set(locStartPillAnim, true);
+              Set(locSelectedPill, 1)
+            RadiusBottomLeft: =20
+            RadiusBottomRight: =20
+            RadiusTopLeft: =20
+            RadiusTopRight: =20
+            Text: ="All"
+            Width: =Parent.Width / 3 - 8
+            X: =4
+            Y: =3
       - btnPill2:
           Control: Classic/Button@2.2.0
           Properties:
-            Text: ="Music"
-            Fill: =RGBA(0, 0, 0, 0)
-            HoverFill: =RGBA(0, 0, 0, 0)
             BorderStyle: =BorderStyle.None
-            Color: =If(locSelectedTab = 2, RGBA(255, 255, 255, 1), RGBA(107, 114, 128, 1))
-            HoverColor: =Self.Color
-            FontWeight: =FontWeight.Semibold
-            Height: =Parent.Height
-            Width: =Parent.Width / 3
-            X: =Parent.Width / 3
-            Y: =0
-            OnSelect: =Set(locSelectedTab, 2)
+            Color: =If(locSelectedPill = 2, RGBA(0, 0, 0, 1), RGBA(156, 156, 156, 1))
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Segoe UI'
+            FontWeight: =If(locSelectedPill = 2, FontWeight.Semibold, FontWeight.Normal)
+            Height: =40
+            HoverColor: =If(locSelectedPill = 2, RGBA(0, 0, 0, 1), RGBA(200, 200, 200, 1))
+            HoverFill: =RGBA(0, 0, 0, 0)
+            OnSelect: |-
+              =Set(locPrevPillX, conPillIndicator.X - 4);
+              Set(locTargetPillX, Parent.Width / 3);
+              Set(locStartPillAnim, true);
+              Set(locSelectedPill, 2)
+            RadiusBottomLeft: =20
+            RadiusBottomRight: =20
+            RadiusTopLeft: =20
+            RadiusTopRight: =20
+            Text: ="Active"
+            Width: =Parent.Width / 3 - 8
+            X: =4 + Parent.Width / 3
+            Y: =3
       - btnPill3:
           Control: Classic/Button@2.2.0
           Properties:
-            Text: ="Videos"
-            Fill: =RGBA(0, 0, 0, 0)
-            HoverFill: =RGBA(0, 0, 0, 0)
             BorderStyle: =BorderStyle.None
-            Color: =If(locSelectedTab = 3, RGBA(255, 255, 255, 1), RGBA(107, 114, 128, 1))
-            HoverColor: =Self.Color
-            FontWeight: =FontWeight.Semibold
-            Height: =Parent.Height
-            Width: =Parent.Width / 3
-            X: =Parent.Width / 3 * 2
-            Y: =0
-            OnSelect: =Set(locSelectedTab, 3)
+            Color: =If(locSelectedPill = 3, RGBA(0, 0, 0, 1), RGBA(156, 156, 156, 1))
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Segoe UI'
+            FontWeight: =If(locSelectedPill = 3, FontWeight.Semibold, FontWeight.Normal)
+            Height: =40
+            HoverColor: =If(locSelectedPill = 3, RGBA(0, 0, 0, 1), RGBA(200, 200, 200, 1))
+            HoverFill: =RGBA(0, 0, 0, 0)
+            OnSelect: |-
+              =Set(locPrevPillX, conPillIndicator.X - 4);
+              Set(locTargetPillX, Parent.Width / 3 * 2);
+              Set(locStartPillAnim, true);
+              Set(locSelectedPill, 3)
+            RadiusBottomLeft: =20
+            RadiusBottomRight: =20
+            RadiusTopLeft: =20
+            RadiusTopRight: =20
+            Text: ="Completed"
+            Width: =Parent.Width / 3 - 8
+            X: =4 + Parent.Width / 3 * 2
+            Y: =3
 
-# Screen.OnVisible: Set(locSelectedTab, 1)`
+- tmrPill:
+    Control: Timer@2.1.0
+    Properties:
+      Duration: =250
+      AutoStart: =false
+      Repeat: =false
+      Visible: =false
+      Start: =locStartPillAnim
+      OnTimerEnd: =Set(locStartPillAnim, false)
+
+# Screen.OnVisible:
+# Set(locSelectedPill, 1);
+# Set(locPrevPillX, 0);
+# Set(locTargetPillX, 0);
+# Set(locStartPillAnim, false)`,
+    instructions: `## Setup Instructions
+
+### 1. Add to Screen.OnVisible
+Add the following code to your Screen's OnVisible property to initialize the animation variables:
+
+\`\`\`
+Set(locSelectedPill, 1);
+Set(locPrevPillX, 0);
+Set(locTargetPillX, 0);
+Set(locStartPillAnim, false)
+\`\`\`
+
+### 2. How It Works
+- **Sliding Indicator**: The white pill (\`conPillIndicator\`) slides smoothly behind buttons.
+- **Ease-Out Animation**: Uses \`(1 - Power(1 - t/d, 3))\` for smooth deceleration.
+- **Timer Duration**: 250ms for responsive, snappy feel.
+
+### 3. Customization
+- **Tab Labels**: Edit \`Text\` property of \`btnPill1\`, \`btnPill2\`, \`btnPill3\`.
+- **Colors**: Change \`Fill\` on \`conPillTabs\` (background) and \`conPillIndicator\` (active pill).
+- **Width**: Adjust \`Width\` on \`conPillTabs\` to fit your layout.
+- **Animation Speed**: Change \`Duration\` on \`tmrPill\` (lower = faster).`
   },
   {
     id: 'segmented-tabs',
@@ -624,48 +688,86 @@ export const components: Component[] = [
     isPro: true,
     createdAt: '2024-12-26',
     updatedAt: '2024-12-26',
-    yamlCode: `- conIconBtn:
+    yamlCode: `- conbtn:
     Control: GroupContainer@1.3.0
-    Variant: AutoLayout
+    Variant: ManualLayout
     Properties:
-      LayoutDirection: =LayoutDirection.Horizontal
-      LayoutAlignItems: =LayoutAlignItems.Center
-      LayoutJustifyContent: =LayoutJustifyContent.Center
-      LayoutGap: =8
-      Fill: =RGBA(16, 185, 129, 1)
-      Height: =44
-      Width: =160
-      RadiusTopLeft: =8
-      RadiusTopRight: =8
+      DropShadow: =DropShadow.Semilight
+      Height: =42
       RadiusBottomLeft: =8
       RadiusBottomRight: =8
+      RadiusTopLeft: =8
+      RadiusTopRight: =8
+      Width: =103
+      X: =380
+      Y: =315
     Children:
-      - icnBtn:
-          Control: Classic/Icon@2.5.0
+      - conIconButton:
+          Control: GroupContainer@1.3.0
+          Variant: AutoLayout
           Properties:
-            Icon: =Icon.Add
-            Color: =RGBA(255, 255, 255, 1)
-            Width: =20
-            Height: =20
-      - lblIconBtn:
-          Control: Label@2.5.1
+            DropShadow: =DropShadow.Semilight
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =44
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =6
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            Width: =122
+          Children:
+            - imglogo:
+                Control: Image@2.2.3
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =2
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledFill: =RGBA(0, 0, 0, 0)
+                  FillPortions: =1
+                  FocusedBorderThickness: =4
+                  Height: =Parent.Height
+                  HoverBorderColor: =RGBA(0, 0, 0, 0)
+                  HoverFill: =RGBA(0, 0, 0, 0)
+                  Image: ="data:image/svg+xml;utf8," & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><path fill='#000000' d='M3.5 13h9a.75.75 0 0 1 .102 1.493l-.102.007h-9a.75.75 0 0 1-.102-1.493zh9zM7.898 1.007L8 1a.75.75 0 0 1 .743.648l.007.102v7.688l2.255-2.254a.75.75 0 0 1 .977-.072l.084.072a.75.75 0 0 1 .072.977l-.072.084L8.53 11.78a.75.75 0 0 1-.976.073l-.084-.073l-3.536-3.535a.75.75 0 0 1 .977-1.133l.084.072L7.25 9.44V1.75a.75.75 0 0 1 .648-.743L8 1z'/></svg>")
+                  LayoutMaxHeight: =0
+                  LayoutMaxWidth: =0
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  PaddingLeft: =5
+                  PressedBorderColor: =RGBA(0, 0, 0, 0)
+                  PressedFill: =RGBA(0, 0, 0, 0)
+            - txt1:
+                Control: Text@0.0.51
+                Properties:
+                  Align: ='TextCanvas.Align'.Start
+                  LayoutMaxHeight: =0
+                  LayoutMaxWidth: =0
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  PaddingLeft: =5
+                  Text: ="Download"
+                  VerticalAlign: =VerticalAlign.Middle
+                  Weight: ='TextCanvas.Weight'.Semibold
+      - btn:
+          Control: Button@0.0.45
           Properties:
-            Text: ="Add Item"
-            Color: =RGBA(255, 255, 255, 1)
-            FontWeight: =FontWeight.Semibold
-            Size: =14
-      - btnIconOverlay:
-          Control: Classic/Button@2.2.0
-          Properties:
-            Text: =""
-            Fill: =RGBA(0, 0, 0, 0)
-            HoverFill: =RGBA(255, 255, 255, 0.1)
-            BorderStyle: =BorderStyle.None
-            Width: =Parent.Width
+            Appearance: ='ButtonCanvas.Appearance'.Transparent
             Height: =Parent.Height
-            X: =0
-            Y: =0
-            OnSelect: =Notify("Add Item clicked!")`
+            Text: =
+            Width: =Parent.Width`,
+    instructions: `## How to Customize Icon
+    
+This button uses an SVG image for the icon. To change it:
+
+1.  **Find the \`imglogo\` control** in the component tree.
+2.  **Locate the \`Image\` property**.
+3.  **Replace the SVG code** inside the \`EncodeUrl()\` function with your own SVG.
+    *   Make sure to use single quotes ('') for attributes inside the SVG string, or escape double quotes.
+    *   Example: \`<svg viewBox='0 0 24 24'>...</svg>\`
+4.  **Update the Text**: Change the \`Text\` property of the \`txt1\` control to your desired label.`
   },
   // FEEDBACK - FREE
   {
@@ -1904,6 +2006,315 @@ export const components: Component[] = [
                   Text: ="This is an informational card that can display helpful tips or important notices."
                   Color: =RGBA(107, 114, 128, 1)
                   Size: =14`
+  },
+  {
+    id: 'clean-data-table',
+    name: 'Clean Data Table',
+    slug: 'clean-data-table',
+    category: 'display',
+    description: 'Responsive, sortable data table with search',
+    isPro: true,
+    isNew: true,
+    createdAt: '2024-01-04',
+    updatedAt: '2024-01-04',
+    previewImage: '/previews/data-table-v2.png',
+    yamlCode: `- conDataTable:
+    Control: GroupContainer@1.3.0
+    Variant: ManualLayout
+    Properties:
+      Fill: =RGBA(255, 255, 255, 1)
+      Height: =185
+      RadiusBottomLeft: =12
+      RadiusBottomRight: =12
+      RadiusTopLeft: =12
+      RadiusTopRight: =12
+      Width: =939
+      X: =55
+      Y: =130
+    Children:
+      - conTableTopBar:
+          Control: GroupContainer@1.3.0
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =34
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+            PaddingLeft: =24
+            PaddingRight: =24
+            RadiusTopLeft: =12
+            RadiusTopRight: =12
+            Visible: =false
+            Width: =Parent.Width
+            Y: =48
+          Children:
+            - lblTableTitle:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(17, 24, 39, 1)
+                  FillPortions: =1
+                  Font: =Font.'Open Sans'
+                  Size: =12
+                  Text: ="Team Members"
+            - conSearch:
+                Control: GroupContainer@1.3.0
+                Variant: AutoLayout
+                Properties:
+                  BorderColor: =RGBA(229, 231, 235, 1)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =1
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(249, 250, 251, 1)
+                  Height: =40
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutMinHeight: =Parent.Height
+                  PaddingLeft: =12
+                  PaddingRight: =12
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                  Width: =240
+                Children:
+                  - icnSearch:
+                      Control: Classic/Icon@2.5.0
+                      Properties:
+                        Color: =RGBA(156, 163, 175, 1)
+                        Height: =16
+                        Icon: =Icon.Search
+                        Width: =16
+                  - txtTableSearch:
+                      Control: Classic/TextInput@2.3.2
+                      Properties:
+                        BorderThickness: =0
+                        Default: =""
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Font: =Font.'Segoe UI'
+                        Height: =38
+                        HintText: ="Search users..."
+                        Size: =14
+                        Width: =190
+      - conTableHeaders:
+          Control: GroupContainer@1.3.0
+          Variant: AutoLayout
+          Properties:
+            BorderColor: =RGBA(229, 231, 235, 1)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =1
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =48
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =16
+            PaddingLeft: =24
+            PaddingRight: =24
+            Width: =Parent.Width
+          Children:
+            - btnHeaderName:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  Align: =Align.Left
+                  BorderStyle: =BorderStyle.None
+                  Color: =RGBA(107, 114, 128, 1)
+                  Fill: =RGBA(0, 0, 0, 0)
+                  FillPortions: =3
+                  FontWeight: =FontWeight.Bold
+                  HoverColor: =RGBA(17, 24, 39, 1)
+                  HoverFill: =RGBA(0, 0, 0, 0)
+                  OnSelect: |-
+                    =UpdateContext({
+                      locSortOrder: If(locSortColumn = "Name" && locSortOrder = SortOrder.Ascending, SortOrder.Descending, SortOrder.Ascending),
+                      locSortColumn: "Name"
+                    })
+                  PressedBorderColor: =RGBA(214, 221, 224, 1)
+                  PressedFill: =RGBA(0, 0, 0, 0)
+                  Size: =12
+                  Text: ="Name" & If(locSortColumn="Name", If(locSortOrder=SortOrder.Ascending, " ▲", " ▼"), "")
+            - btnHeaderRole:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  Align: =Align.Left
+                  BorderStyle: =BorderStyle.None
+                  Color: =RGBA(107, 114, 128, 1)
+                  Fill: =RGBA(0, 0, 0, 0)
+                  FillPortions: =2
+                  FontWeight: =FontWeight.Bold
+                  HoverColor: =RGBA(17, 24, 39, 1)
+                  HoverFill: =RGBA(0, 0, 0, 0)
+                  OnSelect: |-
+                    =UpdateContext({
+                      locSortOrder: If(locSortColumn = "Role" && locSortOrder = SortOrder.Ascending, SortOrder.Descending, SortOrder.Ascending),
+                      locSortColumn: "Role"
+                    })
+                  PressedFill: =
+                  Size: =12
+                  Text: ="Role" & If(locSortColumn="Role", If(locSortOrder=SortOrder.Ascending, " ▲", " ▼"), "")
+            - btnHeaderStatus:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Color: =RGBA(107, 114, 128, 1)
+                  Fill: =RGBA(0, 0, 0, 0)
+                  FillPortions: =1
+                  FontWeight: =FontWeight.Bold
+                  HoverColor: =RGBA(17, 24, 39, 1)
+                  HoverFill: =RGBA(0, 0, 0, 0)
+                  OnSelect: |-
+                    =UpdateContext({
+                      locSortOrder: If(locSortColumn = "Status" && locSortOrder = SortOrder.Ascending, SortOrder.Descending, SortOrder.Ascending),
+                      locSortColumn: "Status"
+                    })
+                  PressedFill: =
+                  Size: =12
+                  Text: ="Status" & If(locSortColumn="Status", If(locSortOrder=SortOrder.Ascending, " ▲", " ▼"), "")
+            - lblHeaderAction:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =RGBA(107, 114, 128, 1)
+                  FillPortions: =1
+                  FontWeight: =FontWeight.Bold
+                  Size: =12
+                  Text: ="Actions"
+      - galMethods:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            Height: =Parent.Height - conTableHeaders.Height
+            Items: =SortByColumns(Search(colTableData, txtTableSearch.Text, "Name", "Role", "Status"), locSortColumn, locSortOrder)
+            ShowScrollbar: =false
+            TemplatePadding: =0
+            TemplateSize: =45
+            Width: =Parent.Width - 5
+            X: =(Parent.Width - Self.Width) / 2
+            Y: =conTableHeaders.Height + 2
+          Children:
+            - conRow:
+                Control: GroupContainer@1.3.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =If(ThisItem.IsSelected, RGBA(243, 244, 246, 1), RGBA(255, 255, 255, 1))
+                  Height: =41
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =16
+                  PaddingLeft: =24
+                  PaddingRight: =24
+                  Width: =Parent.Width
+                Children:
+                  - conNameCol:
+                      Control: GroupContainer@1.3.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =3
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =12
+                        LayoutMinHeight: =Parent.Height
+                      Children:
+                        - imgAvatar:
+                            Control: Image@2.2.3
+                            Properties:
+                              Height: =32
+                              Image: =ThisItem.Avatar
+                              RadiusBottomLeft: =16
+                              RadiusBottomRight: =16
+                              RadiusTopLeft: =16
+                              RadiusTopRight: =16
+                              Width: =32
+                        - lblName_1:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(17, 24, 39, 1)
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =FontWeight.Semibold
+                              Size: =12
+                              Text: =ThisItem.Name
+                  - lblRole_1:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(107, 114, 128, 1)
+                        FillPortions: =2
+                        Font: =Font.'Segoe UI'
+                        Size: =12
+                        Text: =ThisItem.Role
+                  - conStatusBadge:
+                      Control: GroupContainer@1.3.0
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Height: =24
+                        LayoutMinHeight: =Parent.Height
+                        LayoutMinWidth: =160
+                      Children:
+                        - BadgeCanvas1:
+                            Control: Badge@0.0.24
+                            Properties:
+                              Content: =ThisItem.Status
+                              Height: =30
+                              Shape: ='BadgeCanvas.Shape'.Circular
+                              ThemeColor: =If(ThisItem.Status = "Active", 'BadgeCanvas.ThemeColor'.Brand,'BadgeCanvas.ThemeColor'.Danger)
+                              Width: =76
+                              X: =50
+                              Y: =5
+                  - btnEdit:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Right
+                        BorderStyle: =BorderStyle.None
+                        Color: =RGBA(79, 70, 229, 1)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        FillPortions: =1
+                        FontWeight: =FontWeight.Normal
+                        HoverColor: =RGBA(67, 56, 202, 1)
+                        HoverFill: =RGBA(0, 0, 0, 0)
+                        OnSelect: =Notify("Edit " & ThisItem.Name)
+                        PressedFill: =
+                        Size: =13
+                        Text: ="Edit"
+            - sepRow:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(214, 221, 224, 1)
+                  Height: =1
+                  Width: =Parent.Width
+                  Y: =Parent.TemplateHeight - 1`,
+    instructions: `## Setup Instructions
+
+1.  **Initialize Collection & Variables** (in App.OnStart or Screen.OnVisible):
+    \`\`\`powerapps
+    ClearCollect(colTableData,
+        {
+            Name: "Alice Johnson", 
+            Role: "Product Designer", 
+            Status: "Active", 
+            Avatar: "https://i.pravatar.cc/150?u=1"
+        },
+        {
+            Name: "Bob Smith", 
+            Role: "DevOps Engineer", 
+            Status: "Inactive", 
+            Avatar: "https://i.pravatar.cc/150?u=2"
+        },
+        {
+            Name: "Charlie Brown", 
+            Role: "Project Manager", 
+            Status: "Active", 
+            Avatar: "https://i.pravatar.cc/150?u=3"
+        }
+    );
+    Set(locSortColumn, "Name");
+    Set(locSortOrder, SortOrder.Ascending);
+    \`\`\`
+
+2.  **Ensure Badge Component**: This table uses the \`Badge\` component. Ensure it is enabled in your environment or replace it with a styled Label/Container.
+    `
   }
 ];
 

@@ -1,6 +1,6 @@
 // Form Builder Types
 
-export type FieldType = "text" | "number" | "dropdown" | "date" | "toggle" | "checkbox";
+export type FieldType = "text" | "textarea" | "number" | "dropdown" | "date" | "toggle" | "checkbox" | "slider" | "rating" | "radio" | "email" | "phone" | "password";
 
 export interface DropdownOption {
     id: string;

@@ -55,7 +55,9 @@ export function generateAnimatedIconYaml(
         .replace(/\{\{timestamp\}\}/g, `" & ${timestampVariable} & "`)
         .replace(/\{\{fromState\}\}/g, `" & If(${toggleVariable}, "0%", "100%") & "`)
         .replace(/\{\{toState\}\}/g, `" & If(${toggleVariable}, "100%", "0%") & "`)
-        .replace(/'/g, "'")  // Keep single quotes
+        .replace(/="/g, "='")  // Convert double quotes to single quotes in attributes
+        .replace(/"/g, "'")    // Convert remaining double quotes to single quotes
+        .replace(/'/g, "''")   // Escape single quotes for Power Apps
         .replace(/\n/g, '\n        ');  // Indent newlines
 
     return `- ${controlName}:
@@ -88,7 +90,9 @@ export function generateAnimatedImageFormula(
         .replace(/\{\{timestamp\}\}/g, `" & ${timestampVariable} & "`)
         .replace(/\{\{fromState\}\}/g, `" & If(${toggleVariable}, "0%", "100%") & "`)
         .replace(/\{\{toState\}\}/g, `" & If(${toggleVariable}, "100%", "0%") & "`)
-        .replace(/'/g, "'")
+        .replace(/="/g, "='")
+        .replace(/"/g, "'")
+        .replace(/'/g, "''")
         .replace(/\n/g, ' ');
 
     return `="data:image/svg+xml," & EncodeUrl("${cleanSvg.trim()}")`;

@@ -102,7 +102,7 @@ export function FormBuilderClient() {
             required: false,
             placeholder: "Enter value...",
             hintText: "",
-            options: type === "dropdown" ? [
+            options: (type === "dropdown" || type === "radio") ? [
                 { id: "1", label: "Option 1", value: "Option 1" },
                 { id: "2", label: "Option 2", value: "Option 2" }
             ] : undefined,

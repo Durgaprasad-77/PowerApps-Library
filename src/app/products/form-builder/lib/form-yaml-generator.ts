@@ -186,6 +186,25 @@ ${widthProp}
                                 RadiusTopRight: =6
                                 Size: =10`;
 
+    case "textarea":
+      return `                          - ${field.controlName}:
+                              Control: Classic/TextInput@2.3.2
+                              Properties:
+                                BorderColor: =RGBA(209, 213, 219, 1)
+                                BorderThickness: =1
+                                Fill: =RGBA(255, 255, 255, 1)
+                                Font: =Font.'Open Sans'
+                                Height: =100
+${widthProp}
+                                HintText: ="${escape(field.placeholder || "")}"
+                                HoverBorderColor: =RGBA(156, 163, 175, 1)
+                                Mode: =TextMode.MultiLine
+                                RadiusBottomLeft: =6
+                                RadiusBottomRight: =6
+                                RadiusTopLeft: =6
+                                RadiusTopRight: =6
+                                Size: =10`;
+
     case "dropdown":
       const optionsStr = field.options?.map(o => `{Value: "${escape(o.label)}"}`).join(", ") || "";
       return `                          - ${field.controlName}:
@@ -236,6 +255,92 @@ ${widthProp}
                                 Height: =32
                                 Width: =60`;
 
+    case "email":
+      return `                          - ${field.controlName}:
+                              Control: Classic/TextInput@2.3.2
+                              Properties:
+                                BorderColor: =RGBA(209, 213, 219, 1)
+                                BorderThickness: =1
+                                Fill: =RGBA(255, 255, 255, 1)
+                                Font: =Font.'Open Sans'
+${heightProp}
+${widthProp}
+                                HintText: ="${escape(field.placeholder || "you@example.com")}"
+                                HoverBorderColor: =RGBA(156, 163, 175, 1)
+                                RadiusBottomLeft: =6
+                                RadiusBottomRight: =6
+                                RadiusTopLeft: =6
+                                RadiusTopRight: =6
+                                Size: =10`;
+
+    case "phone":
+      return `                          - ${field.controlName}:
+                              Control: Classic/TextInput@2.3.2
+                              Properties:
+                                BorderColor: =RGBA(209, 213, 219, 1)
+                                BorderThickness: =1
+                                Fill: =RGBA(255, 255, 255, 1)
+                                Font: =Font.'Open Sans'
+${heightProp}
+${widthProp}
+                                HintText: ="${escape(field.placeholder || "+1 (555) 000-0000")}"
+                                HoverBorderColor: =RGBA(156, 163, 175, 1)
+                                RadiusBottomLeft: =6
+                                RadiusBottomRight: =6
+                                RadiusTopLeft: =6
+                                RadiusTopRight: =6
+                                Size: =10`;
+
+    case "password":
+      return `                          - ${field.controlName}:
+                              Control: Classic/TextInput@2.3.2
+                              Properties:
+                                BorderColor: =RGBA(209, 213, 219, 1)
+                                BorderThickness: =1
+                                Fill: =RGBA(255, 255, 255, 1)
+                                Font: =Font.'Open Sans'
+${heightProp}
+${widthProp}
+                                HintText: ="${escape(field.placeholder || "Enter password")}"
+                                HoverBorderColor: =RGBA(156, 163, 175, 1)
+                                Mode: =TextMode.Password
+                                RadiusBottomLeft: =6
+                                RadiusBottomRight: =6
+                                RadiusTopLeft: =6
+                                RadiusTopRight: =6
+                                Size: =10`;
+
+    case "slider":
+      return `                          - ${field.controlName}:
+                              Control: Slider@1.0.32
+                              Properties:
+                                Height: =48
+                                Width: =Parent.Width
+                                Min: =0
+                                Max: =100
+                                Value: =50`;
+
+    case "rating":
+      return `                          - ${field.controlName}:
+                              Control: Rating@2.1.0
+                              Properties:
+                                Height: =32
+                                Width: =150
+                                Default: =3
+                                Max: =5
+                                RatingFill: =RGBA(251, 191, 36, 1)`;
+
+    case "radio":
+      const radioOptionsStr = field.options?.map(o => `"${escape(o.label)}"`).join(", ") || '"Option 1", "Option 2"';
+      return `                          - ${field.controlName}:
+                              Control: Radio@0.0.25
+                              Properties:
+                                Height: =80
+                                Width: =Parent.Width
+                                Items: =[${radioOptionsStr}]
+                                Layout: =Layout.Vertical
+                                RadioSize: =18`;
+
     default:
       return `                          - ${field.controlName}:
                               Control: Classic/TextInput@2.3.2
@@ -245,11 +350,16 @@ ${widthProp}`;
   }
 }
 
+
 /**
  * Single column form using Gallery approach (existing implementation)
+ * Optimized to only include controls for field types that are used
  */
 function generateSingleColumnForm(config: FormConfig, fields: FormField[], templateYaml?: string): string {
   const formWidth = config.width || 400;
+
+  // Get unique field types used in this form
+  const usedFieldTypes = new Set(fields.map(f => f.type));
 
   // Build the Items table entries
   const itemsEntries = fields.map((field, index) => {
@@ -261,9 +371,16 @@ function generateSingleColumnForm(config: FormConfig, fields: FormField[], templ
       const optionsStr = field.options.map(o => `{Value: "${escape(o.label)}"}`).join(", ");
       extras = `, options: [${optionsStr}]`;
     }
+    if (field.type === "radio" && field.options) {
+      const optionsStr = field.options.map(o => `"${escape(o.label)}"`).join(", ");
+      extras = `, options: [${optionsStr}]`;
+    }
 
     return `                { id: ${index + 1}, labelText: "${escape(field.label)}", hintText: "${escape(hint)}", fieldType: "${field.type}"${extras} }${comma}`;
   }).join("\n");
+
+  // Generate only the controls for used field types
+  const galleryControls = generateGalleryControls(usedFieldTypes);
 
   return `- conFormCardContainer:
     Control: GroupContainer@1.3.0
@@ -314,7 +431,7 @@ function generateSingleColumnForm(config: FormConfig, fields: FormField[], templ
 ${itemsEntries}
               )
             ShowScrollbar: =false
-            TemplateSize: =80
+            TemplateSize: =100
             Width: =Parent.Width * 0.9
             X: =Parent.Width * 0.05
             Y: =lblSubtitle.Y + lblSubtitle.Height + 10
@@ -330,19 +447,7 @@ ${itemsEntries}
                   Text: =ThisItem.labelText
                   Width: =Parent.TemplateWidth
                   Y: =5
-            - txtFieldValue:
-                Control: Classic/TextInput@2.3.2
-                Properties:
-                  BorderColor: =RGBA(201, 201, 201, 1)
-                  BorderThickness: =1
-                  Default: =""
-                  Fill: =RGBA(255, 255, 255, 1)
-                  Font: =Font.'Open Sans'
-                  Height: =32
-                  HintText: =ThisItem.hintText
-                  Visible: =ThisItem.fieldType = "text" || ThisItem.fieldType = "number"
-                  Width: =Parent.TemplateWidth
-                  Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4
+${galleryControls}
       - btnSubmit:
           Control: Classic/Button@2.2.0
           Properties:
@@ -381,3 +486,182 @@ ${itemsEntries}
             X: =lblTitle.X + lblTitle.Width - Self.Width
             Y: =galFormFields.Y + galFormFields.Height + 20`;
 }
+
+/**
+ * Generates gallery template controls based on used field types
+ */
+function generateGalleryControls(usedFieldTypes: Set<string>): string {
+  const controls: string[] = [];
+
+  // Text and Number use the same control
+  if (usedFieldTypes.has("text") || usedFieldTypes.has("number")) {
+    controls.push(`            - txtFieldValue:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(201, 201, 201, 1)
+                  BorderThickness: =1
+                  Default: =""
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =32
+                  HintText: =ThisItem.hintText
+                  Visible: =ThisItem.fieldType = "text" || ThisItem.fieldType = "number"
+                  Width: =Parent.TemplateWidth
+                  Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`);
+  }
+
+  if (usedFieldTypes.has("textarea")) {
+    controls.push(`            - txtTextArea:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(201, 201, 201, 1)
+                  BorderThickness: =1
+                  Default: =""
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =60
+                  HintText: =ThisItem.hintText
+                  Mode: =TextMode.MultiLine
+                  Visible: =ThisItem.fieldType = "textarea"
+                  Width: =Parent.TemplateWidth
+                  Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`);
+  }
+
+  if (usedFieldTypes.has("email")) {
+    controls.push(`            - txtEmail:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(201, 201, 201, 1)
+                  BorderThickness: =1
+                  Default: =""
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =32
+                  HintText: =If(IsBlank(ThisItem.hintText), "you@example.com", ThisItem.hintText)
+                  Visible: =ThisItem.fieldType = "email"
+                  Width: =Parent.TemplateWidth
+                  Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`);
+  }
+
+  if (usedFieldTypes.has("phone")) {
+    controls.push(`            - txtPhone:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(201, 201, 201, 1)
+                  BorderThickness: =1
+                  Default: =""
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =32
+                  HintText: =If(IsBlank(ThisItem.hintText), "+1 (555) 000-0000", ThisItem.hintText)
+                  Visible: =ThisItem.fieldType = "phone"
+                  Width: =Parent.TemplateWidth
+                  Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`);
+  }
+
+  if (usedFieldTypes.has("password")) {
+    controls.push(`            - txtPassword:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(201, 201, 201, 1)
+                  BorderThickness: =1
+                  Default: =""
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =32
+                  HintText: =ThisItem.hintText
+                  Mode: =TextMode.Password
+                  Visible: =ThisItem.fieldType = "password"
+                  Width: =Parent.TemplateWidth
+                  Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`);
+  }
+
+  if (usedFieldTypes.has("dropdown")) {
+    controls.push(`            - ddDropdown:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =RGBA(201, 201, 201, 1)
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =32
+                  Items: =ThisItem.options
+                  Items.Value: =Value
+                  Visible: =ThisItem.fieldType = "dropdown"
+                  Width: =Parent.TemplateWidth
+                  Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`);
+  }
+
+  if (usedFieldTypes.has("date")) {
+    controls.push(`            - dpDate:
+                Control: DatePicker@0.0.46
+                Properties:
+                  BorderColor: =RGBA(201, 201, 201, 1)
+                  Height: =32
+                  SelectedDate: =Today()
+                  Visible: =ThisItem.fieldType = "date"
+                  Width: =Parent.TemplateWidth
+                  Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`);
+  }
+
+  if (usedFieldTypes.has("checkbox")) {
+    controls.push(`            - chkCheckbox:
+                Control: Checkbox@0.0.30
+                Properties:
+                  Height: =32
+                  CheckboxSize: =20
+                  BorderColor: =RGBA(201, 201, 201, 1)
+                  Visible: =ThisItem.fieldType = "checkbox"
+                  Width: =Parent.TemplateWidth
+                  Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`);
+  }
+
+  if (usedFieldTypes.has("toggle")) {
+    controls.push(`            - tglToggle:
+                Control: Toggle@1.1.5
+                Properties:
+                  Height: =32
+                  Visible: =ThisItem.fieldType = "toggle"
+                  Width: =60
+                  Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`);
+  }
+
+  if (usedFieldTypes.has("slider")) {
+    controls.push(`            - sldSlider:
+                Control: Slider@1.0.32
+                Properties:
+                  Value: =50
+                  Height: =48
+                  Max: =100
+                  Min: =0
+                  Visible: =ThisItem.fieldType = "slider"
+                  Width: =Parent.TemplateWidth
+                  Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`);
+  }
+
+  if (usedFieldTypes.has("rating")) {
+    controls.push(`            - ratRating:
+                Control: Rating@2.1.0
+                Properties:
+                  Height: =32
+                  Max: =5
+                  RatingFill: =RGBA(251, 191, 36, 1)
+                  Visible: =ThisItem.fieldType = "rating"
+                  Width: =150
+                  Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`);
+  }
+
+  if (usedFieldTypes.has("radio")) {
+    controls.push(`            - radRadio:
+                Control: Radio@0.0.25
+                Properties:
+                  Height: =60
+                  Items: =If(!IsBlank(ThisItem.options), ThisItem.options, ["Option 1", "Option 2"])
+                  Layout: =Layout.Vertical
+                  RadioSize: =18
+                  Visible: =ThisItem.fieldType = "radio"
+                  Width: =Parent.TemplateWidth
+                  Y: =lblFieldLabel.Y + lblFieldLabel.Height + 4`);
+  }
+
+  return controls.join("\n");
+}
+

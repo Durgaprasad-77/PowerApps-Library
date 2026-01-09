@@ -2,7 +2,7 @@
 
 import { FormConfig, FormField } from "../lib/form-types";
 import { cn } from "@/lib/utils";
-import { GripVertical, Type, Hash, ChevronDown, Calendar, ToggleRight, CheckSquare } from "lucide-react";
+import { GripVertical, Type, Hash, ChevronDown, Calendar, ToggleRight, CheckSquare, AlignLeft, SlidersHorizontal, Star, CircleDot, Mail, Phone, Lock } from "lucide-react";
 import { motion, Reorder } from "framer-motion";
 
 interface FormCanvasProps {
@@ -16,8 +16,15 @@ interface FormCanvasProps {
 
 const fieldIcons: Record<string, React.ReactNode> = {
     text: <Type className="w-4 h-4" />,
+    textarea: <AlignLeft className="w-4 h-4" />,
+    email: <Mail className="w-4 h-4" />,
+    phone: <Phone className="w-4 h-4" />,
+    password: <Lock className="w-4 h-4" />,
     number: <Hash className="w-4 h-4" />,
+    slider: <SlidersHorizontal className="w-4 h-4" />,
+    rating: <Star className="w-4 h-4" />,
     dropdown: <ChevronDown className="w-4 h-4" />,
+    radio: <CircleDot className="w-4 h-4" />,
     date: <Calendar className="w-4 h-4" />,
     toggle: <ToggleRight className="w-4 h-4" />,
     checkbox: <CheckSquare className="w-4 h-4" />,
@@ -132,6 +139,78 @@ function FieldPreview({ field }: { field: FormField }) {
                     <span className="text-neutral-400 text-sm">
                         {field.placeholder || "Enter value..."}
                     </span>
+                </div>
+            );
+        case "textarea":
+            return (
+                <div className="h-20 bg-white border border-neutral-300 rounded-lg px-3 py-2 flex items-start">
+                    <span className="text-neutral-400 text-sm">
+                        {field.placeholder || "Enter text..."}
+                    </span>
+                </div>
+            );
+        case "email":
+            return (
+                <div className="h-10 bg-white border border-neutral-300 rounded-lg px-3 flex items-center">
+                    <Mail className="w-4 h-4 text-neutral-400 mr-2" />
+                    <span className="text-neutral-400 text-sm">
+                        {field.placeholder || "you@example.com"}
+                    </span>
+                </div>
+            );
+        case "phone":
+            return (
+                <div className="h-10 bg-white border border-neutral-300 rounded-lg px-3 flex items-center">
+                    <Phone className="w-4 h-4 text-neutral-400 mr-2" />
+                    <span className="text-neutral-400 text-sm">
+                        {field.placeholder || "+1 (555) 000-0000"}
+                    </span>
+                </div>
+            );
+        case "password":
+            return (
+                <div className="h-10 bg-white border border-neutral-300 rounded-lg px-3 flex items-center">
+                    <span className="text-neutral-400 text-sm tracking-widest">
+                        ••••••••
+                    </span>
+                </div>
+            );
+        case "slider":
+            return (
+                <div className="space-y-2">
+                    <div className="h-2 bg-neutral-200 rounded-full relative">
+                        <div className="absolute left-0 top-0 h-full w-1/2 bg-blue-500 rounded-full" />
+                        <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 bg-white border-2 border-blue-500 rounded-full shadow" />
+                    </div>
+                    <div className="flex justify-between text-xs text-neutral-400">
+                        <span>0</span>
+                        <span>50</span>
+                        <span>100</span>
+                    </div>
+                </div>
+            );
+        case "rating":
+            return (
+                <div className="flex gap-1">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                        <Star key={i} className={cn("w-5 h-5", i <= 3 ? "fill-yellow-400 text-yellow-400" : "text-neutral-300")} />
+                    ))}
+                </div>
+            );
+        case "radio":
+            return (
+                <div className="space-y-2">
+                    {(field.options || [{ id: '1', label: 'Option 1', value: '1' }, { id: '2', label: 'Option 2', value: '2' }]).slice(0, 3).map((opt, i) => (
+                        <div key={opt.id} className="flex items-center gap-2">
+                            <div className={cn(
+                                "w-4 h-4 rounded-full border-2 flex items-center justify-center",
+                                i === 0 ? "border-blue-500" : "border-neutral-300"
+                            )}>
+                                {i === 0 && <div className="w-2 h-2 rounded-full bg-blue-500" />}
+                            </div>
+                            <span className="text-sm text-neutral-600">{opt.label}</span>
+                        </div>
+                    ))}
                 </div>
             );
         case "dropdown":

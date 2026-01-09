@@ -7,6 +7,7 @@ export interface Component {
     category: string;
     description: string;
     yamlCode: string;
+    instructions?: string;
     previewImage?: string;
     isPro: boolean;
     isNew?: boolean;
